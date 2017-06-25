@@ -1,0 +1,52 @@
+{
+  "name": "react-cake",
+  "version": "0.3.0-alpha.0",
+  "main": "es/index",
+  "module": "es/index",
+  "jsnext:main": "es/index",
+  "esnext": "src/index",
+  "private": false,
+  "peerDependencies": {
+    "immutable": "^3.8.1",
+    "prop-types": "^15.5.10",
+    "react": ">=15.x"
+  },
+  "devDependencies": {
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^2.0.1",
+    "webpack2-react-env-boilerplate": "^0.1.16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredlunde/react-cake"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development node server.js",
+    "build": "yarn run build:commonjs && yarn run build:es && yarn run build:dist",
+    "build:commonjs": "rm -rf commonjs && cross-env NODE_ENV=commonjs babel ./src --out-dir commonjs",
+    "build:es": "rm -rf es && cross-env NODE_ENV=es babel ./src --out-dir es",
+    "build:dist": "rm -rf dist && cross-env BABEL_ENV=production NODE_ENV=production rollup -c -i src/index.dist.js -o dist/react-cake.js",
+    "start:cli": "yarn run node ./src/index.dist.js",
+    "node": "cross-env NODE_ENV=cli babel-node",
+    "watch:commonjs": "cross-env NODE_ENV=commonjs babel ./src -w --out-dir commonjs",
+    "watch:es": "cross-env NODE_ENV=es babel ./src -w --out-dir es",
+    "prepublish": "npm run build"
+  },
+  "authors": [
+    "Jared Lunde <jared@tessellate.io> (https://github.com/jaredlunde)"
+  ],
+  "analyze": true,
+  "license": "MIT",
+  "dependencies": {
+    "bezier-easing": "^2.0.3",
+    "fast-memoize": "^2.2.7",
+    "invariant": "^2.2.2",
+    "react-immutable-proptypes": "^2.1.0",
+    "webpack": "^3.0.0"
+  }
+}
