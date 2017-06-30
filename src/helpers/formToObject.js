@@ -31,12 +31,14 @@ const _checkboxFalse = ['off', 'false']
 
 export const castPayload = node => {
   if (node.type && (node.type === 'checkbox' || node.type === 'radio')) {
-    if (node.checked) {
+    if (node.checked === true) {
       if (_checkboxBools.indexOf(node.value) > -1) {
         return _checkboxFalse.indexOf(node.value) > -1 === false;
       } else {
         return node.value
       }
+    } else if (node.checked === false) {
+      return false
     }
 
     return null
