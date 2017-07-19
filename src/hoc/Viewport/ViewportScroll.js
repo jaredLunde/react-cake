@@ -17,7 +17,7 @@ import {
 
 
 /**
-<ViewportScroll>
+<ViewportScroll withCoords={true}>
   {
     ({scrollX, scrollY, scrollTo}) => (
       <Row>
@@ -42,6 +42,10 @@ export const getScrollY = () => win.scrollY !== void 0 ? win.scrollY : win.pageY
 
 
 export default class ViewportScroll extends React.PureComponent {
+  static propTypes = {
+    withCoords: PropTypes.bool
+  }
+
   state = {
     scrollX: getScrollX(),
     scrollY: getScrollY()
@@ -79,8 +83,11 @@ export default class ViewportScroll extends React.PureComponent {
     })
   }
 
+  getViewportScroll = () => this.state
+
   render () {
-    const {children, ...props} = this.props
+    const {children, withCoords, ...props} = this.props
+    const {getViewportScroll} = this
     const {scrollTo} = win
 
     return cloneIfElement(
@@ -93,7 +100,8 @@ export default class ViewportScroll extends React.PureComponent {
         inFullViewX: inFullViewViewportX,
         inFullViewY: inFullViewViewportY,
         inFullView: inFullViewViewport,
-        ...this.state,
+        getViewportScroll,
+        ...(withCoords === true ? this.state : {}),
         ...props
       }
     )

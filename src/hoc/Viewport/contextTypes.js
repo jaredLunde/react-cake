@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 export default {
   getAspect: PropTypes.func.isRequired,
   getViewportSize: PropTypes.func.isRequired,
+  getViewportScroll: PropTypes.func.isRequired,
   inView: PropTypes.func.isRequired,
   inViewX: PropTypes.func.isRequired,
   inViewY: PropTypes.func.isRequired,

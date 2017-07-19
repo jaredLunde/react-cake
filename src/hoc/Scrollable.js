@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
-import {childIsFunctionInvariant} from '../invariants'
 import {
   callIfExists,
   requestAnimationFrame,
@@ -77,7 +76,7 @@ export default class Scrollable extends React.PureComponent {
       this.removeScrollListener(this._scrollable)
     }
 
-    if (scrollableChanged && e !== null) {
+    if (scrollableChanged) {
       this._scrollable = e
       this.addScrollListener(e)
     }

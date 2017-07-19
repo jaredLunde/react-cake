@@ -75,8 +75,7 @@ export class Viewport extends React.PureComponent {
     viewportWidth: PropTypes.number.isRequired,
     viewportHeight: PropTypes.number.isRequired,
     getViewportSize: PropTypes.func.isRequired,
-    scrollX: PropTypes.number.isRequired,
-    scrollY: PropTypes.number.isRequired,
+    getViewportScroll: PropTypes.func.isRequired,
     scrollTo: PropTypes.func.isRequired,
     inViewX: PropTypes.func.isRequired,
     inViewY: PropTypes.func.isRequired,
@@ -94,7 +93,7 @@ export class Viewport extends React.PureComponent {
   static childContextTypes = viewportContextTypes
 
   getChildContext () {
-    return selectProps(
+    const selectedProps = selectProps(
       this.props,
       [
         'getAspect',
@@ -109,6 +108,12 @@ export class Viewport extends React.PureComponent {
         'unsubscribe',
       ]
     )
+    const {getViewportScroll} = this
+
+    return {
+      getViewportScroll,
+      ...selectedProps
+    }
   }
 
   componentDidUpdate (prevProps) {
@@ -125,6 +130,8 @@ export class Viewport extends React.PureComponent {
     }
   }
 
+  getViewportScroll = () => ({x: this.props.scrollX, y: this.props.scrollY})
+
   render () {
     const {
       children,
@@ -132,7 +139,8 @@ export class Viewport extends React.PureComponent {
       unsubscribe,
       subscriptions,
       notify,
-      getViewportSize,
+      scrollX,
+      scrollY,
       ...props
     } = this.props
 
@@ -142,10 +150,10 @@ export class Viewport extends React.PureComponent {
 
 
 export default ({children, ...props}) => (
-  <Subscriptions>
+  <Subscriptions {...props}>
     <ViewportOrientation>
-      <ViewportScroll>
-        <Viewport {...props}>
+      <ViewportScroll withCoords={true}>
+        <Viewport>
           {children}
         </Viewport>
       </ViewportScroll>

@@ -5,6 +5,8 @@ import {cloneIfElement} from '../../utils'
 
 
 /**
+!!! Requires top-level Viewport component !!!
+
 <Viewport>
   <ViewportFill>
     {

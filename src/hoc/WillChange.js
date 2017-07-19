@@ -225,11 +225,15 @@ export class WillChange extends React.PureComponent {
     this.removeAllListeners()
   }
 
-  willChange = () => this.on()
+  willChange = () => this.on(true)
 
-  on = () => {
+  on = forceStart => {
     const {on, staleTimeout} = this.props
     on()
+
+    if (forceStart) {
+      this._started = true
+    }
 
     if (staleTimeout) {
       this._staleTimeout = setTimeout(() => this.off(true), staleTimeout)
@@ -237,7 +241,7 @@ export class WillChange extends React.PureComponent {
   }
 
   off = (stale = false) => {
-    if (!stale || stale && !this._started) {
+    if (!stale || stale && this._started) {
       this.props.off()
       this.clearStaleTimeout()
       this._started = false
@@ -275,6 +279,7 @@ export class WillChange extends React.PureComponent {
         {}
     )
 
+    /** willChangeRef, willChange, style */
     return cloneIfElement(
       children,
       {

@@ -58,7 +58,10 @@ export Scrollable from './Scrollable'
 export Animatable from './Animatable'
 export WillChange from './WillChange'
 export Value from './Value'
+export Rect from './Rect'
+export Sticky from './Sticky'
 
 // TODO: Point3D, Resizable, Rotatable, Scalable
 // TODO: Make the initialX values consistently update with componentWillUpdate (similar to Choices, Toggle)
 // Single value state objects should use Value HOC
+// TODO: compartmentalize _listeners, _ticking, requestAnimationFrame
