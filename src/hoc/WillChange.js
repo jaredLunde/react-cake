@@ -73,9 +73,9 @@ const defaultProperties = [
 
 
 const defaultEventTypes = {
-  whenTouch: 'touchstart',
-  whenTouchMoved: 'touchmove',
-  whenMouseMoved: 'mousemove',
+  whenTouched: 'touchstart',
+  whenTouchMoves: 'touchmove',
+  whenMouseMoves: 'mousemove',
   whenClicked: 'mousedown',
   whenHovered: 'mouseenter',
   whenMouseEnters: 'mouseenter',
@@ -122,8 +122,9 @@ export class WillChange extends React.PureComponent {
     visibility: PropTypes.bool,
     all: PropTypes.bool,
     // Event types
-    whenTouchMoved: PropTypes.bool,
-    whenMouseMoved: PropTypes.bool,
+    whenTouched: PropTypes.bool,
+    whenTouchMoves: PropTypes.bool,
+    whenMouseMoves: PropTypes.bool,
     whenClicked: PropTypes.bool,
     whenHovered: PropTypes.bool,
     whenMouseEnters: PropTypes.bool,
@@ -228,7 +229,10 @@ export class WillChange extends React.PureComponent {
   willChange = () => this.on(true)
 
   on = forceStart => {
-    const {on, staleTimeout} = this.props
+    const {on, staleTimeout, propName} = this.props
+    const isOn = this.props[propName]
+    if (isOn) return;
+    
     on()
 
     if (forceStart) {

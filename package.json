@@ -46,6 +46,8 @@
     "bezier-easing": "^2.0.3",
     "fast-memoize": "^2.2.7",
     "invariant": "^2.2.2",
+    "react": "next",
+    "react-dom": "next",
     "react-immutable-proptypes": "^2.1.0",
     "webpack": "^3.0.0"
   }
