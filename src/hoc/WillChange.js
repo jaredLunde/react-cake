@@ -223,6 +223,7 @@ export class WillChange extends React.PureComponent {
   }
 
   componentWillUnmount () {
+    this.clearStaleTimeout()
     this.removeAllListeners()
   }
 
@@ -232,7 +233,7 @@ export class WillChange extends React.PureComponent {
     const {on, staleTimeout, propName} = this.props
     const isOn = this.props[propName]
     if (isOn) return;
-    
+
     on()
 
     if (forceStart) {
