@@ -97,10 +97,10 @@ export default class Rect extends React.PureComponent {
       for (let eventName in this._listeners) {
         window.removeEventListener(eventName, this.setStats)
       }
+    }
 
-      if (this._ticking !== null) {
-        cancelAnimationFrame(this._ticking)
-      }
+    if (this._ticking !== null) {
+      cancelAnimationFrame(this._ticking)
     }
   }
 
