@@ -10,7 +10,7 @@
     "immutable": "^3.8.1",
     "prop-types": "^15.5.10",
     "react": ">=15.x",
-    "react-dom": ">=15.x",
+    "react-dom": ">=15.x"
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^3.0.0",
