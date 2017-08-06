@@ -5,6 +5,17 @@ import invariant from 'invariant'
 import {cloneIfElement, callIfExists, getUniqueID} from '../utils'
 
 
+/**
+<WithInject>
+  {
+    ({injectRef}) => (
+      <Inject entry={() => document.getElementById('root')} ref={injectRef}>
+        <div>Inject me</div>
+      </Inject>
+    )
+  }
+</WithInject>
+*/
 export default class Inject extends React.PureComponent {
   static propTypes = {
     entry: PropTypes.func.isRequired
