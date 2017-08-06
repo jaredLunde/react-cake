@@ -72,15 +72,15 @@ export default class ViewportScroll extends React.PureComponent {
   setStats = () => {
     if (this._ticking) return;
 
-    this._ticking = requestAnimationFrame(() => {
-      this.setState(
+    this._ticking = requestAnimationFrame(
+      () => this.setState(
         {
           scrollX: getScrollX(),
           scrollY: getScrollY(),
         },
         () => this._ticking = null
       )
-    })
+    )
   }
 
   getViewportScroll = () => this.state

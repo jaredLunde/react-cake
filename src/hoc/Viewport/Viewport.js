@@ -13,13 +13,17 @@ import ViewportQueries from './ViewportQueries'
 <Viewport>
   {
     ({
-      inFullViewX,
-      inFullViewY,
-      inFullView,
+      getAspect,
+      inView,
       inViewX,
       inViewY,
-      inView,
-      getAspect
+      inFullView,
+      inFullViewX,
+      inFullViewY,
+      getViewportSize,
+      getViewportScroll,
+      subscribe,
+      unsubscribe
     }) => (
       <div>
         inViewX?

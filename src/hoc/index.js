@@ -45,6 +45,7 @@ export Viewport, {
   ViewportScroll,
   ViewportQueries,
   WithViewport,
+  ViewportContext,
 } from './Viewport'
 
 export ImageStat, {setOrientation} from './ImageStat'

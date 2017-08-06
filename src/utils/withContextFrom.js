@@ -9,7 +9,9 @@ export default Component => class withContextFrom extends React.PureComponent {
 
   render () {
     let {children, ...props} = this.props
-    props = Object.assign({}, props, this.context)
+    const context = this.context || {}
+    props = {...context, ...props}
+    
     return cloneIfElement(children, props)
   }
 }
