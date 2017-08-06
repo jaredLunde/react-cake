@@ -48,6 +48,7 @@ export Viewport, {
 } from './Viewport'
 
 export ImageStat, {setOrientation} from './ImageStat'
+export Inject, {WithInject} from './Inject'
 export Paragraphs, {toBreaks, toParagraphs} from './Paragraphs'
 export Subscriptions from './Subscriptions'
 export Toggle, {toggle} from './Toggle'
