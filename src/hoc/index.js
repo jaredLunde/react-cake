@@ -62,6 +62,7 @@ export WillChange from './WillChange'
 export Value from './Value'
 export Rect from './Rect'
 export Sticky from './Sticky'
+export RequestAnimationFrame from './RequestAnimationFrame'
 
 // TODO: Point3D, Resizable, Rotatable, Scalable
 // TODO: Make the initialX values consistently update with componentWillUpdate (similar to Choices, Toggle)
