@@ -61,7 +61,7 @@ export default class RequestAnimationFrame extends React.PureComponent {
     return cloneIfElement(
       children,
       {
-        requestAnimationFrame: this.requestAnimationFrame,
+        requestAnimationState: this.requestAnimationFrame,
         ...this.state,
         ...props
       }

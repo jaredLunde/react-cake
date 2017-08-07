@@ -74,6 +74,7 @@ const defaultProperties = [
 
 const defaultEventTypes = {
   whenTouched: 'touchstart',
+  whenTouchEnds: 'touchend',
   whenTouchMoves: 'touchmove',
   whenMouseMoves: 'mousemove',
   whenClicked: 'mousedown',
