@@ -1,3 +1,6 @@
+import Promise from 'cancelable-promise'
+
+
 export const loadImage = img => new Promise((resolve, reject) => {
   if (img.complete === true || img.naturalHeight > 0) {
     resolve({target: img})
@@ -10,7 +13,7 @@ export const loadImage = img => new Promise((resolve, reject) => {
 
 export default el => {
   if (!el) return new Promise(resolve => resolve())
-  
+
   const images = el.getElementsByTagName('img')
 
   if (images === null || images.length === 0) {

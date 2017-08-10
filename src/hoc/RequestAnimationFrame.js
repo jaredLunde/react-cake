@@ -6,10 +6,10 @@ import {requestAnimationFrame, cancelAnimationFrame, cloneIfElement} from '../ut
 /**
 <RequestAnimationFrame initialState={{scrollY: 0}}>
   {
-    ({requestAnimationFrame, scrollY, gt30}) => (
+    ({requestAnimationState, scrollY, gt30}) => (
       <Scoller
         onScroll={
-          ({scrollY}) => requestAnimationFrame(
+          ({scrollY}) => requestAnimationState(
             prevState => scrollY > 30
               ? {gt30: true, scrollY}
               : {gt30: false, scrollY}

@@ -189,14 +189,20 @@ export class Sticky extends React.PureComponent {
   }
 }
 
+const stickyControls = fromJS(
+  [
+    {name: 'stick', value: true},
+    {name: 'letGo', value: false}
+  ]
+)
+
+
 const RectComponent = ({Component, sticky = false, ...props}) => (
   <Rect {...props}>
     <Toggle
       propName='isStuck'
       initialValue={sticky}
-      controls={
-        fromJS([{name: 'stick', value: true}, {name: 'letGo', value: false}])
-      }
+      controls={stickyControls}
     >
       <Sticky>
         {Component}
