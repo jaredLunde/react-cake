@@ -139,8 +139,6 @@ export class Viewport extends React.PureComponent {
   render () {
     const {
       children,
-      subscribe,
-      unsubscribe,
       subscriptions,
       notify,
       scrollX,

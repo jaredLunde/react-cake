@@ -289,10 +289,10 @@ export class WillChange extends React.PureComponent {
     return cloneIfElement(
       children,
       {
+        ...props,
         willChangeRef,
         willChange,
-        style,
-        ...props
+        style
       }
     )
   }

@@ -1,6 +1,7 @@
 import React from 'react'
-import {Viewport} from './Viewport'
-import {withContextFrom, cloneIfElement} from '../../utils'
+import Viewport from './Viewport'
+import contextTypes from './contextTypes'
+import {withContextFrom, cloneIfElement, reduceProps} from '../../utils'
 
 
 /**
@@ -23,7 +24,7 @@ export const ViewportContext = withContextFrom(Viewport)
 const MaybeIncludeViewport = ({inFullView, children, ...props}) =>
   inFullView === void 0
   ? (
-      <Viewport {...props}>
+      <Viewport {...reduceProps(props, contextTypes)}>
         {children}
       </Viewport>
     )
