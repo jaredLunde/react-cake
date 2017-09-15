@@ -48,8 +48,8 @@
     "cancelable-promise": "^2.3.0",
     "fast-memoize": "^2.2.7",
     "invariant": "^2.2.2",
-    "react": "next",
-    "react-dom": "next",
+    "react": "^16.0.0-rc.3",
+    "react-dom": "^16.0.0-rc.3",
     "react-immutable-proptypes": "^2.1.0",
     "webpack": "^3.0.0"
   }
