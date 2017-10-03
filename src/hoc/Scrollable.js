@@ -162,17 +162,19 @@ export default class Scrollable extends React.PureComponent {
       return
     }
 
-    this._scrollToFrame = requestAnimationFrame(() => {
-      if (posY !== void 0 && posX !== null) {
-        this._scrollable.scrollTop = posY
-      }
+    this._scrollToFrame = requestAnimationFrame(
+      () => {
+        if (posY !== void 0 && posX !== null) {
+          this._scrollable.scrollTop = posY
+        }
 
-      if (posX !== void 0 && posY !== null) {
-        this._scrollable.scrollLeft = posX
-      }
+        if (posX !== void 0 && posY !== null) {
+          this._scrollable.scrollLeft = posX
+        }
 
-      this._scrollToFrame = null
-    })
+        this._scrollToFrame = null
+      }
+    )
   }
 
   scrollToX = (posX, opt) => this.scrollTo(posX, null, opt)
