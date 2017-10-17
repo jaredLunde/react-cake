@@ -45,8 +45,8 @@ export const rect = (el, leeway) => {
 
 /**
 <Rect>
-  ({rectRef}) => (
-    <div ref={rectRef, recalcRect, top, right, bottom, left, width, height}>
+  ({rectRef}, recalcRect, top, right, bottom, left, width, height) => (
+    <div ref={rectRef}>
       <div>
         My width: {width}
       </div>
