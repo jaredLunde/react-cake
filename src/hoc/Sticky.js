@@ -13,13 +13,15 @@ import {cloneIfElement, reduceProps} from '../utils'
 ...
 
   <Sticky atTop distance='500'>
-    ({stick, letGo, isStuck, stickyRef}) => (
-      <div>
-        <div ref={stickyRef}>
-          I'm Sticky!
+    {
+      ({stick, letGo, isStuck, stickyRef}) => (
+        <div>
+          <div ref={stickyRef}>
+            I'm Sticky!
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   </Sticky>
 
 ...
