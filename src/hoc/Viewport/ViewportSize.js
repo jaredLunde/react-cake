@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {cloneIfElement, throttle} from '../../utils'
-import setOrientation from '../ImageStat/setOrientation'
 import {getAspect} from './ViewportQueries'
-import {win, docEl} from './statics'
+import {win, winScreen, docEl} from './statics'
 
 
 /**
@@ -18,18 +17,8 @@ import {win, docEl} from './statics'
   }
 </ViewportSize>
 **/
-export const getViewportHeight = () => {
-  let a = docEl.clientHeight
-  let b = win.innerHeight
-  return a > b ? a : b
-}
-
-export const getViewportWidth = () => {
-  let a = docEl.clientWidth
-  let b = win.innerWidth
-  return a > b ? a : b
-}
-
+export const getViewportHeight = () => docEl.clientHeight
+export const getViewportWidth = () => docEl.clientWidth
 export const getViewportSize = () => ({
   width: getViewportWidth(),
   height: getViewportHeight()
@@ -42,11 +31,10 @@ export default class ViewportSize extends React.PureComponent {
   constructor (props) {
     super(props)
     this.throttledSetStats = throttle(this.setStats)
+    this.state = this.getStats()
   }
 
   componentDidMount () {
-    this.setStats()
-
     this._listeners = {
       resize: win.addEventListener('resize', this.throttledSetStats),
       orientationchange: win.addEventListener(
@@ -64,13 +52,14 @@ export default class ViewportSize extends React.PureComponent {
     this.throttledSetStats.cancel()
   }
 
+  getStats = () => ({
+    viewportWidth: getViewportWidth(),
+    viewportHeight: getViewportHeight(),
+  })
+
   setStats = () => {
-    this.setState(
-      {
-        viewportWidth: getViewportWidth(),
-        viewportHeight: getViewportHeight(),
-      }
-    )
+    console.log("HEHE SETTING", this.getStats())
+    this.setState(this.getStats)
   }
 
   getViewportSize = () => ({
