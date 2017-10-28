@@ -1,12 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
-import {
-  callIfExists,
-  requestAnimationFrame,
-  cancelAnimationFrame,
-  cloneIfElement
-} from '../utils'
+import {callIfExists, throttle, cloneIfElement} from '../utils'
 
 
 /**
@@ -46,8 +41,6 @@ export default class Scrollable extends React.PureComponent {
   }
 
   _scrollable = null
-  _scrolling = null
-  _scrollToFrame = null
 
   state = {
     scrollHeight: 0,
@@ -66,6 +59,12 @@ export default class Scrollable extends React.PureComponent {
     distanceY: 0
   }
 
+  constructor (props) {
+    super(props)
+    this.throttledOnScroll = throttle(this.onScroll)
+    this.throttledScrollTo = throttle(this.scrollTo)
+  }
+  
   scrollableRef = e => {
     if (e === null) {
       return
@@ -83,13 +82,15 @@ export default class Scrollable extends React.PureComponent {
   }
 
   addScrollListener (e) {
-    e.addEventListener('scroll', this.onScroll)
+    e.addEventListener('scroll', this.throttledOnScroll)
   }
 
   removeScrollListener (e) {
     if (e !== null) {
-      e.removeEventListener('scroll', this.onScroll)
+      e.removeEventListener('scroll', this.throttledOnScroll)
     }
+
+    this.throttledOnScroll.cancel()
   }
 
   componentDidMount () {
@@ -102,17 +103,11 @@ export default class Scrollable extends React.PureComponent {
 
   componentWillUnmount () {
     this.removeScrollListener(this._scrollable)
-    this.cancelAnimationFrameIf('_scrolling')
-    this.cancelAnimationFrameIf('_scrollToFrame')
+    this.throttledOnScroll.cancel()
+    this.throttledScrollTo.cancel()
   }
 
-  cancelAnimationFrameIf = propName => callIfExists(cancelAnimationFrame, this[propName])
-
   onScroll = e => {
-    if (this._scrolling !== null) {
-      return
-    }
-
     const {
       scrollHeight,
       scrollWidth,
@@ -127,62 +122,47 @@ export default class Scrollable extends React.PureComponent {
     const scrollXProgress = scrollLeft / scrollXMax
     const scrollYProgress = scrollTop / scrollYMax
 
-    this._scrolling = requestAnimationFrame(() => {
-      this.setState(
-        prevState => ({
-          scrollHeight,
-          scrollWidth,
-          scrollY: scrollTop,
-          scrollX: scrollLeft,
-          clientHeight,
-          clientWidth,
-          scrollYProgress,
-          scrollXProgress,
-          scrollYMax,
-          scrollXMax,
-          directionY: (prevState.scrollY || 0) > scrollTop ? 'up' : (
-            prevState.scrollY === scrollTop ? null : 'down'
-          ),
-          directionX: (prevState.scrollX || 0) > scrollLeft ? 'left' : (
-            prevState.scrollX === scrollLeft ? null : 'right'
-          ),
-          distanceY: scrollTop - prevState.scrollY,
-          distanceX: scrollLeft - prevState.scrollX,
-        }),
-        () => {
-          this._scrolling = null
-          callIfExists(this.props.onScroll, this.state)
-        }
-      )
-    })
-  }
-
-  scrollTo = (posX, posY) => {
-    if (this._scrollToFrame !== null) {
-      return
-    }
-
-    this._scrollToFrame = requestAnimationFrame(
-      () => {
-        if (posY !== void 0 && posX !== null) {
-          this._scrollable.scrollTop = posY
-        }
-
-        if (posX !== void 0 && posY !== null) {
-          this._scrollable.scrollLeft = posX
-        }
-
-        this._scrollToFrame = null
-      }
+    this.setState(
+      prevState => ({
+        scrollHeight,
+        scrollWidth,
+        scrollY: scrollTop,
+        scrollX: scrollLeft,
+        clientHeight,
+        clientWidth,
+        scrollYProgress,
+        scrollXProgress,
+        scrollYMax,
+        scrollXMax,
+        directionY: (prevState.scrollY || 0) > scrollTop ? 'up' : (
+          prevState.scrollY === scrollTop ? null : 'down'
+        ),
+        directionX: (prevState.scrollX || 0) > scrollLeft ? 'left' : (
+          prevState.scrollX === scrollLeft ? null : 'right'
+        ),
+        distanceY: scrollTop - prevState.scrollY,
+        distanceX: scrollLeft - prevState.scrollX,
+      }),
+      () => callIfExists(this.props.onScroll, this.state)
     )
   }
 
-  scrollToX = (posX, opt) => this.scrollTo(posX, null, opt)
-  scrollToY = (posY, opt) => this.scrollTo(null, posY, opt)
+  scrollTo = (posX, posY) => {
+    if (posY !== void 0 && posX !== null) {
+      this._scrollable.scrollTop = posY
+    }
+
+    if (posX !== void 0 && posY !== null) {
+      this._scrollable.scrollLeft = posX
+    }
+  }
+
+  scrollToX = (posX, opt) => this.throttledScrollTo(posX, null, opt)
+  scrollToY = (posY, opt) => this.throttledScrollTo(null, posY, opt)
 
   render () {
     const {children, onScroll, ...props} = this.props
-    const {scrollableRef, scrollToX, scrollToY, scrollTo} = this
+    const {scrollableRef, scrollToX, scrollToY, throttledScrollTo} = this
 
     return cloneIfElement(
       children,
@@ -190,7 +170,7 @@ export default class Scrollable extends React.PureComponent {
         scrollableRef,
         scrollToX,
         scrollToY,
-        scrollTo,
+        scrollTo: throttledScrollTo,
         ...this.state,
         ...props
       }

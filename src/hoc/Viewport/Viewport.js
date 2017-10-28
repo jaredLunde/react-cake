@@ -108,16 +108,18 @@ export class Viewport extends React.PureComponent {
         'inFullViewX',
         'inFullViewY',
         'getViewportSize',
+        'getViewportScroll',
         'subscribe',
         'unsubscribe',
       ]
     )
-    const {getViewportScroll} = this
+    // const {getViewportScroll} = this
 
-    return {
-      getViewportScroll,
-      ...selectedProps
-    }
+    // return {
+    //   getViewportScroll,
+    //   ...selectedProps
+    // }
+    return selectedProps
   }
 
   componentDidUpdate (prevProps) {
@@ -134,7 +136,7 @@ export class Viewport extends React.PureComponent {
     }
   }
 
-  getViewportScroll = () => ({x: this.props.scrollX, y: this.props.scrollY})
+  // getViewportScroll = () => ({x: this.props.scrollX, y: this.props.scrollY})
 
   render () {
     const {

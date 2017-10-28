@@ -32,19 +32,17 @@ export default class RequestAnimationFrame extends React.PureComponent {
     this.state = props.initialState
   }
 
-  ticking = false
   frame = null
 
   requestAnimationFrame = fn => {
-    if (this.ticking) return;
+    if (this.frame !== null) {
+      cancelAnimationFrame(this.frame)
+    }
 
     this.frame = requestAnimationFrame(
       () => this.setState(
         fn,
-        () => {
-          this.ticking = false
-          this.frame = null
-        }
+        () => this.frame = null
       )
     )
   }

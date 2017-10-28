@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  cloneIfElement,
-  requestAnimationFrame,
-  cancelAnimationFrame
-} from '../../utils'
+import {cloneIfElement, throttle} from '../../utils'
 import setOrientation from '../ImageStat/setOrientation'
 import {getAspect} from './ViewportQueries'
 import {win, docEl} from './statics'
@@ -39,41 +35,42 @@ export const getViewportSize = () => ({
   height: getViewportHeight()
 })
 
+
 export default class ViewportSize extends React.PureComponent {
   _listeners = {}
 
+  constructor (props) {
+    super(props)
+    this.throttledSetStats = throttle(this.setStats)
+  }
+
   componentDidMount () {
     this.setStats()
+
     this._listeners = {
-      resize: win.addEventListener('resize', this.setStats),
-      orientationchange: win.addEventListener('orientationchange', this.setStats)
+      resize: win.addEventListener('resize', this.throttledSetStats),
+      orientationchange: win.addEventListener(
+        'orientationchange',
+        this.throttledSetStats
+      )
     }
   }
 
   componentWillUnmount () {
     for (let eventName in this._listeners) {
-      win.removeEventListener(eventName, this.setStats)
+      win.removeEventListener(eventName, this.throttledSetStats)
     }
 
-    if (this._ticking !== null) {
-      cancelAnimationFrame(this._ticking)
-    }
+    this.throttledSetStats.cancel()
   }
 
-  _ticking = null
-
   setStats = () => {
-    if (this._ticking) return;
-
-    this._ticking = requestAnimationFrame(() => {
-      this.setState(
-        {
-          viewportWidth: getViewportWidth(),
-          viewportHeight: getViewportHeight(),
-        },
-        () => this._ticking = null
-      )
-    })
+    this.setState(
+      {
+        viewportWidth: getViewportWidth(),
+        viewportHeight: getViewportHeight(),
+      }
+    )
   }
 
   getViewportSize = () => ({

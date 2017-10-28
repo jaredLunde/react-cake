@@ -37,12 +37,12 @@ export const getScreenOrientation = () => supportsScreenOrientation
   : null
 
 export const ViewportOrientation = ({
-  children,
+  _viewportOrientationChildren,
   viewportWidth,
   viewportHeight,
   ...props
 }) => cloneIfElement(
-  children,
+  _viewportOrientationChildren,
   {
     viewportWidth,
     viewportHeight,
@@ -54,9 +54,7 @@ export const ViewportOrientation = ({
 
 
 export default ({children, ...props}) => (
-  <ViewportSize {...props}>
-    <ViewportOrientation>
-      {children}
-    </ViewportOrientation>
+  <ViewportSize _viewportOrientationChildren={children} {...props}>
+    {ViewportOrientation}
   </ViewportSize>
 )

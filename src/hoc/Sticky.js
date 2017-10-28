@@ -215,6 +215,6 @@ const RectComponent = ({Component, sticky = false, ...props}) => (
 
 export default ({children, ...props}) => (
   <WithViewport Component={children} {...props}>
-    <RectComponent/>
+    {RectComponent}
   </WithViewport>
 )

@@ -3,3 +3,5 @@ node_modules
 commonjs/
 es/
 .DS_Store
+
+dist/react-cake.js

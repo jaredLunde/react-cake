@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  cloneIfElement,
-  requestAnimationFrame,
-  cancelAnimationFrame
-} from '../../utils'
+import {cloneIfElement, throttle} from '../../utils'
 import {win} from './statics'
 import {
   inViewportX,
@@ -51,36 +47,27 @@ export default class ViewportScroll extends React.PureComponent {
     scrollY: getScrollY()
   }
 
-  _listener = null
+  listener = null
+
+  constructor (props) {
+    super(props)
+    this.throttledSetStats = throttle(this.setStats)
+  }
 
   componentDidMount () {
-    this._listener = win.addEventListener('scroll', this.setStats)
+    this.listener = win.addEventListener('scroll', this.throttledSetStats)
   }
 
   componentWillUnmount () {
-    if (this._listener !== null) {
-      win.removeEventListener('scroll', this.setStats)
+    if (this.listener !== null) {
+      win.removeEventListener('scroll', this.throttledSetStats)
     }
 
-    if (this._ticking !== null) {
-      cancelAnimationFrame(this._ticking)
-    }
+    this.throttledSetStats.cancel()
   }
 
-  _ticking = null
-
   setStats = () => {
-    if (this._ticking) return;
-
-    this._ticking = requestAnimationFrame(
-      () => this.setState(
-        {
-          scrollX: getScrollX(),
-          scrollY: getScrollY(),
-        },
-        () => this._ticking = null
-      )
-    )
+    this.setState({scrollX: getScrollX(), scrollY: getScrollY()})
   }
 
   getViewportScroll = () => this.state

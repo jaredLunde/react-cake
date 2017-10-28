@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  cloneIfElement,
-  cancelAnimationFrame,
-  requestAnimationFrame
-} from '../utils'
+import {cloneIfElement, throttle} from '../utils'
 
 
 export const rect = (el, leeway) => {
@@ -82,12 +78,20 @@ export default class Rect extends React.PureComponent {
 
   _listeners = []
 
+  constructor (props) {
+    super(props)
+    this.throttledRecalcRect = throttle(this.recalcRect)
+  }
+
   componentDidMount () {
     if (this.recalcOnWindowChange) {
       this._listeners = {
-        resize: window.addEventListener('resize', this.recalcRect),
-        scroll: window.addEventListener('scroll', this.recalcRect),
-        orientationchange: window.addEventListener('orientationchange', this.recalcRect)
+        resize: window.addEventListener('resize', this.throttledRecalcRect),
+        scroll: window.addEventListener('scroll', this.throttledRecalcRect),
+        orientationchange: window.addEventListener(
+          'orientationchange',
+          this.throttledRecalcRect
+        )
       }
     }
   }
@@ -95,13 +99,11 @@ export default class Rect extends React.PureComponent {
   componentWillUnmount () {
     if (this.recalcOnWindowResize) {
       for (let eventName in this._listeners) {
-        window.removeEventListener(eventName, this.setStats)
+        window.removeEventListener(eventName, this.throttledRecalcRect)
       }
     }
 
-    if (this._ticking !== null) {
-      cancelAnimationFrame(this._ticking)
-    }
+    this.throttledRecalcRect.cancel()
   }
 
   rectRef = e => {
@@ -111,30 +113,19 @@ export default class Rect extends React.PureComponent {
     }
   }
 
-  _ticking = null
-
-  recalcRect = () => {
-    if (this._ticking) return;
-    this._ticking = requestAnimationFrame(
-      () => this.setState(
-        this.getRect(),
-        () => this._ticking = null
-      )
-    )
-  }
-
+  recalcRect = () => this.setState(this.getRect())
   getRect = () => rect(this.element)
 
   render () {
     const {children, withPosition, ...props} = this.props
-    const {recalcRect, rectRef, getRect, state} = this
+    const {throttledRecalcRect, rectRef, getRect, state} = this
 
     /** rectRef, recalcRect, getRect, top, right, bottom, left, width, height */
     return cloneIfElement(
       children,
       {
         rectRef,
-        recalcRect,
+        recalcRect: throttledRecalcRect,
         getRect,
         ...props,
         ...(withPosition ? state : {})
