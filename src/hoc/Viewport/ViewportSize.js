@@ -57,10 +57,7 @@ export default class ViewportSize extends React.PureComponent {
     viewportHeight: getViewportHeight(),
   })
 
-  setStats = () => {
-    console.log("HEHE SETTING", this.getStats())
-    this.setState(this.getStats)
-  }
+  setStats = () => this.setState(this.getStats)
 
   getViewportSize = () => ({
     width: this.state && this.state.viewportWidth,
