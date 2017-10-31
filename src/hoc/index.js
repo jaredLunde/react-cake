@@ -63,6 +63,8 @@ export Value from './Value'
 export Rect from './Rect'
 export Sticky from './Sticky'
 export RequestAnimationFrame from './RequestAnimationFrame'
+export Throttle from './Throttle'
+
 
 // TODO: Point3D, Resizable, Rotatable, Scalable
 // TODO: Make the initialX values consistently update with componentWillUpdate (similar to Choices, Toggle)
