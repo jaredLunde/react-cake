@@ -1,0 +1,94 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import {
+  cloneIfElement,
+  callIfExists,
+  requestInterval,
+  clearRequestInterval
+} from '../utils'
+import {rect} from './Rect'
+
+
+
+/**
+<SizeObserver>
+  ({width, height, sizeRef, recalcSize}) => (
+    <div ref={sizeRef}>
+      <div>
+        My width: {width}
+      </div>
+      <div>
+        My height: {height}
+      </div>
+    </div>
+  )
+</SizeObserver>
+*/
+export default class SizeObserver extends React.PureComponent {
+  static propTypes = {
+    useBoundingRect: PropTypes.bool,
+    wait: PropTypes.number.isRequired,
+    onChange: PropTypes.func
+  }
+
+  static defaultProps = {
+    wait: 1000/60,
+  }
+
+  state = {
+    width: 0,
+    height: 0
+  }
+
+  componentDidMount () {
+    this.recalcListener = requestInterval(this.recalcSize, this.props.wait)
+  }
+
+  componentWillUnmount () {
+    clearRequestInterval(this.recalcListener)
+  }
+
+  recalcSize = () => {
+    let prevState = {}
+    this.setState(
+      ({width, height}) => {
+        prevState = {width, height}
+        let newWidth, newHeight
+
+        if (this.props.useBoundingRect) {
+          let rect = rect(this.element)
+          newWidth = rect.width
+          newHeight = rect.height
+        } else {
+          newWidth = this.element.offsetWidth
+          newHeight = this.element.offsetHeight
+        }
+
+        if (newWidth !== width || newHeight !== height) {
+          return {width: newWidth, height: newHeight}
+        }
+
+        return null
+      },
+      () => {
+        if (
+          prevState.width !== this.state.width
+          || prevState.height !== this.state.height
+        ) {
+          callIfExists(this.props.onChange, this.state)
+        }
+      }
+    )
+  }
+
+  element = null
+
+  sizeRef = element =>  this.element = element
+
+  render () {
+    const {children, useBoundingRect, wait, ...props} = this.props
+    const {sizeRef, recalcSize} = this
+    /** width, height, sizeRef, recalcSize */
+    return cloneIfElement(children, {sizeRef, recalcSize, ...this.state, ...props})
+  }
+}

@@ -64,6 +64,7 @@ export Rect from './Rect'
 export Sticky from './Sticky'
 export RequestAnimationFrame from './RequestAnimationFrame'
 export Throttle from './Throttle'
+export SizeObserver from './SizeObserver'
 
 
 // TODO: Point3D, Resizable, Rotatable, Scalable

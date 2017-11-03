@@ -109,7 +109,7 @@ export default class Rect extends React.PureComponent {
   rectRef = e => {
     if (e !== null && e !== this.element) {
       this.element = e
-      this.recalcRect()
+      this.throttledRecalcRect()
     }
   }
 
