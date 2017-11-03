@@ -44,42 +44,36 @@ export default class SizeObserver extends React.PureComponent {
     this.recalcListener = requestInterval(this.recalcSize, this.props.wait)
   }
 
+  componentDidUpdate (prevProps, {width, height}) {
+    if (width !== this.state.width ||height !== this.state.height) {
+      callIfExists(this.props.onChange, this.state)
+    }
+  }
+
   componentWillUnmount () {
     clearRequestInterval(this.recalcListener)
   }
 
-  recalcSize = () => {
-    let prevState = {}
-    this.setState(
-      ({width, height}) => {
-        prevState = {width, height}
-        let newWidth, newHeight
+  recalcSize = () => this.setState(
+    ({width, height}) => {
+      let newWidth, newHeight
 
-        if (this.props.useBoundingRect) {
-          let rect = rect(this.element)
-          newWidth = rect.width
-          newHeight = rect.height
-        } else {
-          newWidth = this.element.offsetWidth
-          newHeight = this.element.offsetHeight
-        }
-
-        if (newWidth !== width || newHeight !== height) {
-          return {width: newWidth, height: newHeight}
-        }
-
-        return null
-      },
-      () => {
-        if (
-          prevState.width !== this.state.width
-          || prevState.height !== this.state.height
-        ) {
-          callIfExists(this.props.onChange, this.state)
-        }
+      if (this.props.useBoundingRect) {
+        let rect = rect(this.element)
+        newWidth = rect.width
+        newHeight = rect.height
+      } else {
+        newWidth = this.element.offsetWidth
+        newHeight = this.element.offsetHeight
       }
-    )
-  }
+
+      if (newWidth !== width || newHeight !== height) {
+        return {width: newWidth, height: newHeight}
+      }
+
+      return null
+    }
+  )
 
   element = null
 
