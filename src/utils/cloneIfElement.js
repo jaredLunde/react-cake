@@ -1,15 +1,18 @@
 import React from 'react'
 
 
-export default (Component, props) => (
-  typeof Component === 'string'
+export default (Component, props) => {
+  const typeOfComponent = typeof Component
+  const prototype = Component.prototype
+
+  return typeOfComponent === 'string'
     ? Component
-    : React.isValidElement(Component)
-      ? React.cloneElement(Component, props)
-      : (
-           typeof Component === 'function'
-        && (!Component.prototype || !Component.prototype.isReactComponent)
-      )
-        ? Component(props)
+    : (
+         typeOfComponent === 'function'
+      && (!prototype || !prototype.isReactComponent)
+    )
+      ? Component(props)
+      : React.isValidElement(Component)
+        ? React.cloneElement(Component, props)
         : React.createElement(Component, props)
-)
+}

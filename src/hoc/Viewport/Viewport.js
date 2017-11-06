@@ -153,9 +153,9 @@ export class Viewport extends React.PureComponent {
 }
 
 
-export default props => compose([
+export default compose([
   Subscriptions,
   ViewportOrientation,
-  ViewportScroll,
+  <ViewportScroll withCoords={true}/>,
   Viewport
-])({withCoords: true, ...props})
+])
