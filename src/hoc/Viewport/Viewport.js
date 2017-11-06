@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {cloneIfElement, selectProps} from '../../utils'
+import {cloneIfElement, selectProps, compose} from '../../utils'
 import viewportContextTypes from './contextTypes'
 import Subscriptions from '../Subscriptions'
 import ViewportOrientation from './ViewportOrientation'
@@ -153,14 +153,9 @@ export class Viewport extends React.PureComponent {
 }
 
 
-export default ({children, ...props}) => (
-  <Subscriptions {...props}>
-    <ViewportOrientation>
-      <ViewportScroll withCoords={true}>
-        <Viewport>
-          {children}
-        </Viewport>
-      </ViewportScroll>
-    </ViewportOrientation>
-  </Subscriptions>
-)
+export default props => compose([
+  Subscriptions,
+  ViewportOrientation,
+  ViewportScroll,
+  Viewport
+])({withCoords: true, ...props})

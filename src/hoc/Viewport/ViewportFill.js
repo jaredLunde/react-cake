@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import WithViewport from './WithViewport'
-import {cloneIfElement} from '../../utils'
+import {cloneIfElement, compose} from '../../utils'
 
 
 /**
@@ -61,10 +61,4 @@ export class ViewportFill extends React.PureComponent {
 }
 
 
-export default ({children, ...props}) => (
-  <WithViewport>
-    <ViewportFill {...props}>
-      {children}
-    </ViewportFill>
-  </WithViewport>
-)
+export default compose([WithViewport, ViewportFill])

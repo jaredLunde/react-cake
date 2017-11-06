@@ -1,7 +1,7 @@
 import React from 'react'
 import Viewport from './Viewport'
 import contextTypes from './contextTypes'
-import {withContextFrom, cloneIfElement, reduceProps} from '../../utils'
+import {withContextFrom, cloneIfElement, reduceProps, compose} from '../../utils'
 
 
 /**
@@ -23,18 +23,8 @@ export const ViewportContext = withContextFrom(Viewport)
 
 const MaybeIncludeViewport = ({inFullView, children, ...props}) =>
   inFullView === void 0
-  ? (
-      <Viewport {...reduceProps(props, contextTypes)}>
-        {children}
-      </Viewport>
-    )
+  ? Viewport({children, ...reduceProps(props, contextTypes)})
   : cloneIfElement(children, {inFullView, ...props})
 
 
-export default ({children, ...props}) => (
-  <ViewportContext {...props}>
-    <MaybeIncludeViewport>
-      {children}
-    </MaybeIncludeViewport>
-  </ViewportContext>
-)
+export default compose([ViewportContext, MaybeIncludeViewport])
