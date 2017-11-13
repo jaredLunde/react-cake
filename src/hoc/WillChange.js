@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import Toggle from './Toggle'
 import {childIsFunctionInvariant} from '../invariants'
-import {reduceProps, callIfExists, toKebabCase, cloneIfElement} from '../utils'
+import {
+  reduceProps,
+  callIfExists,
+  toKebabCase,
+  cloneIfElement,
+  compose
+} from '../utils'
 
 
 /**
@@ -298,14 +304,11 @@ export class WillChange extends React.PureComponent {
   }
 }
 
-export default ({children, ...props}) => (
-  <Toggle
-    initialValue={false}
-    propName={props.propName || 'willChangeIsOn'}
-    {...props}
-  >
-    <WillChange>
-      {children}
-    </WillChange>
-  </Toggle>
-)
+
+const composedWillChange = compose([Toggle, WillChange])
+
+export default props => composedWillChange({
+  initialValue: false,
+  propName: 'willChangeIsOn',
+  ...props
+})

@@ -5,6 +5,7 @@
 import requestAnimationFrame, {
   cancelAnimationFrame
 } from './requestAnimationFrame'
+import perf from './perf'
 
 
 export const clearRequestTimeout =  handle => {
@@ -19,11 +20,11 @@ export default (fn, delay) => {
     return window.setTimeout(fn, delay)
   }
 
-  var start = new Date().getTime(),
+  var start = perf.now(),
       handle = new Object()
 
   function loop() {
-    var current = new Date().getTime(),
+    var current = perf.now(),
         delta = current - start
 
     delta >= delay

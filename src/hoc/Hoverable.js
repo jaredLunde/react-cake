@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
-import {cloneIfElement} from '../utils'
+import {cloneIfElement, compose} from '../utils'
 import {childIsFunctionInvariant} from '../invariants'
 
 
@@ -119,8 +119,5 @@ export class Hoverable extends React.PureComponent {
 }
 
 
-export default ({children, ...props}) => (
-  <Toggle propName={props.propName} initialValue={false}>
-    <Hoverable {...props}>{children}</Hoverable>
-  </Toggle>
-)
+const composedHoverable = compose([Toggle, Hoverable])
+export default props => composedHoverable({initialValue: false, ...props})

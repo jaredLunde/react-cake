@@ -1,4 +1,7 @@
 import requestAnimationFrame, {cancelAnimationFrame} from './requestAnimationFrame'
+import perf from './perf'
+
+
 /**  Copyright 2011, Joe Lambert.
  **  Free to use under the MIT license.
  **  http://www.opensource.org/licenses/mit-license.php
@@ -15,16 +18,16 @@ export default (fn, delay) => {
     return window.setInterval(fn, delay)
   }
 
-  var start = new Date().getTime(),
+  var start = perf.now(),
       handle = new Object()
 
   function loop() {
-    var current = new Date().getTime(),
+    var current = perf.now(),
         delta = current - start
 
     if(delta >= delay) {
       fn.call()
-      start = new Date().getTime()
+      start = perf.now()
     }
 
     handle.value = requestAnimationFrame(loop)

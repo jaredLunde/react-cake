@@ -1,9 +1,12 @@
 const displayName = Component => {
-  const tOrC = Component.type ? Component.type : (
-    Component.constructor ? Component.constructor : Component
-  )
+  const nOrD = Component.name || Component.displayName
+  if (nOrD) {
+    return nOrD
+  }
 
-  return tOrC.displayName || tOrC.name || 'Unknown'
+  const tOrC = Component.constructor ? Component.constructor : Component.type ? Component.type : Component
+
+  return tOrC.displayName || 'Unknown'
 }
 
 export default displayName

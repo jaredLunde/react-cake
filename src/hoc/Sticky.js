@@ -4,7 +4,7 @@ import {fromJS} from 'immutable'
 import Rect, {rect} from './Rect'
 import Toggle from './Toggle'
 import {WithViewport} from './Viewport'
-import {cloneIfElement, reduceProps} from '../utils'
+import {cloneIfElement, reduceProps, compose} from '../utils'
 
 
 /**
@@ -199,22 +199,11 @@ const stickyControls = fromJS(
 )
 
 
-const RectComponent = ({Component, sticky = false, ...props}) => (
-  <Rect {...props}>
-    <Toggle
-      propName='isStuck'
-      initialValue={sticky}
-      controls={stickyControls}
-    >
-      <Sticky>
-        {Component}
-      </Sticky>
-    </Toggle>
-  </Rect>
-)
+const composedSticky = compose([WithViewport, Rect, Toggle, Sticky])
 
-export default ({children, ...props}) => (
-  <WithViewport Component={children} {...props}>
-    {RectComponent}
-  </WithViewport>
-)
+export default ({sticky = false, ...props}) => composedSticky({
+  propName: 'isStuck',
+  initialValue: sticky,
+  controls: stickyControls,
+  ...props
+})
