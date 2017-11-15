@@ -17,7 +17,7 @@ export default Components => {
     names.unshift(displayName(Component))
 
     if (C.length === 0) {
-      CakeComponent = props => {
+      CakeComponent = ({...props}) => {
         const children = props[childrenName]
         delete props[childrenName]
 
@@ -36,7 +36,8 @@ export default Components => {
     }
     else {
       CakeComponent = props => cloneIfElement(
-        Component, {
+        Component,
+        {
           children: lastComponent,
           ...props
         }
@@ -47,7 +48,7 @@ export default Components => {
   }
 
   const name = `compose(${names.join(', ')})`
-  Object.defineProperty(C[0], "name", {value: name})
+  Object.defineProperty(C[0], 'name', {value: name})
 
   return C[0]
 }
