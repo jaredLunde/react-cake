@@ -11,6 +11,11 @@ export default Component => {
       ...context
     }
   )
+  Object.defineProperty(
+    withContextFrom,
+    'name',
+    {value: wrapDisplayName('withContextFrom', Component)}
+  )
   withContextFrom.contextTypes = Component.childContextTypes
   return withContextFrom
 }
