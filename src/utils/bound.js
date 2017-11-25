@@ -7,11 +7,12 @@ export default ({
   upper,
   outOfUpper,
   outOfLower,
-  inBounds
+  inBounds,
+  cast = parseInt
 }) => {
-  value = parseInt(value)
-  lower = parseInt(lower)
-  upper = parseInt(upper)
+  value = cast(value)
+  lower = cast(lower)
+  upper = cast(upper)
   inBounds = inBounds || (() => {})
 
   if (isNaN(value)) {

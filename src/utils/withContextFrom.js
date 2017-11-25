@@ -3,19 +3,22 @@ import {wrapDisplayName} from '../helpers'
 import cloneIfElement from './cloneIfElement'
 
 
-export default Component => {
-  const withContextFrom = ({children, ...props}, context) => cloneIfElement(
-    children,
-    {
-      ...props,
-      ...context
-    }
-  )
-  Object.defineProperty(
-    withContextFrom,
-    'name',
-    {value: wrapDisplayName('withContextFrom', Component)}
-  )
-  withContextFrom.contextTypes = Component.childContextTypes
-  return withContextFrom
+
+
+
+export default Component => class withContextFrom extends React.Component {
+  static contextTypes = Component.childContextTypes
+  static displayName = wrapDisplayName('withContextFrom', Component)
+
+  render () {
+    const {children, ...props} = this.props
+
+    return cloneIfElement(
+      children,
+      {
+        ...props,
+        ...this.context
+      }
+    )
+  }
 }

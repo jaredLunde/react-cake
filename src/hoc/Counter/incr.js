@@ -9,8 +9,8 @@ const incr = ({step, ...state}, {propName}) => incrBy(
 
 export default incr
 
-export const incrBy = by => (state, {propName}) => ({
-  [propName]: parseInt(state[propName]) + parseInt(by)
+export const incrBy = by => (state, {cast = parseInt, propName}) => ({
+  [propName]: cast(state[propName]) + cast(by)
 })
 
 export const boundIncr = (state, props) => bound({

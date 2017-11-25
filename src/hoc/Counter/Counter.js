@@ -42,22 +42,24 @@ export default class Counter extends React.PureComponent {
     onBoundMax: PropTypes.func,
     onChange: PropTypes.func,
     onIncr: PropTypes.func,
-    onDecr: PropTypes.func
+    onDecr: PropTypes.func,
+    cast: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     initialValue: 0,
     initialStep: 1,
     propName: 'value',
+    cast: parseInt
   }
 
   constructor (props) {
     super(props)
-    const {initialValue, initialStep, propName} = this.props
+    const {initialValue, initialStep, cast, propName} = this.props
 
     this.state = {
-      [propName]: parseInt(initialValue),
-      step: parseInt(initialStep)
+      [propName]: cast(initialValue),
+      step: cast(initialStep)
     }
   }
 
@@ -104,9 +106,10 @@ export default class Counter extends React.PureComponent {
       onChange,
       onIncr,
       onDecr,
+      cast,
       ...props
     } = this.props
-    
+
     return cloneIfElement(
       children,
       {

@@ -10,7 +10,8 @@ export default ({
   minValue,
   onBoundMax,
   onBoundMin,
-  propName
+  propName,
+  cast
 }) => {
   const stateOpt = {
     [propName]: result[propName],
@@ -46,6 +47,7 @@ export default ({
     upper: maxValue,
     outOfUpper: () => callIfExists(onBoundMax, cbOpt),
     outOfLower: () => callIfExists(onBoundMin, cbOpt),
-    inBounds: () => result
+    inBounds: () => result,
+    cast
   })
 }

@@ -9,8 +9,8 @@ const decr = ({step, ...state}, {propName}) => decrBy(
 
 export default decr
 
-export const decrBy = by => (state, {propName}) => ({
-  [propName]: parseInt(state[propName]) - parseInt(by)
+export const decrBy = by => (state, {cast = parseInt, propName}) => ({
+  [propName]: cast(state[propName]) - cast(by)
 })
 
 export const boundDecr = (state, props) => bound({
