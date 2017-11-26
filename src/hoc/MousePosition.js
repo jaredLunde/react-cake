@@ -153,7 +153,10 @@ export class MousePosition extends React.PureComponent {
     }
   )
 
-  onEnter = e => this.entered = true
+  onEnter = e => {
+    this.entered = true
+    this.onMove(e)
+  }
 
   onLeave = e => {
     if (canMove === false) return;
