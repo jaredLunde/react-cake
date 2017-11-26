@@ -65,7 +65,7 @@ export Sticky from './Sticky'
 export RequestAnimationFrame from './RequestAnimationFrame'
 export Throttle from './Throttle'
 export SizeObserver from './SizeObserver'
-
+export MousePosition from './MousePosition'
 
 // TODO: Point3D, Resizable, Rotatable, Scalable
 // TODO: Make the initialX values consistently update with componentWillUpdate (similar to Choices, Toggle)
