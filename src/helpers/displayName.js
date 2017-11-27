@@ -1,4 +1,8 @@
 const displayName = Component => {
+  if (!Component || typeof Component === 'string' || typeof Component === 'number') {
+    return 'Unknown'
+  }
+
   const nOrD = Component.name || Component.displayName
   if (nOrD) {
     return nOrD
