@@ -57,7 +57,7 @@ export const rect = (el, leeway) => {
 </Rect>
 */
 export default class Rect extends React.PureComponent {
-  static PropTypes = {
+  static propTypes = {
     recalcOnWindowChange: PropTypes.bool,
     withPosition: PropTypes.bool
   }
