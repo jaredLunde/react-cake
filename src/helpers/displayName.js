@@ -1,4 +1,4 @@
-const displayName = Component => {
+function displayName (Component) {
   if (!Component || typeof Component === 'string' || typeof Component === 'number') {
     return 'Unknown'
   }
@@ -15,4 +15,6 @@ const displayName = Component => {
 
 export default displayName
 
-export const wrapDisplayName = (wrapperName, Component) => `${wrapperName}(${displayName(Component)})`
+export function wrapDisplayName (wrapperName, Component) {
+  return `${wrapperName}(${displayName(Component)})`
+}
