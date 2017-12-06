@@ -41,6 +41,7 @@
   "authors": [
     "Jared Lunde <jared@tessellate.io> (https://github.com/jaredlunde)"
   ],
+  "sideEffects": false,
   "analyze": true,
   "license": "MIT",
   "dependencies": {

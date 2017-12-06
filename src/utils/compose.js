@@ -9,7 +9,7 @@ export default Components => {
   ID += 1
   const childrenName = `@@CAKE_CHILDREN__${ID}@@`
   const names = []
-  
+
   for (let i = Components.length - 1; i > -1; i--) {
     let CakeComponent
     const Component = Components[i]
