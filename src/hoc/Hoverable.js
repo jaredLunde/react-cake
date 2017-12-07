@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
-import {cloneIfElement, compose} from '../utils'
+import EventTracker from './EventTracker'
+import {createOptimized, compose} from '../utils'
 import {childIsFunctionInvariant} from '../invariants'
 
 
@@ -58,34 +59,13 @@ export class Hoverable extends React.PureComponent {
 
   hoverableRef = e => {
     if (this._hoverable !== null) {
-      this.removeEnterListener(this._hoverable)
-      this.removeLeaveListener(this._hoverable)
+      this.props.removeAllEvents()
     }
 
     if (e !== null) {
       this._hoverable = e
-      this.addEnterListener(this._hoverable)
-      this.addLeaveListener(this._hoverable)
-    }
-  }
-
-  addEnterListener (e) {
-    e.addEventListener('mouseenter', this.onEnter)
-  }
-
-  removeEnterListener (e) {
-    if (e !== null) {
-      e.removeEventListener('mouseenter', this.onEnter)
-    }
-  }
-
-  addLeaveListener (e) {
-    e.addEventListener('mouseleave', this.onLeave)
-  }
-
-  removeLeaveListener (e) {
-    if (e !== null) {
-      e.removeEventListener('mouseleave', this.onLeave)
+      this.props.addEvent(this._hoverable, 'mouseenter', this.onEnter)
+      this.props.addEvent(this._hoverable, 'mouseleave', this.onLeave)
     }
   }
 
@@ -99,16 +79,21 @@ export class Hoverable extends React.PureComponent {
     this.control(off, leaveDelay)
   }
 
-  componentWillUnmount () {
-    this.removeEnterListener(this._hoverable)
-    this.removeLeaveListener(this._hoverable)
-  }
 
   render () {
-    const {children, propName, on, off, ...props} = this.props
+    const {
+      children,
+      propName,
+      on,
+      off,
+      addEvent,
+      removeEvent,
+      removeAllEvents,
+      ...props
+    } = this.props
     const {hoverableRef} = this
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         hoverableRef,
@@ -119,5 +104,5 @@ export class Hoverable extends React.PureComponent {
 }
 
 
-const composedHoverable = compose([Toggle, Hoverable])
+const composedHoverable = compose([EventTracker, Toggle, Hoverable])
 export default props => composedHoverable({initialValue: false, ...props})

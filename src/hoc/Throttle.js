@@ -30,8 +30,10 @@ export default class Throttle extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = props.initialState || {}
-    this.throttleState = throttle(this.setState.bind(this))
+    this.throttleState = throttle(this._setState)
   }
+
+  _setState = (...args) => this.setState(...args)
 
   componentWillUnmount () {
     this.throttleState.cancel()
