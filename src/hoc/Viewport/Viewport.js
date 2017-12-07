@@ -135,7 +135,6 @@ export class Viewport extends React.PureComponent {
       }
     }
   }
-
   // getViewportScroll = () => ({x: this.props.scrollX, y: this.props.scrollY})
 
   render () {
@@ -156,6 +155,6 @@ export class Viewport extends React.PureComponent {
 export default compose([
   Subscriptions,
   ViewportOrientation,
-  <ViewportScroll withCoords={true}/>,
+  ViewportScroll,
   Viewport
 ])

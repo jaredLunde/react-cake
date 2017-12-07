@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
-import Throttle from '../Throttle'
 import {createOptimized, compose} from '../../utils'
 import {getAspect} from './ViewportQueries'
 import {win, winScreen, docEl} from './statics'
@@ -27,7 +26,7 @@ export const getViewportSize = () => ({
 })
 
 
-function getStats () {
+function getSize () {
   return {
     viewportWidth: getViewportWidth(),
     viewportHeight: getViewportHeight(),
@@ -45,12 +44,8 @@ export class ViewportSize extends React.PureComponent {
     addEvent(win, 'orientationchange', this.setStats)
   }
 
-  setStats = () => this.props.throttleState(getStats)
-
-  getViewportSize = () => ({
-    width: this.props.viewportWidth,
-    height: this.props.viewportHeight
-  })
+  setStats = () => this.forceUpdate()
+  getViewportSize = getViewportSize
 
   render () {
     const {
@@ -58,7 +53,6 @@ export class ViewportSize extends React.PureComponent {
       addEvent,
       removeEvent,
       removeAllEvents,
-      throttleState,
       ...props
     } = this.props
     const {getViewportSize} = this
@@ -68,6 +62,7 @@ export class ViewportSize extends React.PureComponent {
       {
         getAspect,
         getViewportSize,
+        ...getSize(),
         ...props
       }
     )
@@ -75,12 +70,4 @@ export class ViewportSize extends React.PureComponent {
 }
 
 
-const ComposedViewportSize = compose([EventTracker, Throttle, ViewportSize])
-
-
-export default function (props) {
-  return ComposedViewportSize({
-    initialState: getStats(),
-    ...props
-  })
-}
+export default compose([EventTracker, ViewportSize])

@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
-import Throttle from '../Throttle'
-import {createOptimized, compose} from '../../utils'
+import {createOptimized, compose, throttle} from '../../utils'
 import {win} from './statics'
 import {
   inViewportX,
@@ -52,16 +51,17 @@ export class ViewportScroll extends React.PureComponent {
     withCoords: PropTypes.bool
   }
 
+  static defaultProps = {
+    withCoords: true
+  }
+  
   constructor (props) {
     super(props)
     props.addEvent(win, 'scroll', this.setScroll)
   }
 
-  setScroll = () => this.props.throttleState(getScroll())
-
-  getViewportScroll = () => {
-    return {scrollX: this.props.scrollX, scrollY: this.props.scrollY}
-  }
+  setScroll = () => this.forceUpdate()
+  getViewportScroll = getScroll
 
   render () {
     const {
@@ -70,13 +70,11 @@ export class ViewportScroll extends React.PureComponent {
       addEvent,
       removeEvent,
       removeAllEvents,
-      scrollX,
-      scrollY,
-      throttleState,
       ...props
     } = this.props
     const {getViewportScroll} = this
     const {scrollTo} = win
+    const {scrollX, scrollY} = getScroll()
 
     return createOptimized(
       children,
@@ -97,12 +95,4 @@ export class ViewportScroll extends React.PureComponent {
 }
 
 
-const ComposedViewportScroll = compose([EventTracker, Throttle, ViewportScroll])
-
-
-export default function (props) {
-  return ComposedViewportScroll({
-    initialState: getScroll(),
-    ...props
-  })
-}
+export default compose([EventTracker, ViewportScroll])
