@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {cloneIfElement, throttle} from '../../utils'
+import EventTracker from '../EventTracker'
+import Throttle from '../Throttle'
+import {createOptimized, compose} from '../../utils'
 import {getAspect} from './ViewportQueries'
 import {win, winScreen, docEl} from './statics'
 
@@ -25,57 +27,60 @@ export const getViewportSize = () => ({
 })
 
 
-export default class ViewportSize extends React.PureComponent {
+function getStats () {
+  return {
+    viewportWidth: getViewportWidth(),
+    viewportHeight: getViewportHeight(),
+  }
+}
+
+
+export class ViewportSize extends React.PureComponent {
   _listeners = {}
 
   constructor (props) {
     super(props)
-    this.throttledSetStats = throttle(this.setStats)
-    this.state = this.getStats()
+    const {addEvent} = props
+    addEvent(win, 'resize', this.setStats)
+    addEvent(win, 'orientationchange', this.setStats)
   }
 
-  componentDidMount () {
-    this._listeners = {
-      resize: win.addEventListener('resize', this.throttledSetStats),
-      orientationchange: win.addEventListener(
-        'orientationchange',
-        this.throttledSetStats
-      )
-    }
-  }
-
-  componentWillUnmount () {
-    for (let eventName in this._listeners) {
-      win.removeEventListener(eventName, this.throttledSetStats)
-    }
-
-    this.throttledSetStats.cancel()
-  }
-
-  getStats = () => ({
-    viewportWidth: getViewportWidth(),
-    viewportHeight: getViewportHeight(),
-  })
-
-  setStats = () => this.setState(this.getStats)
+  setStats = () => this.props.throttleState(getStats)
 
   getViewportSize = () => ({
-    width: this.state && this.state.viewportWidth,
-    height: this.state && this.state.viewportHeight
+    width: this.props.viewportWidth,
+    height: this.props.viewportHeight
   })
 
   render () {
-    const {children, ...props} = this.props
+    const {
+      children,
+      addEvent,
+      removeEvent,
+      removeAllEvents,
+      throttleState,
+      ...props
+    } = this.props
     const {getViewportSize} = this
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         getAspect,
         getViewportSize,
-        ...this.state,
         ...props
       }
     )
   }
+}
+
+
+const ComposedViewportSize = compose([EventTracker, Throttle, ViewportSize])
+
+
+export default function (props) {
+  return ComposedViewportSize({
+    initialState: getStats(),
+    ...props
+  })
 }

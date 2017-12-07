@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {cloneIfElement, throttle} from '../../utils'
+import EventTracker from '../EventTracker'
+import Throttle from '../Throttle'
+import {createOptimized, compose} from '../../utils'
 import {win} from './statics'
 import {
   inViewportX,
@@ -33,51 +35,50 @@ import {
   }
 </ViewportScroll>
 **/
-export const getScrollX = () => win.scrollX !== void 0 ? win.scrollX : win.pageXOffset
-export const getScrollY = () => win.scrollY !== void 0 ? win.scrollY : win.pageYOffset
+export function getScrollX () {
+  return win.scrollX !== void 0 ? win.scrollX : win.pageXOffset
+}
 
+export function getScrollY () {
+  return win.scrollY !== void 0 ? win.scrollY : win.pageYOffset
+}
 
-export default class ViewportScroll extends React.PureComponent {
+export function getScroll () {
+  return {scrollX: getScrollX(), scrollY: getScrollY()}
+}
+
+export class ViewportScroll extends React.PureComponent {
   static propTypes = {
     withCoords: PropTypes.bool
   }
 
-  state = {
-    scrollX: getScrollX(),
-    scrollY: getScrollY()
-  }
-
-  listener = null
-
   constructor (props) {
     super(props)
-    this.throttledSetStats = throttle(this.setStats)
+    props.addEvent(win, 'scroll', this.setScroll)
   }
 
-  componentDidMount () {
-    this.listener = win.addEventListener('scroll', this.throttledSetStats)
+  setScroll = () => this.props.throttleState(getScroll())
+
+  getViewportScroll = () => {
+    return {scrollX: this.props.scrollX, scrollY: this.props.scrollY}
   }
-
-  componentWillUnmount () {
-    if (this.listener !== null) {
-      win.removeEventListener('scroll', this.throttledSetStats)
-    }
-
-    this.throttledSetStats.cancel()
-  }
-
-  setStats = () => {
-    this.setState({scrollX: getScrollX(), scrollY: getScrollY()})
-  }
-
-  getViewportScroll = () => this.state
 
   render () {
-    const {children, withCoords, ...props} = this.props
+    const {
+      children,
+      withCoords,
+      addEvent,
+      removeEvent,
+      removeAllEvents,
+      scrollX,
+      scrollY,
+      throttleState,
+      ...props
+    } = this.props
     const {getViewportScroll} = this
     const {scrollTo} = win
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         scrollTo,
@@ -88,9 +89,20 @@ export default class ViewportScroll extends React.PureComponent {
         inFullViewY: inFullViewViewportY,
         inFullView: inFullViewViewport,
         getViewportScroll,
-        ...(withCoords === true ? this.state : {}),
+        ...(withCoords === true ? {scrollX, scrollY} : {}),
         ...props
       }
     )
   }
+}
+
+
+const ComposedViewportScroll = compose([EventTracker, Throttle, ViewportScroll])
+
+
+export default function (props) {
+  return ComposedViewportScroll({
+    initialState: getScroll(),
+    ...props
+  })
 }

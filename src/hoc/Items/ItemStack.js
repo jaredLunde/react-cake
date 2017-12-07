@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import {Stack} from 'immutable'
-import {callIfExists, cloneIfElement} from '../../utils'
+import {callIfExists, createOptimized} from '../../utils'
 import {boundShiftItem} from './shiftItem'
 import Items from './Items'
 
@@ -113,7 +113,7 @@ export default class ItemStack extends Items {
     } = this
     props[propName] = this.state[propName]
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         addItem,

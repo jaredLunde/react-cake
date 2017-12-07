@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {debounce, cloneIfElement} from '../utils'
+import {debounce, createOptimized} from '../utils'
 
 
 /**
@@ -37,7 +37,7 @@ export default class Debounce extends React.PureComponent {
     super(props)
     this.state = props.initialState || {}
     this.debounceState = debounce(
-      this.setState,
+      this._setState,
       props.wait,
       {
         'leading': props.immediate,
@@ -45,6 +45,8 @@ export default class Debounce extends React.PureComponent {
       }
     )
   }
+
+  _setState = (...args) => this.setState(...args)
 
   componentWillUnmount () {
     this.debounceState.cancel()
@@ -54,7 +56,7 @@ export default class Debounce extends React.PureComponent {
     const {children, initialState, ...props} = this.props
     const {debounceState} = this
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         debounceState,

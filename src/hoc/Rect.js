@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {cloneIfElement, throttle} from '../utils'
+import EventTracker from './EventTracker'
+import {createOptimized, throttle, compose} from '../utils'
 
 
 export const rect = (el, leeway) => {
@@ -56,7 +57,7 @@ export const rect = (el, leeway) => {
   )
 </Rect>
 */
-export default class Rect extends React.PureComponent {
+export class Rect extends React.PureComponent {
   static propTypes = {
     recalcOnWindowChange: PropTypes.bool,
     withPosition: PropTypes.bool
@@ -85,24 +86,13 @@ export default class Rect extends React.PureComponent {
 
   componentDidMount () {
     if (this.recalcOnWindowChange) {
-      this._listeners = {
-        resize: window.addEventListener('resize', this.throttledRecalcRect),
-        scroll: window.addEventListener('scroll', this.throttledRecalcRect),
-        orientationchange: window.addEventListener(
-          'orientationchange',
-          this.throttledRecalcRect
-        )
-      }
+      this.props.addEvent(window, 'resize', this.throttledRecalcRect)
+      this.props.addEvent(window, 'scroll', this.throttledRecalcRect)
+      this.props.addEvent(window, 'orientationchange', this.throttledRecalcRect)
     }
   }
 
   componentWillUnmount () {
-    if (this.recalcOnWindowResize) {
-      for (let eventName in this._listeners) {
-        window.removeEventListener(eventName, this.throttledRecalcRect)
-      }
-    }
-
     this.throttledRecalcRect.cancel()
   }
 
@@ -117,11 +107,18 @@ export default class Rect extends React.PureComponent {
   getRect = () => rect(this.element)
 
   render () {
-    const {children, withPosition, ...props} = this.props
+    const {
+      children,
+      withPosition,
+      addEvent,
+      removeEvent,
+      removeAllEvents,
+      ...props
+    } = this.props
     const {throttledRecalcRect, rectRef, getRect, state} = this
 
     /** rectRef, recalcRect, getRect, top, right, bottom, left, width, height */
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         rectRef,
@@ -133,3 +130,6 @@ export default class Rect extends React.PureComponent {
     )
   }
 }
+
+
+export default compose([EventTracker, Rect])

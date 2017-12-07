@@ -6,7 +6,7 @@ import {
   clearRequestTimeout,
   reduceProps,
   callIfExists,
-  cloneIfElement
+  createOptimized
 } from '../../utils'
 
 
@@ -132,7 +132,7 @@ export default class Animatable extends React.PureComponent {
     } = this.state
     const {play, stop, calc} = this
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         play,

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {requestAnimationFrame, cancelAnimationFrame, cloneIfElement} from '../utils'
+import {requestAnimationFrame, cancelAnimationFrame, createOptimized} from '../utils'
 
 
 /**
@@ -56,7 +56,7 @@ export default class RequestAnimationFrame extends React.PureComponent {
   render () {
     const {children, setter, initialState, ...props} = this.props
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         requestAnimationState: this.requestAnimationFrame,

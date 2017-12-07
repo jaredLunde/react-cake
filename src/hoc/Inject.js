@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
-import {cloneIfElement, callIfExists, getUniqueID} from '../utils'
+import {createOptimized, callIfExists, getUniqueID} from '../utils'
 
 
 /**
@@ -43,7 +43,7 @@ export default class Inject extends React.PureComponent {
     const {children, entry, subscribe} = this.props
     this.injectElement(id)
     ReactDOM.render(
-      cloneIfElement(children, this.state),
+      createOptimized(children, this.state),
       this.element
     )
   }
@@ -92,7 +92,7 @@ export class WithInject extends React.PureComponent {
   render () {
     const {children, ...props} = this.props
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         injectRef: this.setInjectRef,

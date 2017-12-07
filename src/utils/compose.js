@@ -1,4 +1,4 @@
-import cloneIfElement from './cloneIfElement'
+import createOptimized from './createOptimized'
 import displayName from '../helpers/displayName'
 
 
@@ -21,11 +21,11 @@ export default Components => {
         const children = props[childrenName]
         delete props[childrenName]
 
-        return cloneIfElement(Component, {...props, children})
+        return createOptimized(Component, {...props, children})
       }
     }
     else if (i === 0) {
-      CakeComponent = ({children, ...props}) => cloneIfElement(
+      CakeComponent = ({children, ...props}) => createOptimized(
         Component,
         {
           [childrenName]: children,
@@ -35,7 +35,7 @@ export default Components => {
       )
     }
     else {
-      CakeComponent = props => cloneIfElement(
+      CakeComponent = props => createOptimized(
         Component,
         {
           ...props,

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import WithViewport from './WithViewport'
-import {cloneIfElement, compose} from '../../utils'
+import {createOptimized, compose} from '../../utils'
 
 
 /**
@@ -46,7 +46,7 @@ export class ViewportFill extends React.PureComponent {
   render () {
     const {children, style, ...props} = this.props
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         style: Object.assign(

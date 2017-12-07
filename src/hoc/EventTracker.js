@@ -24,8 +24,8 @@ export default class EventTracker extends React.PureComponent {
   }
 
   removeAllEvents = el => {
-    for (let event in this.events) {
-      if (el !== void 0 || event[0] === el) {
+    for (let event of this.events) {
+      if (!el || event[0] === el) {
         this.removeEvent(...event)
       }
     }

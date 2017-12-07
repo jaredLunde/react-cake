@@ -1,7 +1,7 @@
 import callIfExists from './callIfExists'
 
 
-export default ({
+export default function ({
   value,
   lower,
   upper,
@@ -9,7 +9,7 @@ export default ({
   outOfLower,
   inBounds,
   cast = parseInt
-}) => {
+}) {
   value = cast(value)
   lower = cast(lower)
   upper = cast(upper)

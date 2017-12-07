@@ -8,14 +8,14 @@ import requestAnimationFrame, {
 import perf from './perf'
 
 
-export const clearRequestTimeout =  handle => {
+export function clearRequestTimeout (handle) {
   cancelAnimationFrame
   ? cancelAnimationFrame(handle.value)
   : window.clearTimeout(handle)
 }
 
 
-export default (fn, delay) => {
+export default function (fn, delay) {
   if(!requestAnimationFrame) {
     return window.setTimeout(fn, delay)
   }

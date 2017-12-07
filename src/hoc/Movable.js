@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Point from './Point'
-import {callIfExists, cloneIfElement} from '../utils'
+import {callIfExists, createOptimized} from '../utils'
 
 
 /**
@@ -62,7 +62,7 @@ export class Movable extends React.PureComponent {
       transform
     })
 
-    return cloneIfElement(
+    return createOptimized(
       children, {
         style,
         x,

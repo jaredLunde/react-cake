@@ -1,6 +1,6 @@
 import React from 'react'
 import {wrapDisplayName} from '../helpers'
-import cloneIfElement from './cloneIfElement'
+import createOptimized from './createOptimized'
 
 
 
@@ -13,7 +13,7 @@ export default Component => class withContextFrom extends React.Component {
   render () {
     const {children, ...props} = this.props
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         ...props,

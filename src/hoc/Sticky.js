@@ -4,7 +4,7 @@ import {fromJS} from 'immutable'
 import Rect, {rect} from './Rect'
 import Toggle from './Toggle'
 import {WithViewport} from './Viewport'
-import {cloneIfElement, reduceProps, compose} from '../utils'
+import {createOptimized, reduceProps, compose} from '../utils'
 
 
 /**
@@ -172,7 +172,7 @@ export class Sticky extends React.PureComponent {
     const {left, right} = getRect() || {}
 
     /** style, isStuck, stickyRef */
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         isStuck,

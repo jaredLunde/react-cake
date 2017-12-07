@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import EventTracker from './EventTracker'
 import {
-  cloneIfElement,
+  compose,
+  createOptimized,
   requestTimeout,
   clearRequestTimeout,
   throttle,
@@ -70,7 +72,7 @@ export class MousePosition extends React.PureComponent {
 
   mousePositionRef = e => {
     if (this.element !== null) {
-      this.removeListeners(this.element)
+      this.props.removeAllEvents(this.element)
     }
 
     if (e !== null) {
@@ -112,19 +114,8 @@ export class MousePosition extends React.PureComponent {
   addListeners (e) {
     if (e === null) return;
     for (let name in this.events) {
-      e.addEventListener(name, this.events[name])
+      this.props.addEvent(e, name, this.events[name])
     }
-  }
-
-  removeListeners (e) {
-    if (e === null) return;
-    for (let name in this.events) {
-      e.removeEventListener(name, this.events[name])
-    }
-  }
-
-  componentWillUnmount () {
-    this.removeListeners(this.element)
   }
 
   onMove = throttle(
@@ -179,11 +170,22 @@ export class MousePosition extends React.PureComponent {
     )
   }
 
+  componentWillUnmount () {
+    this.onMove.cancel()
+  }
+
   render () {
-    const {children, propName, ...props} = this.props
+    const {
+      children,
+      propName,
+      addEvent,
+      removeEvent,
+      removeAllEvents,
+      ...props
+    } = this.props
     const {mousePositionRef} = this
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         mousePositionRef,
@@ -195,4 +197,4 @@ export class MousePosition extends React.PureComponent {
 }
 
 
-export default MousePosition
+export default compose([EventTracker, MousePosition])

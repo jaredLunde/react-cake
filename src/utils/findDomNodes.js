@@ -1,9 +1,9 @@
-const _shouldReturnChild = (filter, child) => (
-  child.nodeName && (!filter || filter && filter(child))
-)
+function _shouldReturnChild (filter, child) {
+  return child.nodeName && (!filter || filter && filter(child))
+}
 
 
-const findDomNodes = (node, filter) => {
+function findDomNodes (node, filter) {
   if (!node) return [];
   let children = []
 

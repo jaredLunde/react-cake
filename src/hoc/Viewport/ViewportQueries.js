@@ -1,5 +1,5 @@
 import React from 'react'
-import {cloneIfElement} from '../../utils'
+import {createOptimized} from '../../utils'
 import {win} from './statics'
 import {rect} from '../Rect'
 import {getViewportSize} from './ViewportSize'
@@ -87,7 +87,7 @@ export const inFullViewViewport = (el, leeway) => inFullView(el, win, leeway)
 export const getAspect = () => aspect(win)
 
 
-export default ({children, ...props}) => cloneIfElement(
+export default ({children, ...props}) => createOptimized(
   children,
   {
     getAspect,

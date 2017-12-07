@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Choices} from './Choices'
 import WithChoices from './WithChoices'
-import {cloneIfElement, reduceProps} from '../../utils'
+import {createOptimized, reduceProps} from '../../utils'
 
 
 class Choice extends React.PureComponent {
@@ -36,7 +36,7 @@ class Choice extends React.PureComponent {
     const {select, deselect, toggle} = this
     const {isSelected} = this.state
     
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         value,

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {cloneIfElement, callIfExists} from '../../utils'
+import {createOptimized, callIfExists} from '../../utils'
 import {boundMoveXY} from './moveXY'
 import {boundMoveX} from './moveX'
 import {boundMoveY} from './moveY'
@@ -115,7 +115,7 @@ export default class Point extends React.PureComponent {
       moveY
     } = this
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         setXY,

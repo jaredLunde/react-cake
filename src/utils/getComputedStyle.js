@@ -1,4 +1,4 @@
-export default e => {
+export default function (e) {
   if (!e) return {}
 
   let computedStyle

@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import Toggle from './Toggle'
+import EventTracker from './EventTracker'
 import {childIsFunctionInvariant} from '../invariants'
 import {
   reduceProps,
   callIfExists,
   toKebabCase,
-  cloneIfElement,
+  createOptimized,
   compose
 } from '../utils'
 
@@ -146,7 +147,11 @@ export class WillChange extends React.PureComponent {
     // From Toggle
     on: PropTypes.func,
     off: PropTypes.func,
-    toggle: PropTypes.func
+    toggle: PropTypes.func,
+    // From EventTracker
+    addEvent: PropTypes.func,
+    removeEvent: PropTypes.func,
+    removeAllEvents: PropTypes.func
   }
 
   static defaultProps = {
@@ -154,7 +159,7 @@ export class WillChange extends React.PureComponent {
     staleTimeout: 1000
   }
 
-  _willChange = null
+  _willChange = []
   _changeHints = []
   _changeEvents = []
   _staleTimeout = null
@@ -165,42 +170,18 @@ export class WillChange extends React.PureComponent {
     this.setupHints(props)
   }
 
-  _willChange = []
-
   willChangeRef = e => {
     if (e !== null && this._willChange.includes(e) === false) {
       this._willChange.push(e)
-      this.addChangeListener(e)
 
       for (let eventType of this._changeEvents) {
-        this.addChangeListener(e, eventType)
+        this.props.addEvent(e, eventType, this.on)
       }
 
-      e.addEventListener('animationstart', () => this._started = true)
-      e.addEventListener('transitionstart', () => this._started = true)
-      e.addEventListener('animationend', this.off)
-      e.addEventListener('transitionend', this.off)
-    }
-  }
-
-  addChangeListener (el, type) {
-    el.addEventListener(type, this.on)
-  }
-
-  removeChangeListener (el, type) {
-    if (el !== null) {
-      el.removeEventListener(type, this.on)
-    }
-  }
-
-  removeAllListeners () {
-    for (let ref of this._willChange) {
-      for (let eventType of this._changeEvents) {
-        this.removeChangeListener(ref, eventType)
-      }
-
-      ref.removeEventListener('animationend', this.off)
-      ref.removeEventListener('transitionend', this.off)
+      this.props.addEvent(e, 'animationstart', () => this._started = true)
+      this.props.addEvent(e, 'transitionstart', () => this._started = true)
+      this.props.addEvent(e, 'animationend', this.off)
+      this.props.addEvent(e, 'transitionend', this.off)
     }
   }
 
@@ -231,7 +212,6 @@ export class WillChange extends React.PureComponent {
 
   componentWillUnmount () {
     this.clearStaleTimeout()
-    this.removeAllListeners()
   }
 
   willChange = () => this.on(true)
@@ -278,6 +258,9 @@ export class WillChange extends React.PureComponent {
       off,
       toggle,
       staleTimeout,
+      addEvent,
+      removeEvent,
+      removeAllEvents,
       ...props
     } = this.props
 
@@ -292,7 +275,7 @@ export class WillChange extends React.PureComponent {
     )
 
     /** willChangeRef, willChange, style */
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         ...props,
@@ -305,7 +288,7 @@ export class WillChange extends React.PureComponent {
 }
 
 
-const composedWillChange = compose([Toggle, WillChange])
+const composedWillChange = compose([EventTracker, Toggle, WillChange])
 
 export default props => composedWillChange({
   initialValue: false,

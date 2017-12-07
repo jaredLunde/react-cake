@@ -1,7 +1,7 @@
 import requestAnimationFrame, {cancelAnimationFrame} from './requestAnimationFrame'
 
 
-export default cb => {
+export default function (cb) {
   let frame
 
   const later = (thisArg, args) => () => {

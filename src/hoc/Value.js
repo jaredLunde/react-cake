@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {cloneIfElement} from '../utils'
+import {createOptimized} from '../utils'
 
 
 const promiseToSetState = (this_, state) => new Promise(
@@ -51,7 +51,7 @@ export default class Value extends React.PureComponent {
     const {children, propName, ...props} = this.props
 
     /** value, setValue, resetValue, clearValue */
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         setValue,

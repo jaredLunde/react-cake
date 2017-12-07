@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {setOrientation} from '../ImageStat'
-import {cloneIfElement} from '../../utils'
+import {createOptimized} from '../../utils'
 import {win, winScreen} from './statics'
 import ViewportSize, {getViewportWidth, getViewportHeight} from './ViewportSize'
 
@@ -41,7 +41,7 @@ export const ViewportOrientation = ({
   viewportWidth,
   viewportHeight,
   ...props
-}) => cloneIfElement(
+}) => createOptimized(
   _viewportOrientationChildren,
   {
     viewportWidth,

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {cloneIfElement, selectProps, compose} from '../../utils'
+import {createOptimized, selectProps, compose} from '../../utils'
 import viewportContextTypes from './contextTypes'
 import Subscriptions from '../Subscriptions'
 import ViewportOrientation from './ViewportOrientation'
@@ -148,7 +148,7 @@ export class Viewport extends React.PureComponent {
       ...props
     } = this.props
 
-    return cloneIfElement(children, props)
+    return createOptimized(children, props)
   }
 }
 

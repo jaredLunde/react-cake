@@ -1,4 +1,4 @@
-const reduce = (reducer, initialProps, ...propObjects) => {
+function reduce (reducer, initialProps, ...propObjects) {
   const props = {}
   let newProps = []
 
@@ -27,15 +27,20 @@ const reduce = (reducer, initialProps, ...propObjects) => {
   return props
 }
 
-export const selectProps = (initialProps, ...propObjects) => reduce(
-  (index, propVal) => index > -1,
-  initialProps,
-  ...propObjects
-)
+
+export function selectProps (initialProps, ...propObjects) {
+  return reduce(
+    (index, propVal) => index > -1,
+    initialProps,
+    ...propObjects
+  )
+}
 
 
-export default (initialProps, ...propObjects) => reduce(
-  (index, propVal) => index === -1,
-  initialProps,
-  ...propObjects
-)
+export default function (initialProps, ...propObjects) {
+  return reduce(
+    (index, propVal) => index === -1,
+    initialProps,
+    ...propObjects
+  )
+}

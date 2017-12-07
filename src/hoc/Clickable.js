@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import EventTracker from './EventTracker'
 import {childIsFunctionInvariant} from '../invariants'
-import {reduceProps, callIfExists, cloneIfElement} from '../utils'
+import {reduceProps, callIfExists, compose, createOptimized} from '../utils'
 
 
 /**
@@ -76,7 +77,7 @@ const isClickOfType = (e, types) => {
 
 
 // For a click to fire it must satisfy all provided conditions
-export default class Clickable extends React.PureComponent {
+export class Clickable extends React.PureComponent {
   static propTypes = {
     clickTypes: ImmutablePropTypes.list,
     // Click Types
@@ -159,31 +160,17 @@ export default class Clickable extends React.PureComponent {
   clickableRef = e => {
     const clickableChanged = this._clickable !== e
     if (this._clickable !== null && clickableChanged) {
-      this.removeClickListener(this._clickable)
+      this.props.removeAllEvents(this._clickable)
     }
 
     if (clickableChanged) {
       this._clickable = e
-      this.addClickListener(e)
-    }
-  }
-
-  addClickListener (e) {
-    e.addEventListener('click', this.onClick)
-  }
-
-  removeClickListener (e) {
-    if (e !== null) {
-      e.removeEventListener('click', this.onClick)
+      this.props.addEvent(e, 'click', this.onClick)
     }
   }
 
   componentWillUpdate (nextProps) {
     this.setupClickTypes(nextProps)
-  }
-
-  componentWillUnmount () {
-    this.removeClickListener(this._clickable)
   }
 
   onClick = e => {
@@ -218,12 +205,21 @@ export default class Clickable extends React.PureComponent {
   }
 
   render () {
-    let {children, clickTypes, onClick, preventDefault, ...props} = this.props
+    let {
+      children,
+      clickTypes,
+      onClick,
+      preventDefault,
+      addEvent,
+      removeEvent,
+      removeAllEvents,
+      ...props
+    } = this.props
     props = reduceProps(props, Clickable.clickTypes)
     const {clickableRef} = this
     const {rectX, rectY, ...state} = this.state
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         clickableRef,
@@ -233,3 +229,6 @@ export default class Clickable extends React.PureComponent {
     )
   }
 }
+
+
+export default compose([EventTracker, Clickable])

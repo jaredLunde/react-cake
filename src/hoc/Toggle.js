@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {fromJS} from 'immutable'
-import {callIfExists, cloneIfElement} from '../utils'
+import {callIfExists, createOptimized} from '../utils'
 import {exactSizeInvariant, includesInvariant} from '../invariants'
 
 
@@ -118,7 +118,7 @@ export default class Toggle extends React.PureComponent {
     }
 
     /** toggle, on, off, value */
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         toggle,

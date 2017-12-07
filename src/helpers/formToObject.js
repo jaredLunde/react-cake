@@ -4,7 +4,7 @@ import {findDomNodes} from '../utils'
 const _inputNodes = ['input', 'textarea', 'select']
 const _nodeFilter = c => _inputNodes.indexOf(c.nodeName.toLowerCase()) > -1
 
-export const formToObject = node => {
+export function formToObject (node) {
   if (node === null ||  node === void 0) {
     return {}
   }
@@ -29,7 +29,7 @@ export const formToJson = node => JSON.stringify(formToObject(node))
 const _checkboxBools = ['on', 'off', 'true', 'false']
 const _checkboxFalse = ['off', 'false']
 
-export const castPayload = node => {
+export function castPayload (node) {
   if (node === void 0 || node === null) {
     return null
   }
@@ -53,7 +53,7 @@ export const castPayload = node => {
          node.value
 }
 
-export const recomposePayload = (payload, child, parts) => {
+export function recomposePayload (payload, child, parts) {
   if (parts.length === 0) {
     if (payload !== void 0 && payload !== null) {
       (payload.push === void 0 ? [payload] : payload).push(castPayload(child))

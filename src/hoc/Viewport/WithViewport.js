@@ -1,7 +1,7 @@
 import React from 'react'
 import Viewport, {Viewport as RawViewport} from './Viewport'
 import contextTypes from './contextTypes'
-import {withContextFrom, cloneIfElement, reduceProps, compose} from '../../utils'
+import {withContextFrom, createOptimized, reduceProps, compose} from '../../utils'
 
 
 /**
@@ -24,7 +24,7 @@ export const ViewportContext = withContextFrom(RawViewport)
 const MaybeIncludeViewport = ({inFullView, children, ...props}) =>
   inFullView === void 0
   ? Viewport({children, ...reduceProps(props, contextTypes)})
-  : cloneIfElement(children, {inFullView, ...props})
+  : createOptimized(children, {inFullView, ...props})
 
 
 export default compose([ViewportContext, MaybeIncludeViewport])

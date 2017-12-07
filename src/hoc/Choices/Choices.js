@@ -5,7 +5,7 @@ import memoize from 'fast-memoize'
 import {includesInvariant} from '../../invariants'
 import boundChoices from './boundChoices'
 import boundSelections from './boundSelections'
-import {getItemsComponent, callIfExists, cloneIfElement} from '../../utils'
+import {getItemsComponent, callIfExists, createOptimized} from '../../utils'
 import Subscriptions from '../Subscriptions'
 
 /**
@@ -347,7 +347,7 @@ export class Choices extends React.PureComponent {
       ...props
     } = this.props
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         select: this.select,

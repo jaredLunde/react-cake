@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import {childIsFunctionInvariant, minSizeInvariant} from '../../invariants'
-import {callIfExists, cloneIfElement} from '../../utils'
+import {callIfExists, createOptimized} from '../../utils'
 import {boundAddItem} from './addItem'
 import {boundDeleteItem} from './deleteItem'
 
@@ -128,7 +128,7 @@ export default class Items extends React.PureComponent {
     } = this
     props[propName] = this.state[propName]
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         addItem,

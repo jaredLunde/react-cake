@@ -2,7 +2,7 @@ import requestTimeout, {clearRequestTimeout} from './requestTimeout'
 
 
 /** Credit to lodash, all I did was switch to requestTimeout */
-export default (func, wait, options) => {
+export default function (func, wait, options) {
   let lastArgs,
     lastThis,
     maxWait,

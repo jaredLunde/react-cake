@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import decr, {boundDecr} from './decr'
 import incr, {boundIncr} from './incr'
-import {callIfExists, cloneIfElement} from '../../utils'
+import {callIfExists, createOptimized} from '../../utils'
 import {childIsFunctionInvariant} from '../../invariants'
 
 
@@ -110,7 +110,7 @@ export default class Counter extends React.PureComponent {
       ...props
     } = this.props
 
-    return cloneIfElement(
+    return createOptimized(
       children,
       {
         incr: this.incr,

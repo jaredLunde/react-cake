@@ -1,6 +1,6 @@
 import React from 'react'
 import toParagraphs from './toParagraphs'
-import {cloneIfElement} from '../../utils'
+import {createOptimized} from '../../utils'
 
 export default ({children, text, ...props}) => {
   if (!children) {
@@ -9,5 +9,5 @@ export default ({children, text, ...props}) => {
 
   const paragraphs = toParagraphs(text, props)
 
-  return cloneIfElement(children, {paragraphs})
+  return createOptimized(children, {paragraphs})
 }
