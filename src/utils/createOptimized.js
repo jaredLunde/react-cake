@@ -12,7 +12,7 @@ export default function (Component, props) {
     ? Component(props)
     : typeOfComponent === 'string'
       ? Component
-      : React.isValidElement(Component)
-        ? React.cloneElement(Component, props)
-        : React.createElement(Component, props)
+      : prototype && prototype.isReactComponent
+        ? React.createElement(Component, props)
+        : React.cloneElement(Component, props)
 }

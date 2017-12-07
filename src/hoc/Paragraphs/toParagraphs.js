@@ -6,7 +6,7 @@ import toBreaks from './toBreaks'
 
 const _pRe = /(\n{2})/g
 
-export default (children, props) => {
+export default function (children, props) {
   if (!children) {
     return children
   }

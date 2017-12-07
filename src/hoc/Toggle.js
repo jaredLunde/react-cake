@@ -91,7 +91,7 @@ export default class Toggle extends React.PureComponent {
     })
   }
 
-  componentWillUpdate ({initialValue, propName}) {
+  componentWillReceiveProps ({initialValue, propName}) {
     if (this.props.initialValue !== initialValue) {
       this.setState({[propName]: initialValue})
     }

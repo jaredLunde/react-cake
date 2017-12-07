@@ -1,16 +1,19 @@
 function displayName (Component) {
-  if (!Component || typeof Component === 'string' || typeof Component === 'number') {
-    return 'Unknown'
-  }
-
-  const nOrD = Component.name || Component.displayName
-  if (nOrD) {
-    return nOrD
-  }
-
-  const tOrC = Component.constructor ? Component.constructor : Component.type ? Component.type : Component
-
-  return tOrC.displayName || 'Unknown'
+  return (
+       !Component
+    || typeof Component === 'string'
+    || typeof Component === 'number'
+  )
+    ? 'Unknown'
+    : Component.name
+      ? Component.name
+      : Component.displayName
+        ? Component.displayName
+        : Component.constructor
+          ? Component.constructor.displayName || 'Unknown'
+          : Component.type
+            ? Component.type.displayName || 'Unknown'
+            : 'Unknown'
 }
 
 export default displayName

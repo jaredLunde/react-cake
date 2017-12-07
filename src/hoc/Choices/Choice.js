@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Choices} from './Choices'
 import WithChoices from './WithChoices'
-import {createOptimized, reduceProps} from '../../utils'
+import {createOptimized, reduceProps, compose} from '../../utils'
 
 
 class Choice extends React.PureComponent {
@@ -35,7 +35,7 @@ class Choice extends React.PureComponent {
     props = reduceProps(props, Choices.childContextTypes)
     const {select, deselect, toggle} = this
     const {isSelected} = this.state
-    
+
     return createOptimized(
       children,
       {
@@ -51,10 +51,4 @@ class Choice extends React.PureComponent {
 }
 
 
-export default ({children, ...props}) => (
-  <WithChoices>
-    <Choice {...props}>
-      {children}
-    </Choice>
-  </WithChoices>
-)
+export default compose([WithChoices, Choice])

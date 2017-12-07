@@ -1,7 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Point from './Point'
-import {callIfExists, createOptimized} from '../utils'
+import {callIfExists, compose, createOptimized} from '../utils'
 
 
 /**
@@ -42,57 +41,34 @@ import {callIfExists, createOptimized} from '../utils'
 </Movable>
 */
 
+export function Movable ({children, style, x, y, z, ...props}) {
+  let transform = style && style.transform ? style.transform.split(' ') : []
+  transform.push(`translate3d(${x}px, ${y}px, ${z || 0})`)
+  transform = transform.join(' ')
 
-export class Movable extends React.PureComponent {
-  static propTypes = {
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
+  style = {
+    ...style,
+    MozTransform: transform,
+    MsTransform: transform,
+    WebkitTransform: transform,
+    transform
   }
 
-  render () {
-    let {children, style, x, y, z, ...props} = this.props
-    let transform = style && style.transform ? style.transform.split(' ') : []
-    transform.push(`translate3d(${x}px, ${y}px, ${z || 0})`)
-    transform = transform.join(' ')
-
-    style = Object.assign({}, style, {
-      MozTransform: transform,
-      MsTransform: transform,
-      WebkitTransform: transform,
-      transform
-    })
-
-    return createOptimized(
-      children, {
-        style,
-        x,
-        y,
-        ...props
-      }
-    )
-  }
+  return createOptimized(
+    children,
+    {
+      style,
+      x,
+      y,
+      ...props
+    }
+  )
 }
 
 
-export default ({
-  initialX,
-  initialY,
-  minX,
-  maxX,
-  minY,
-  maxY,
-  onMove,
-  ...props
-}) => (
-  <Point
-    initialX={initialX}
-    initialY={initialY}
-    minX={minX}
-    maxX={maxX}
-    minY={minY}
-    maxY={maxY}
-    onChange={onMove}
-  >
-    <Movable {...props}/>
-  </Point>
-)
+const ComposedMovable = compose([Point, Movable])
+
+
+export default function ({onMove, ...props}) {
+  return ComposedMovable({onChange: onMove, ...props})
+}

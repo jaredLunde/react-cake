@@ -57,16 +57,6 @@ const ListOfItems = props => (
   </ItemList>
 )
 */
-export default class ItemList extends React.PureComponent {
-  static propTypes = {
-    initialItems: ImmutablePropTypes.list.isRequired
-  }
-
-  static defaultProps = {
-    initialItems: List()
-  }
-
-  render () {
-    return React.createElement(Items, this.props)
-  }
+export default function ({initialItems = List(), ...props}) {
+  return React.createElement(Items, {initialItems, ...props})
 }

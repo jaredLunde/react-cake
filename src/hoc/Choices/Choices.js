@@ -5,7 +5,7 @@ import memoize from 'fast-memoize'
 import {includesInvariant} from '../../invariants'
 import boundChoices from './boundChoices'
 import boundSelections from './boundSelections'
-import {getItemsComponent, callIfExists, createOptimized} from '../../utils'
+import {getItemsComponent, callIfExists, createOptimized, compose} from '../../utils'
 import Subscriptions from '../Subscriptions'
 
 /**
@@ -72,25 +72,19 @@ const FavoritePets = props => (
 
 
 const _getItemsComponent = memoize(initialItems => getItemsComponent(initialItems))
+const ComposedChoices = compose([Subscriptions, ChoiceItems])
 
 
-export default ({choicesPropName, selectionsPropName, ...props}) => {
-  choicesPropName = choicesPropName || 'choices'
-  selectionsPropName = selectionsPropName || 'selections'
-
-  return (
-    <Subscriptions>
-      <ChoiceItems
-        choicesPropName={choicesPropName}
-        selectionsPropName={selectionsPropName}
-        {...props}
-      />
-    </Subscriptions>
-  )
+export default function ({
+  choicesPropName = 'choices',
+  selectionsPropName = 'selections',
+  ...props
+}) {
+  return ComposedChoices({choicesPropName, selectionsPropName, ...props})
 }
 
 
-const ChoiceItems = ({
+function ChoiceItems ({
   initialChoices,
   minChoices,
   maxChoices,
@@ -98,25 +92,28 @@ const ChoiceItems = ({
   onBoundMinChoices,
   onBoundMaxChoices,
   ...props
-}) => {
+}) {
   const ChoicesComponent = _getItemsComponent(initialChoices)
 
-  return (
-    <ChoicesComponent
-      propName={choicesPropName}
-      initialItems={initialChoices}
-      minItems={minChoices}
-      maxItems={maxChoices}
-      onBoundMin={boundChoices(onBoundMinChoices, choicesPropName)}
-      onBoundMax={boundChoices(onBoundMaxChoices, choicesPropName)}
-    >
-      <SelectionItems choicesPropName={choicesPropName} {...props}/>
-    </ChoicesComponent>
-  )
+  return ChoicesComponent({
+    propName: choicesPropName,
+    initialItems: initialChoices,
+    minItems: minChoices,
+    maxItems: maxChoices,
+    onBoundMin: boundChoices(onBoundMinChoices, choicesPropName),
+    onBoundMax: boundChoices(onBoundMaxChoices, choicesPropName),
+    children: function (moreProps) {
+      return SelectionItems({
+        choicesPropName,
+        ...props,
+        ...moreProps
+      })
+    }
+  })
 }
 
 
-const SelectionItems = ({
+function SelectionItems ({
   choicesPropName,
   selectionsPropName,
   initialSelections,
@@ -130,7 +127,7 @@ const SelectionItems = ({
   notify,
   subscriptions,
   ...initialProps
-}) => {
+}) {
   const SelectionsComponent = _getItemsComponent(initialSelections)
 
   let {
@@ -150,33 +147,33 @@ const SelectionItems = ({
   props.setChoicesItems = setItems
   props.includesChoices = includes
 
-  return (
-    <SelectionsComponent
-      propName={selectionsPropName}
-      initialItems={initialSelections}
-      minItems={minSelections}
-      maxItems={maxSelections}
-      onAdd={onSelect}
-      onDelete={onDeselect}
-      onChange={function (...args) {
-        notify(...args)
-        callIfExists(onChange, ...args)
-      }}
-      onBoundMin={boundSelections(onBoundMinSelections, selectionsPropName)}
-      onBoundMax={boundSelections(onBoundMaxSelections, selectionsPropName)}
-    >
-      <ChoicesWrapper
-        selectionsPropName={selectionsPropName}
-        choicesPropName={choicesPropName}
-        minSelections={minSelections}
-        {...props}
-      />
-    </SelectionsComponent>
-  )
+  return SelectionsComponent({
+    propName: selectionsPropName,
+    initialItems: initialSelections,
+    minItems: minSelections,
+    maxItems: maxSelections,
+    onAdd: onSelect,
+    onDelete: onDeselect,
+    onChange: function (...args) {
+      notify(...args)
+      callIfExists(onChange, ...args)
+    },
+    onBoundMin: boundSelections(onBoundMinSelections, selectionsPropName),
+    onBoundMax: boundSelections(onBoundMaxSelections, selectionsPropName),
+    children: function (moreProps) {
+      return ChoicesWrapper({
+        selectionsPropName,
+        choicesPropName,
+        minSelections,
+        ...props,
+        ...moreProps
+      })
+    }
+  })
 }
 
 
-const ChoicesWrapper = ({
+function ChoicesWrapper ({
   addChoicesItem,
   deleteChoicesItem,
   clearChoicesItems,
@@ -188,23 +185,25 @@ const ChoicesWrapper = ({
   clearItems,
   includes,
   ...props
-}) => (
-  <Choices
-    select={addItem}
-    deselect={deleteItem}
-    setSelections={setItems}
-    isSelected={includes}
-    clearSelections={clearItems}
+}) {
+  return (
+    <Choices
+      select={addItem}
+      deselect={deleteItem}
+      setSelections={setItems}
+      isSelected={includes}
+      clearSelections={clearItems}
 
-    addChoice={addChoicesItem}
-    deleteChoice={deleteChoicesItem}
-    setChoices={setChoicesItems}
-    clearChoices={clearChoicesItems}
-    isChoice={includesChoices}
+      addChoice={addChoicesItem}
+      deleteChoice={deleteChoicesItem}
+      setChoices={setChoicesItems}
+      clearChoices={clearChoicesItems}
+      isChoice={includesChoices}
 
-    {...props}
-  />
-)
+      {...props}
+    />
+  )
+}
 
 
 export class Choices extends React.PureComponent {

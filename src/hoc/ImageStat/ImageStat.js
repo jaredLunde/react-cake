@@ -23,18 +23,20 @@ export default class ImageStat extends React.PureComponent {
 
   setStats () {
     if (this._image !== null) {
-      loadImage(this._image).then(({target}) => {
-        const {width, height, naturalWidth, naturalHeight} = target
+      loadImage(this._image).then(
+        ({target}) => {
+          const {width, height, naturalWidth, naturalHeight} = target
 
-        this.setState({
-          ...setOrientation({width: naturalWidth, height: naturalHeight}),
-          width,
-          height,
-          naturalWidth,
-          naturalHeight,
-          complete: true
-        })
-      })
+          this.setState({
+            ...setOrientation({width: naturalWidth, height: naturalHeight}),
+            width,
+            height,
+            naturalWidth,
+            naturalHeight,
+            complete: true
+          })
+        }
+      )
     }
   }
 

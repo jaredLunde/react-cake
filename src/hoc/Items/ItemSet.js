@@ -60,16 +60,6 @@ const OrderedSetOfItems = props => (
 */
 
 
-export default class ItemSet extends React.PureComponent {
-  static propTypes = {
-    initialItems: ImmutablePropTypes.set.isRequired
-  }
-
-  static defaultProps = {
-    initialItems: Set()
-  }
-
-  render () {
-    return React.createElement(Items, this.props)
-  }
+export default function ({initialItems = Set(), ...props}) {
+  return React.createElement(Items, {initialItems, ...props})
 }

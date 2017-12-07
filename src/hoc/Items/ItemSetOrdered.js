@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
 import {OrderedSet} from 'immutable'
 import Items from './Items'
 
@@ -59,16 +58,6 @@ const OrderedSetOfItems = props => (
 */
 
 
-export default class ItemSetOrdered extends React.PureComponent {
-  static propTypes = {
-    initialItems: ImmutablePropTypes.orderedSet.isRequired
-  }
-
-  static defaultProps = {
-    initialItems: OrderedSet()
-  }
-
-  render () {
-    return React.createElement(Items, this.props)
-  }
+export default function ({initialItems = OrderedSet(), ...props}) {
+  return React.createElement(Items, {initialItems, ...props})
 }

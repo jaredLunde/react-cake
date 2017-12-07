@@ -57,7 +57,7 @@ export default class SizeObserver extends React.PureComponent {
   recalcSize = () => this.setState(
     ({width, height}) => {
       let newWidth, newHeight
-      
+
       if (this.props.useBoundingRect) {
         let rect = rect(this.element)
         newWidth = rect.width
@@ -76,7 +76,6 @@ export default class SizeObserver extends React.PureComponent {
   )
 
   element = null
-
   sizeRef = element =>  this.element = element
 
   render () {

@@ -63,8 +63,8 @@ import ViewportQueries from './ViewportQueries'
 **/
 
 const _propsWithNotification = [
-  'orientation',
-  'screenOrientation',
+  // 'orientation',
+  // 'screenOrientation',
   'viewportWidth',
   'viewportHeight',
   'scrollX',
@@ -113,12 +113,7 @@ export class Viewport extends React.PureComponent {
         'unsubscribe',
       ]
     )
-    // const {getViewportScroll} = this
 
-    // return {
-    //   getViewportScroll,
-    //   ...selectedProps
-    // }
     return selectedProps
   }
 
@@ -135,7 +130,6 @@ export class Viewport extends React.PureComponent {
       }
     }
   }
-  // getViewportScroll = () => ({x: this.props.scrollX, y: this.props.scrollY})
 
   render () {
     const {

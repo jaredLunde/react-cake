@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from './EventTracker'
-import {createOptimized, throttle, compose} from '../utils'
+import Throttle from './Throttle'
+import {createOptimized, compose} from '../utils'
 
 
 export const rect = (el, leeway) => {
@@ -79,31 +80,22 @@ export class Rect extends React.PureComponent {
 
   _listeners = []
 
-  constructor (props) {
-    super(props)
-    this.throttledRecalcRect = throttle(this.recalcRect)
-  }
-
   componentDidMount () {
-    if (this.recalcOnWindowChange) {
-      this.props.addEvent(window, 'resize', this.throttledRecalcRect)
-      this.props.addEvent(window, 'scroll', this.throttledRecalcRect)
-      this.props.addEvent(window, 'orientationchange', this.throttledRecalcRect)
+    if (this.props.recalcOnWindowChange) {
+      this.props.addEvent(window, 'resize', this.recalcRect)
+      this.props.addEvent(window, 'scroll', this.recalcRect)
+      this.props.addEvent(window, 'orientationchange', this.recalcRect)
     }
-  }
-
-  componentWillUnmount () {
-    this.throttledRecalcRect.cancel()
   }
 
   rectRef = e => {
     if (e !== null && e !== this.element) {
       this.element = e
-      this.throttledRecalcRect()
+      this.recalcRect()
     }
   }
 
-  recalcRect = () => this.setState(this.getRect())
+  recalcRect = () => this.throttleState(this.getRect())
   getRect = () => rect(this.element)
 
   render () {
@@ -115,14 +107,14 @@ export class Rect extends React.PureComponent {
       removeAllEvents,
       ...props
     } = this.props
-    const {throttledRecalcRect, rectRef, getRect, state} = this
+    const {recalcRect, rectRef, getRect, state} = this
 
     /** rectRef, recalcRect, getRect, top, right, bottom, left, width, height */
     return createOptimized(
       children,
       {
         rectRef,
-        recalcRect: throttledRecalcRect,
+        recalcRect,
         getRect,
         ...props,
         ...(withPosition ? state : {})
@@ -132,4 +124,4 @@ export class Rect extends React.PureComponent {
 }
 
 
-export default compose([EventTracker, Rect])
+export default compose([EventTracker, Throttle, Rect])
