@@ -6,15 +6,9 @@ import {createOptimized, callIfExists, getUniqueID} from '../utils'
 
 
 /**
-<WithInject>
-  {
-    ({injectRef}) => (
-      <Inject entry={() => document.getElementById('root')} ref={injectRef}>
-        <div>Inject me</div>
-      </Inject>
-    )
-  }
-</WithInject>
+<Inject entry={() => document.getElementById('root')}>
+  <div>Inject me</div>
+</Inject>
 */
 export default class Inject extends React.PureComponent {
   static propTypes = {
@@ -22,82 +16,24 @@ export default class Inject extends React.PureComponent {
   }
 
   static defaultProps = {
-    entry: () => document.getElementById('injections')
-  }
-
-  setRef = e => this.element = e
-  element = null
-
-  injectElement (id) {
-    if (this.element !== null) {
-      return
-    }
-
-    this.element = document.createElement('div')
-    this.element.setAttribute('id', `inject__${id}`)
-
-    this.props.entry().appendChild(this.element)
-  }
-
-  inject (id) {
-    const {children, entry, subscribe} = this.props
-    this.injectElement(id)
-    ReactDOM.render(
-      createOptimized(children, this.state),
-      this.element
-    )
-  }
-
-  eject = () => {
-    if (this.element) {
-      ReactDOM.unmountComponentAtNode(this.element)
-      this.props.entry().removeChild(this.element)
-      this.element = null
+    entry: function () {
+      return document.getElementById('injections')
     }
   }
-
-  id = null
 
   componentDidMount () {
-    this.id = getUniqueID()
-    this.inject(this.id)
-  }
-
-  componentDidUpdate () {
-    this.inject(this.id)
-  }
-
-  componentWillUnmount () {
-    this.eject()
-  }
-
-  render () {
-    return null
-  }
-}
-
-
-export class WithInject extends React.PureComponent {
-  setInjectRef = e => {
-    this.injection = e
-  }
-
-  componentWillUnmount () {
-    if (this.injection) {
-      this.injection.eject()
-      this.injection = null
+    if (this.props.entry() === null) {
+      this.forceUpdate()
     }
   }
 
   render () {
-    const {children, ...props} = this.props
+    const {children, entry} = this.props
 
-    return createOptimized(
-      children,
-      {
-        injectRef: this.setInjectRef,
-        ...props
-      }
-    )
+    if (entry() === null) {
+      return null
+    }
+
+    return ReactDOM.createPortal(children, entry())
   }
 }

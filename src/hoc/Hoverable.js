@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
 import EventTracker from './EventTracker'
-import {createOptimized, compose} from '../utils'
+import {createOptimized, compose, requestTimeout, clearRequestTimeout} from '../utils'
 import {childIsFunctionInvariant} from '../invariants'
 
 
@@ -41,17 +41,23 @@ export class Hoverable extends React.PureComponent {
   _hoverable = null
   _timeout = null
 
+  componentWillUnmount () {
+    if (this._timeout) {
+      clearRequestTimeout(this._timeout)
+    }
+  }
+
   control (onOrOff, delay) {
     if (!canHover) {
       return
     }
 
     if (this._timeout) {
-      window.clearTimeout(this._timeout)
+      clearRequestTimeout(this._timeout)
     }
 
     if (delay) {
-      this._timeout = window.setTimeout(onOrOff, delay)
+      this._timeout = requestTimeout(onOrOff, delay)
     } else {
       onOrOff()
     }

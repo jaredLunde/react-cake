@@ -54,13 +54,19 @@ export class ViewportScroll extends React.PureComponent {
   static defaultProps = {
     withCoords: true
   }
-  
+
+  state = {scrollX: 0, scrollY: 0}
+
   constructor (props) {
     super(props)
     props.addEvent(win, 'scroll', this.setScroll)
   }
 
-  setScroll = () => this.forceUpdate()
+  componentWillUnmount () {
+    this.setScroll.cancel()
+  }
+
+  setScroll = throttle(() => this.setState(getScroll()))
   getViewportScroll = getScroll
 
   render () {
@@ -74,7 +80,6 @@ export class ViewportScroll extends React.PureComponent {
     } = this.props
     const {getViewportScroll} = this
     const {scrollTo} = win
-    const {scrollX, scrollY} = getScroll()
 
     return createOptimized(
       children,
@@ -87,7 +92,7 @@ export class ViewportScroll extends React.PureComponent {
         inFullViewY: inFullViewViewportY,
         inFullView: inFullViewViewport,
         getViewportScroll,
-        ...(withCoords === true ? {scrollX, scrollY} : {}),
+        ...(withCoords === true ? this.state : {}),
         ...props
       }
     )

@@ -45,11 +45,12 @@ export Viewport, {
   ViewportScroll,
   ViewportQueries,
   WithViewport,
+  withViewport,
   ViewportContext,
 } from './Viewport'
 
 export ImageStat, {setOrientation} from './ImageStat'
-export Inject, {WithInject} from './Inject'
+export Inject from './Inject'
 export Paragraphs, {toBreaks, toParagraphs} from './Paragraphs'
 export Subscriptions from './Subscriptions'
 export Toggle, {toggle} from './Toggle'

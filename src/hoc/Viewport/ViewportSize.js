@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
-import {createOptimized, compose} from '../../utils'
+import {createOptimized, compose, throttle} from '../../utils'
 import {getAspect} from './ViewportQueries'
 import {win, winScreen, docEl} from './statics'
 
@@ -40,11 +40,16 @@ export class ViewportSize extends React.PureComponent {
   constructor (props) {
     super(props)
     const {addEvent} = props
-    addEvent(win, 'resize', this.setStats)
-    addEvent(win, 'orientationchange', this.setStats)
+    addEvent(win, 'resize', this.setSize)
+    addEvent(win, 'orientationchange', this.setSize)
+    this.state = getSize()
   }
 
-  setStats = () => this.forceUpdate()
+  componentWillUnmount () {
+    this.setSize.cancel()
+  }
+  setSize = throttle(() => this.setState(getSize()))
+
   getViewportSize = getViewportSize
 
   render () {
@@ -62,7 +67,7 @@ export class ViewportSize extends React.PureComponent {
       {
         getAspect,
         getViewportSize,
-        ...getSize(),
+        ...this.state,
         ...props
       }
     )
