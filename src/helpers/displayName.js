@@ -5,10 +5,10 @@ function displayName (Component) {
     || typeof Component === 'number'
   )
     ? 'Unknown'
-    : Component.name
-      ? Component.name
-      : Component.displayName
-        ? Component.displayName
+    : Component.displayName
+      ? Component.displayName
+      : Component.name
+        ? Component.name
         : Component.constructor
           ? Component.constructor.displayName || 'Unknown'
           : Component.type

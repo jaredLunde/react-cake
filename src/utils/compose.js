@@ -30,7 +30,7 @@ export default function (Components) {
   }
 
   const names = Components.map(Component => displayName(Component))
-  Object.defineProperty(Output, 'name', {value: `compose(${names.join(', ')})`})
+  Output.displayName = `compose(${names.join(', ')})`
 
   return Output
 }
