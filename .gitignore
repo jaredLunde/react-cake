@@ -3,5 +3,5 @@ node_modules
 commonjs/
 es/
 .DS_Store
-
+yarn-error.log
 dist/react-cake.js
