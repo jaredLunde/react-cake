@@ -1,6 +1,6 @@
 {
   "name": "react-cake",
-  "version": "0.3.0-alpha.0",
+  "version": "0.3.0",
   "main": "es/index",
   "module": "es/index",
   "jsnext:main": "es/index",
@@ -64,8 +64,6 @@
     "cancelable-promise": "^2.3.0",
     "fast-memoize": "^2.2.7",
     "invariant": "^2.2.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "react-immutable-proptypes": "^2.1.0"
   }
 }
