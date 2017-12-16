@@ -16,7 +16,6 @@ export default class Subscriptions extends React.PureComponent {
       children,
       {
         ...props,
-        subscriptions,
         subscribe,
         unsubscribe,
         notify

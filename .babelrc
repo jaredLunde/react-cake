@@ -13,12 +13,17 @@
             }
           }
         ],
-        "@babel/preset-stage-0"
+        "@babel/preset-stage-2"
       ],
       "plugins": [
         "transform-react-pure-components",
         "@babel/plugin-transform-react-constant-elements",
         "@babel/plugin-transform-react-inline-elements",
+        "@babel/plugin-proposal-do-expressions",
+        "@babel/plugin-proposal-export-default-from",
+        "@babel/plugin-proposal-nullish-coalescing-operator",
+        "@babel/plugin-proposal-optional-chaining",
+        "@babel/plugin-proposal-pipeline-operator",
         "transform-react-remove-prop-types"
       ]
     },
@@ -36,12 +41,17 @@
             "modules": "commonjs"
           }
         ],
-        "@babel/preset-stage-0"
+        "@babel/preset-stage-2"
       ],
       "plugins": [
         "transform-react-pure-components",
         "@babel/plugin-transform-react-constant-elements",
         "@babel/plugin-transform-react-inline-elements",
+        "@babel/plugin-proposal-do-expressions",
+        "@babel/plugin-proposal-export-default-from",
+        "@babel/plugin-proposal-nullish-coalescing-operator",
+        "@babel/plugin-proposal-optional-chaining",
+        "@babel/plugin-proposal-pipeline-operator",
         "transform-react-remove-prop-types"
       ]
     },
@@ -55,12 +65,17 @@
             "useBuiltIns": "usage"
           }
         ],
-        "@babel/preset-stage-0"
+        "@babel/preset-stage-2"
       ],
       "plugins": [
         "transform-react-pure-components",
         "@babel/plugin-transform-react-constant-elements",
         "@babel/plugin-transform-react-inline-elements",
+        "@babel/plugin-proposal-do-expressions",
+        "@babel/plugin-proposal-export-default-from",
+        "@babel/plugin-proposal-nullish-coalescing-operator",
+        "@babel/plugin-proposal-optional-chaining",
+        "@babel/plugin-proposal-pipeline-operator",
         "transform-react-remove-prop-types"
       ]
     },
@@ -77,12 +92,17 @@
             }
           }
         ],
-        "@babel/preset-stage-0"
+        "@babel/preset-stage-2"
       ],
       "plugins": [
         "transform-react-pure-components",
         "@babel/plugin-transform-react-constant-elements",
         "@babel/plugin-transform-react-inline-elements",
+        "@babel/plugin-proposal-do-expressions",
+        "@babel/plugin-proposal-export-default-from",
+        "@babel/plugin-proposal-nullish-coalescing-operator",
+        "@babel/plugin-proposal-optional-chaining",
+        "@babel/plugin-proposal-pipeline-operator",
         "transform-react-remove-prop-types"
       ]
     },
@@ -96,12 +116,17 @@
             "useBuiltIns": "usage"
           }
         ],
-        "@babel/preset-stage-0"
+        "@babel/preset-stage-2"
       ],
       "plugins": [
         "transform-react-pure-components",
         "@babel/plugin-transform-react-constant-elements",
         "@babel/plugin-transform-react-inline-elements",
+        "@babel/plugin-proposal-do-expressions",
+        "@babel/plugin-proposal-export-default-from",
+        "@babel/plugin-proposal-nullish-coalescing-operator",
+        "@babel/plugin-proposal-optional-chaining",
+        "@babel/plugin-proposal-pipeline-operator",
         "transform-react-remove-prop-types"
       ]
     }

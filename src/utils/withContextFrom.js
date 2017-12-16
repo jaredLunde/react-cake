@@ -6,19 +6,21 @@ import createOptimized from './createOptimized'
 
 
 
-export default Component => class withContextFrom extends React.Component {
-  static contextTypes = Component.childContextTypes
-  static displayName = wrapDisplayName('withContextFrom', Component)
+export default function (Component) {
+  return class withContextFrom extends React.Component {
+    static contextTypes = Component.childContextTypes
+    static displayName = wrapDisplayName('withContextFrom', Component)
 
-  render () {
-    const {children, ...props} = this.props
+    render () {
+      const {children, ...props} = this.props
 
-    return createOptimized(
-      children,
-      {
-        ...props,
-        ...this.context
-      }
-    )
+      return createOptimized(
+        children,
+        {
+          ...props,
+          ...this.context
+        }
+      )
+    }
   }
 }

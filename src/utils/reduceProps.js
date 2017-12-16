@@ -16,10 +16,7 @@ function reduce (reducer, initialProps, ...propObjects) {
 
   for (let x = 0; x < initialKeys.length; x++) {
     const propName = initialKeys[x]
-    if (
-      reducer(newProps.indexOf(propName)) &&
-      initialProps[propName] !== void 0
-    ) {
+    if (reducer(newProps.indexOf(propName)) && initialProps[propName] !== void 0) {
       props[propName] = initialProps[propName]
     }
   }
