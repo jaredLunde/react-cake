@@ -1,13 +1,24 @@
 import React from 'react'
-import {Set} from 'immutable'
 import {createOptimized} from '../utils'
 
 
 export default class Subscriptions extends React.PureComponent {
-  subscriptions = Set()
-  subscribe = cb => this.subscriptions = this.subscriptions.add(cb)
-  unsubscribe = cb => this.subscriptions = this.subscriptions.delete(cb)
-  notify = (...args) => this.subscriptions.forEach(cb => cb(...args))
+  subscriptions = new Set()
+
+  subscribe = cb => {
+    this.subscriptions.add(cb)
+  }
+
+  unsubscribe = cb => {
+    this.subscriptions.delete(cb)
+  }
+
+  notify = (...args) => {
+    for (let cb of this.subscriptions) {
+      cb(...args)
+    }
+  }
+
   render () {
     const {subscriptions, subscribe, unsubscribe, notify} = this
     const {children, ...props} = this.props
