@@ -1,5 +1,5 @@
 import {List, OrderedSet} from 'immutable'
-import {ItemSetOrdered, ItemSet, ItemList} from '../hoc'
+import {ItemSetOrdered, ItemSet, ItemList} from '../../Items'
 
 
 export default function(obj) {

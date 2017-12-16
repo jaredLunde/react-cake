@@ -1,0 +1,1 @@
+export getItemsComponent from './getItemsComponent'

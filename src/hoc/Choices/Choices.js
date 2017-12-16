@@ -5,7 +5,8 @@ import memoize from 'fast-memoize'
 import {includesInvariant} from '../../invariants'
 import boundChoices from './boundChoices'
 import boundSelections from './boundSelections'
-import {getItemsComponent, callIfExists, createOptimized, compose} from '../../utils'
+import {callIfExists, createOptimized, compose} from '../../utils'
+import {getItemsComponent} from './utils'
 import Subscriptions from '../Subscriptions'
 
 /**
