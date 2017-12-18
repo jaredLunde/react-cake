@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default function (Component, props) {
+export default function (Component, props, children) {
   const typeOfComponent = typeof Component
   const prototype = Component && Component.prototype
   const isString = typeOfComponent === 'string'
@@ -14,6 +14,14 @@ export default function (Component, props) {
     : typeOfComponent === 'number' || (isString && props === void 0)
       ? Component
       : isString || (prototype && prototype.isReactComponent)
-        ? React.createElement(Component, props)
-        : React.cloneElement(Component, props)
+        ? (
+            children
+            ? React.createElement(Component, props, children)
+            : React.createElement(Component, props)
+          )
+        : (
+            children
+            ? React.cloneElement(Component, props, children)
+            : React.cloneElement(Component, props)
+          )
 }

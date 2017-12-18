@@ -87,16 +87,18 @@ export const inFullViewViewport = (el, leeway) => inFullView(el, win, leeway)
 export const getAspect = () => aspect(win)
 
 
-export default ({children, ...props}) => createOptimized(
-  children,
-  {
-    getAspect,
-    inViewportX,
-    inViewportY,
-    inViewport,
-    inFullViewX: inFullViewViewportX,
-    inFullViewY: inFullViewViewportY,
-    inFullView: inFullViewViewport,
-    ...props
-  }
-)
+export default function ({children, ...props}) {
+  return createOptimized(
+    children,
+    {
+      getAspect,
+      inViewportX,
+      inViewportY,
+      inViewport,
+      inFullViewX: inFullViewViewportX,
+      inFullViewY: inFullViewViewportY,
+      inFullView: inFullViewViewport,
+      ...props
+    }
+  )
+}
