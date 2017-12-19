@@ -3,12 +3,15 @@ import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify'
 import commonjs from 'rollup-plugin-commonjs'
+import alias from 'rollup-plugin-alias'
 
 
 var env = process.env.NODE_ENV
 var config = {
-  format: 'umd',
-  moduleName: 'Cake',
+  output: {
+    name: 'Cake',
+    format: 'umd'
+  },
   external: ['react', 'immutable'],
   globals: {
     react: 'React',
@@ -24,7 +27,8 @@ var config = {
     commonjs({
       include: 'node_modules/**',
       namedExports: {
-        'node_modules/react/react.js': ['PropTypes', 'createElement'],
+        'node_modules/react/react.js': ['createElement'],
+        'node_modules/react-dom/**': ['createPortal'],
       }
     }),
     babel({
