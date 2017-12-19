@@ -1,10 +1,10 @@
 {
   "name": "react-cake",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "main": "es/index",
   "module": "es/index",
   "jsnext:main": "es/index",
-  "esnext": "src/index",
+  "esnext": "es/index",
   "private": false,
   "peerDependencies": {
     "immutable": "^3.8.1",
@@ -15,6 +15,7 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.34",
     "@babel/core": "^7.0.0-beta.34",
+    "@babel/plugin-external-helpers": "^7.0.0-beta.35",
     "@babel/plugin-proposal-do-expressions": "^7.0.0-beta.35",
     "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.35",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0-beta.35",
@@ -22,6 +23,7 @@
     "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.35",
     "@babel/plugin-transform-react-constant-elements": "^7.0.0-beta.34",
     "@babel/plugin-transform-react-inline-elements": "^7.0.0-beta.34",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.35",
     "@babel/polyfill": "^7.0.0-beta.34",
     "@babel/preset-env": "^7.0.0-beta.34",
     "@babel/preset-react": "^7.0.0-beta.34",
@@ -31,6 +33,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.10",
     "cross-env": "^5.1.1",
     "rollup": "^0.52.1",
+    "rollup-plugin-alias": "^1.4.0",
     "rollup-plugin-babel": "^4.0.0-beta.0",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
