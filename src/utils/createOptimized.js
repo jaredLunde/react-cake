@@ -6,7 +6,7 @@ export default function (Component, props, children) {
   const prototype = Component && Component.prototype
   const isString = typeOfComponent === 'string'
 
-  if (children) {
+  if (children !== void 0) {
     props.children = children
   }
 
