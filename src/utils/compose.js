@@ -47,8 +47,14 @@ export default function (Components) {
     return NextComponent(props)
   }
 
-  const names = Components.map(Component => displayName(Component))
-  Output.displayName = `compose(${names.join(', ')})`
+  let componentNames = ''
+  for (x = 0; x <= maxIdx; x++) {
+    componentNames += displayName(Components[x])
+    if (x !== maxIdx) {
+      componentNames += ', '
+    }
+  }
 
+  Output.displayName = `compose(${componentNames})`
   return Output
 }
