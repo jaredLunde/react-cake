@@ -33,7 +33,7 @@ export default function (Component, props, children) {
     return Component(props)
   }
 
-  const shouldCreateElement = isReactComponent || typeOfComponent === 'string' || typeOfComponent === 'number'
+  const shouldCreateElement = isReactComponent || typeOfComponent === 'string'
 
   if (children !== void 0) {
     return (
