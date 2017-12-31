@@ -1,5 +1,5 @@
 import React from 'react'
-import {wrapDisplayName} from '../helpers/displayName'
+import {wrapDisplayName} from './displayName'
 import createOptimized from './createOptimized'
 
 

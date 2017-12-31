@@ -1,5 +1,5 @@
 import createOptimized from './createOptimized'
-import displayName from '../helpers/displayName'
+import displayName from './displayName'
 
 /**
 export default function (Components) {

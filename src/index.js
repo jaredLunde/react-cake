@@ -13,19 +13,6 @@
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 export Counter from './Counter'
-
-export Items, {
-  ItemList,
-  ItemSet,
-  ItemSetOrdered,
-  ItemStack
-} from './Items'
-
-export Choices, {
-  Choice,
-  WithChoices
-} from './Choices'
-
 export Point from './Point'
 
 export Viewport, {
@@ -61,5 +48,4 @@ export MousePosition from './MousePosition'
 // TODO: compartmentalize _listeners, _ticking, requestAnimationFrame
 
 export * from './utils'
-export * from './helpers'
 export * from './invariants'

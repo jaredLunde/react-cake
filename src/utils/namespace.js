@@ -4,14 +4,9 @@
  */
 import memoize from 'fast-memoize'
 import displayName from './displayName'
-import {toKebabCaseTrimmed} from '../utils'
+import {toKebabCaseTrimmed} from './toKebabCase'
+import getUniqueID from './getUniqueID'
 
-
-let _IDS = 0
-const _incrId = () => {
-  _IDS += 1
-  return _IDS
-}
 
 export const name = {
   /**
@@ -85,7 +80,7 @@ export const id = {
   /**
    * @returns {string} -> numeric ID unique to this component
    */
-  unique: memoize(() => String(_incrId())),
+  unique: memoize(() => String(getUniqueID())),
   /**
    * @returns {string} -> id name based on the name.get() and id.unique()
    */

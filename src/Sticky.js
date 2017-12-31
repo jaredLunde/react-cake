@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {fromJS} from 'immutable'
 import Rect, {rect} from './Rect'
 import Toggle from './Toggle'
 import {WithViewport} from './Viewport'
@@ -191,19 +190,19 @@ export class Sticky extends React.PureComponent {
   }
 }
 
-const stickyControls = fromJS(
-  [
-    {name: 'stick', value: true},
-    {name: 'letGo', value: false}
-  ]
-)
+const stickyControls = [
+  {name: 'stick', value: true},
+  {name: 'letGo', value: false}
+]
 
 
 const composedSticky = compose([WithViewport, Rect, Toggle, Sticky])
 
-export default ({sticky = false, ...props}) => composedSticky({
-  propName: 'isStuck',
-  initialValue: sticky,
-  controls: stickyControls,
-  ...props
-})
+export default function ({sticky = false, ...props}) {
+  return composedSticky({
+    propName: 'isStuck',
+    initialValue: sticky,
+    controls: stickyControls,
+    ...props
+  })
+}

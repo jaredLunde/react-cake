@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {fromJS} from 'immutable'
 import {callIfExists, createOptimized} from './utils'
 import {exactSizeInvariant, includesInvariant} from './invariants'
 
@@ -35,6 +34,18 @@ const Toggler = props => (
 */
 
 
+const defaultControls = [
+  {
+    name: 'on',
+    value: true
+  },
+  {
+    name: 'off',
+    value: false
+  }
+]
+
+
 export const toggle = (state, {controls, propName}) => {
   const controlValue = controls.first().get('value')
   return controlValue !== state[propName] ?
@@ -56,16 +67,7 @@ export default class Toggle extends React.PureComponent {
 
   static defaultProps = {
     propName: 'value',
-    controls: fromJS([
-      {
-        name: 'on',
-        value: true
-      },
-      {
-        name: 'off',
-        value: false
-      }
-    ]),
+    controls: defaultControls,
     initialValue: true
   }
 

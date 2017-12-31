@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
 import Toggle from './Toggle'
 import EventTracker from './EventTracker'
 import {childIsFunctionInvariant} from './invariants'
@@ -101,8 +100,8 @@ const defaultEventTypes = {
 export class WillChange extends React.PureComponent {
   static propTypes = {
     propName: PropTypes.string.isRequired,
-    properties: ImmutablePropTypes.list,
-    eventTypes: ImmutablePropTypes.list,
+    properties: PropTypes.array,
+    eventTypes: PropTypes.array,
     // Properties
     scrollPosition: PropTypes.bool,
     contents: PropTypes.bool,
