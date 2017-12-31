@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {callIfExists, createOptimized} from './utils'
+import callIfExists from './utils/callIfExists'
+import createOptimized from './utils/createOptimized'
 import {exactSizeInvariant, includesInvariant} from './invariants'
 
 
@@ -52,6 +53,7 @@ export const toggle = (state, {controls, propName}) => {
     controlValue !== state[propName]
     ? {[propName]: controlValue}
     : {[propName]: controls[controls.length - 1].value}
+  )
 }
 
 
