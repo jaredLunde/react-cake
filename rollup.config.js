@@ -12,11 +12,8 @@ var config = {
     name: 'Cake',
     format: 'umd'
   },
-  external: ['react', 'immutable'],
-  globals: {
-    react: 'React',
-    immutable: 'Immutable'
-  },
+  external: ['react'],
+  globals: {react: 'React'},
   plugins: [
     nodeResolve({
       jsnext: true,

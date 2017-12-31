@@ -47,17 +47,18 @@ const defaultControls = [
 
 
 export const toggle = (state, {controls, propName}) => {
-  const controlValue = controls.first().get('value')
-  return controlValue !== state[propName] ?
-         {[propName]: controlValue}  :
-         {[propName]: controls.last().get('value')}
+  const controlValue = controls[0].value
+  return (
+    controlValue !== state[propName]
+    ? {[propName]: controlValue}
+    : {[propName]: controls[controls.length - 1].value}
 }
 
 
 export default class Toggle extends React.PureComponent {
   static propTypes = {
     propName: PropTypes.string.isRequired,
-    controls: ImmutablePropTypes.listOf(ImmutablePropTypes.mapContains({
+    controls: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       value: PropTypes.any.isRequired,
     })).isRequired,
@@ -77,14 +78,14 @@ export default class Toggle extends React.PureComponent {
 
     exactSizeInvariant(controls, 2)
 
-    this.controlValues = controls.map(control => control.get('value'))
-    this.controlNames = controls.map(control => control.get('name'))
+    this.controlValues = controls.map(control => control.value)
+    this.controlNames = controls.map(control => control.name)
 
     includesInvariant(this.controlValues, initialValue)
 
     this.state = {[propName]: initialValue}
     this.controlNames.forEach((name, x) => this[name] = () => {
-      const value = this.controlValues.get(x)
+      const value = this.controlValues[x]
 
       this.setState(
         {[propName]: value},
@@ -99,10 +100,13 @@ export default class Toggle extends React.PureComponent {
     }
   }
 
-  toggle = () => this.setState(toggle, () => callIfExists(
-    this.props.onChange,
-    this.state[this.props.propName]
-  ))
+  toggle = () => this.setState(
+    toggle,
+    () => callIfExists(
+      this.props.onChange,
+      this.state[this.props.propName]
+    )
+  )
 
   render () {
     const {
