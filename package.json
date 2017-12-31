@@ -7,7 +7,6 @@
   "esnext": "es/index",
   "private": false,
   "peerDependencies": {
-    "immutable": "^3.8.1",
     "prop-types": "^15.5.10",
     "react": ">=15.x",
     "react-dom": ">=15.x"
@@ -33,7 +32,6 @@
     "babel-plugin-transform-react-pure-components": "^3.1.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.10",
     "cross-env": "^5.1.1",
-    "immutable": "^3.8.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "rollup": "^0.52.1",
@@ -67,10 +65,8 @@
   "analyze": true,
   "license": "MIT",
   "dependencies": {
-    "bezier-easing": "^2.0.3",
     "cancelable-promise": "^2.3.0",
     "fast-memoize": "^2.2.7",
-    "invariant": "^2.2.2",
-    "react-immutable-proptypes": "^2.1.0"
+    "invariant": "^2.2.2"
   }
 }

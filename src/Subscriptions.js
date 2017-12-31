@@ -1,5 +1,5 @@
 import React from 'react'
-import {createOptimized} from './utils'
+import createOptimized from './utils/createOptimized'
 
 
 export default class Subscriptions extends React.PureComponent {

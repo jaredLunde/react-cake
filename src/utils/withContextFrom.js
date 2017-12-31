@@ -1,9 +1,6 @@
 import React from 'react'
-import {wrapDisplayName} from '../helpers'
+import {wrapDisplayName} from '../helpers/displayName'
 import createOptimized from './createOptimized'
-
-
-
 
 
 export default function (Component) {
