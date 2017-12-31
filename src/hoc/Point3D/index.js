@@ -1,7 +1,0 @@
-export setX, {boundSetX} from './setX'
-export setY, {boundSetY} from './setY'
-export setXY, {boundSetXY} from './setXY'
-export moveX, {boundMoveX} from './moveX'
-export moveY, {boundMoveY} from './moveY'
-export moveXY, {boundMoveXY} from './moveXY'
-export default from './Point'

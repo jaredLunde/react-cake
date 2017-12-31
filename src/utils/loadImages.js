@@ -2,14 +2,16 @@ import Promise from 'cancelable-promise'
 
 
 export function loadImage (img) {
-  return new Promise((resolve, reject) => {
-    if (img.complete === true || img.naturalHeight > 0) {
-      resolve({target: img})
-    } else {
-      img.onload = resolve
-      img.onerror = reject
+  return new Promise(
+    function (resolve, reject) {
+      if (img.complete === true || img.naturalHeight > 0) {
+        resolve({target: img})
+      } else {
+        img.onload = resolve
+        img.onerror = reject
+      }
     }
-  })
+  )
 }
 
 
