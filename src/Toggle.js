@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import callIfExists from './utils/callIfExists'
 import createOptimized from './utils/createOptimized'
-import {exactSizeInvariant, includesInvariant} from './invariants'
+import {exactLengthInvariant, includesInvariant} from './invariants'
 
 
 /**
@@ -78,7 +78,7 @@ export default class Toggle extends React.PureComponent {
     super(props)
     const {controls, initialValue, propName} = props
 
-    exactSizeInvariant(controls, 2)
+    exactLengthInvariant(controls, 2)
 
     this.controlValues = controls.map(control => control.value)
     this.controlNames = controls.map(control => control.name)
