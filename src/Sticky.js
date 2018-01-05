@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Rect, {rect} from './Rect'
+import Rect from './Rect'
+import {rect} from './Rect/utils'
 import Toggle from './Toggle'
 import {WithViewport} from './Viewport'
 import {createOptimized, reduceProps, compose} from './utils'

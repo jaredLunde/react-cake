@@ -1,45 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import EventTracker from './EventTracker'
-import Throttle from './Throttle'
-import {createOptimized, compose} from './utils'
-
-
-export const rect = (el, leeway) => {
-  el = el && !el.nodeType ? el[0] : el
-  if (!el || 1 !== el.nodeType) return;
-
-  const {
-    top,
-    right,
-    bottom,
-    left,
-    width,
-    height
-  } = el.getBoundingClientRect()
-
-  leeway = typeof leeway === 'object'
-    ? leeway
-    : (
-      !leeway
-      ? {top: 0, right: 0, bottom: 0,  left: 0}
-      : {top: leeway, right: leeway, bottom: leeway, left: leeway}
-    )
-
-  leeway.top = leeway.top || 0
-  leeway.right = leeway.right || 0
-  leeway.bottom = leeway.bottom || 0
-  leeway.left = leeway.left || 0
-
-  return {
-    top: leeway.top + top,
-    right: leeway.right + right,
-    bottom: leeway.bottom + bottom,
-    left: leeway.left + left,
-    width: leeway.left + leeway.right + width,
-    height: leeway.top + leeway.bottom + height,
-  }
-}
+import EventTracker from '../EventTracker'
+import Throttle from '../Throttle'
+import {createOptimized, compose} from '../utils'
+import {rect} from './utils'
 
 /**
 <Rect>
@@ -95,7 +59,7 @@ export class Rect extends React.PureComponent {
     }
   }
 
-  recalcRect = () => this.throttleState(this.getRect())
+  recalcRect = () => this.props.throttleState(this.getRect())
   getRect = () => rect(this.element)
 
   render () {
@@ -105,6 +69,8 @@ export class Rect extends React.PureComponent {
       addEvent,
       removeEvent,
       removeAllEvents,
+      recalcOnWindowChange,
+      throttleState,
       ...props
     } = this.props
     const {recalcRect, rectRef, getRect, state} = this

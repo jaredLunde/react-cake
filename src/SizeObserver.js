@@ -6,7 +6,7 @@ import {
   requestInterval,
   clearRequestInterval
 } from './utils'
-import {rect} from './Rect'
+import {rect} from './Rect/utils'
 
 
 

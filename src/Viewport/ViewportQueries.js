@@ -1,7 +1,7 @@
 import React from 'react'
 import {createOptimized} from '../utils'
 import {win} from './statics'
-import {rect} from '../Rect'
+import rect from '../Rect/utils/rect'
 import {getViewportSize} from './ViewportSize'
 
 
