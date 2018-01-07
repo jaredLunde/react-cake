@@ -55,6 +55,9 @@ export default function (Components) {
     }
   }
 
-  Output.displayName = `compose(${componentNames})`
+  if (typeof process !== void 0 && process.env.NODE_ENV !== 'production') {
+    Output.displayName = `compose(${componentNames})`
+  }
+
   return Output
 }
