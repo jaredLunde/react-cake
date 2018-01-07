@@ -47,15 +47,15 @@ export default function (Components) {
     return NextComponent(props)
   }
 
-  let componentNames = ''
-  for (x = 0; x <= maxIdx; x++) {
-    componentNames += displayName(Components[x])
-    if (x !== maxIdx) {
-      componentNames += ', '
-    }
-  }
-
   if (typeof process !== void 0 && process.env.NODE_ENV !== 'production') {
+    let componentNames = ''
+    for (x = 0; x <= maxIdx; x++) {
+      componentNames += displayName(Components[x])
+      if (x !== maxIdx) {
+        componentNames += ', '
+      }
+    }
+
     Output.displayName = `compose(${componentNames})`
   }
 
