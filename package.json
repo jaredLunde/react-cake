@@ -1,6 +1,6 @@
 {
   "name": "react-cake",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "main": "es/index",
   "module": "es/index",
   "jsnext:main": "es/index",
