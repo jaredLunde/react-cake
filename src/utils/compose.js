@@ -32,8 +32,8 @@ export default function (Components) {
   let x
   const maxIdx = Components.length - 1
 
-  function Output ({children, ...props}) {
-    let NextComponent = children
+  function Output (props) {
+    let NextComponent = props.children
 
     for (x = maxIdx; x > -1; x--) {
       const Component = Components[x]
