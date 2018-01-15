@@ -44,8 +44,24 @@ export SizeObserver from './SizeObserver'
 export MousePosition from './MousePosition'
 
 // TODO: Point3D, Resizable, Rotatable, Scalable
-// TODO: Make the initialX values consistently update with componentWillUpdate (similar to Choices, Toggle)
-// TODO: compartmentalize _listeners, _ticking, requestAnimationFrame
+// TODO: Add the ability for controlled components, as with Toggle
 
-export * from './utils'
+export {
+  compose,
+  callIfExists,
+  createOptimized,
+  debounce,
+  displayName,
+  wrapDisplayName,
+  loadImages,
+  namespace,
+  reduceProps,
+  selectProps,
+  requestInterval,
+  clearRequestInterval,
+  requestTimeout,
+  clearRequestTimeout,
+  throttle,
+  withContextFrom
+} from './utils'
 export * from './invariants'

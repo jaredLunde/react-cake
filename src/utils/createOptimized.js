@@ -2,6 +2,10 @@ import React from 'react'
 
 
 export default function (Component, props, children) {
+  if (Component === null) {
+    return null
+  }
+
   const typeOfComponent = typeof Component
   const prototype = Component && Component.prototype
   const isReactComponent = prototype && prototype.isReactComponent
