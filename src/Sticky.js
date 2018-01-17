@@ -4,7 +4,7 @@ import Rect from './Rect'
 import {rect} from './Rect/utils'
 import Toggle from './Toggle'
 import {WithViewport} from './Viewport'
-import {createOptimized, reduceProps, compose} from './utils'
+import {reduceProps, compose} from './utils'
 
 
 /**
@@ -172,22 +172,19 @@ export class Sticky extends React.PureComponent {
     const {left, right} = getRect() || {}
 
     /** style, isStuck, stickyRef */
-    return createOptimized(
-      children,
-      {
-        isStuck,
-        stickyRef,
-        style: isStuck && {
-          position: 'fixed',
-          top: 0,
-          left,
-          right,
-          zIndex,
-          ...style
-        },
-        ...props
-      }
-    )
+    return children({
+      isStuck,
+      stickyRef,
+      style: isStuck && {
+        position: 'fixed',
+        top: 0,
+        left,
+        right,
+        zIndex,
+        ...style
+      },
+      ...props
+    })
   }
 }
 

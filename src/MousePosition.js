@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import EventTracker from './EventTracker'
 import {
   compose,
-  createOptimized,
   requestTimeout,
   clearRequestTimeout,
   throttle,
@@ -185,14 +184,7 @@ export class MousePosition extends React.PureComponent {
     } = this.props
     const {mousePositionRef} = this
 
-    return createOptimized(
-      children,
-      {
-        mousePositionRef,
-        ...this.state,
-        ...props
-      }
-    )
+    return children({mousePositionRef, ...this.state, ...props})
   }
 }
 

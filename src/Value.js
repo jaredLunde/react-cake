@@ -51,15 +51,12 @@ export default class Value extends React.PureComponent {
     const {children, propName, ...props} = this.props
 
     /** value, setValue, resetValue, clearValue */
-    return createOptimized(
-      children,
-      {
-        setValue,
-        resetValue,
-        clearValue,
-        ...props,
-        ...this.state
-      }
-    )
+    return children({
+      setValue,
+      resetValue,
+      clearValue,
+      ...props,
+      ...this.state
+    })
   }
 }

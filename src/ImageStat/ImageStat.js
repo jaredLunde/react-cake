@@ -1,6 +1,6 @@
 import React from 'react'
 import setOrientation from './setOrientation'
-import {loadImage, createOptimized} from '../utils'
+import {loadImage} from '../utils'
 
 
 export default class ImageStat extends React.PureComponent {
@@ -43,6 +43,6 @@ export default class ImageStat extends React.PureComponent {
   render () {
     const {children, ...props} = this.props
     const {imageRef} = this
-    return createOptimized(children, {...this.state, imageRef, ...props})
+    return children({...this.state, imageRef, ...props})
   }
 }

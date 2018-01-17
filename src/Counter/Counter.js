@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import decr, {boundDecr} from './decr'
 import incr, {boundIncr} from './incr'
-import {callIfExists, createOptimized} from '../utils'
+import {callIfExists} from '../utils'
 import {childIsFunctionInvariant} from '../invariants'
 
 
@@ -110,16 +110,13 @@ export default class Counter extends React.PureComponent {
       ...props
     } = this.props
 
-    return createOptimized(
-      children,
-      {
-        incr: this.incr,
-        decr: this.decr,
-        setValue: this.setValue,
-        setStep: this.setStep,
-        ...this.state,
-        ...props
-      }
-    )
+    return children({
+      incr: this.incr,
+      decr: this.decr,
+      setValue: this.setValue,
+      setStep: this.setStep,
+      ...this.state,
+      ...props
+    })
   }
 }

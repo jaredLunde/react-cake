@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
-import {createOptimized, compose, throttle} from '../utils'
+import {compose, throttle} from '../utils'
 import {win} from './statics'
 import {
   inViewportX,
@@ -81,21 +81,18 @@ export class ViewportScroll extends React.PureComponent {
     const {getViewportScroll} = this
     const {scrollTo} = win
 
-    return createOptimized(
-      children,
-      {
-        scrollTo,
-        inView: inViewport,
-        inViewX: inViewportX,
-        inViewY: inViewportY,
-        inFullViewX: inFullViewViewportX,
-        inFullViewY: inFullViewViewportY,
-        inFullView: inFullViewViewport,
-        getViewportScroll,
-        ...(withCoords === true ? this.state : {}),
-        ...props
-      }
-    )
+    return children({
+      scrollTo,
+      inView: inViewport,
+      inViewX: inViewportX,
+      inViewY: inViewportY,
+      inFullViewX: inFullViewViewportX,
+      inFullViewY: inFullViewViewportY,
+      inFullView: inFullViewViewport,
+      getViewportScroll,
+      ...(withCoords === true ? this.state : {}),
+      ...props
+    })
   }
 }
 

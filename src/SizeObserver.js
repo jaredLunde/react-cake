@@ -1,11 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  createOptimized,
-  callIfExists,
-  requestInterval,
-  clearRequestInterval
-} from './utils'
+import {callIfExists, requestInterval, clearRequestInterval} from './utils'
 import {rect} from './Rect/utils'
 
 
@@ -82,6 +77,6 @@ export default class SizeObserver extends React.PureComponent {
     const {children, useBoundingRect, wait, ...props} = this.props
     const {sizeRef, recalcSize} = this
     /** width, height, sizeRef, recalcSize */
-    return createOptimized(children, {sizeRef, recalcSize, ...this.state, ...props})
+    return children({sizeRef, recalcSize, ...this.state, ...props})
   }
 }

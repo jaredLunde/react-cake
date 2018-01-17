@@ -8,5 +8,5 @@ export default function ({children, text, ...props}) {
   }
 
   const paragraphs = toParagraphs(text, props)
-  return createOptimized(children, {paragraphs})
+  return children({paragraphs})
 }

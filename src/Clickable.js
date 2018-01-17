@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from './EventTracker'
 import {childIsFunctionInvariant} from './invariants'
-import {reduceProps, callIfExists, compose, createOptimized} from './utils'
+import {reduceProps, callIfExists, compose} from './utils'
 
 
 /**
@@ -218,14 +218,7 @@ export class Clickable extends React.PureComponent {
     const {clickableRef} = this
     const {rectX, rectY, ...state} = this.state
 
-    return createOptimized(
-      children,
-      {
-        clickableRef,
-        ...state,
-        ...props
-      }
-    )
+    return children({clickableRef, ...state, ...props})
   }
 }
 

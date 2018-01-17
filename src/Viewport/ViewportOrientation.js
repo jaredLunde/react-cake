@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {setOrientation} from '../ImageStat'
-import {createOptimized} from '../utils'
 import {win, winScreen} from './statics'
 import ViewportSize, {getViewportWidth, getViewportHeight} from './ViewportSize'
 
@@ -42,16 +41,13 @@ export function ViewportOrientation ({
   viewportHeight,
   ...props
 }) {
-  return createOptimized(
-    _viewportOrientationChildren,
-    {
-      viewportWidth,
-      viewportHeight,
-      ...setOrientation({width: viewportWidth, height: viewportHeight}),
-      screenOrientation: getScreenOrientation(),
-      ...props
-    }
-  )
+  return _viewportOrientationChildren({
+    viewportWidth,
+    viewportHeight,
+    ...setOrientation({width: viewportWidth, height: viewportHeight}),
+    screenOrientation: getScreenOrientation(),
+    ...props
+  })
 }
 
 

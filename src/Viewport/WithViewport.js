@@ -1,7 +1,7 @@
 import React from 'react'
 import Viewport, {Viewport as RawViewport} from './Viewport'
 import contextTypes from './contextTypes'
-import {withContextFrom, createOptimized, reduceProps, compose} from '../utils'
+import {withContextFrom, reduceProps, compose} from '../utils'
 
 
 /**
@@ -24,7 +24,7 @@ export const ViewportContext = withContextFrom(RawViewport)
 const MaybeIncludeViewport = ({inFullView, children, ...props}) =>
   inFullView === void 0
   ? Viewport({children, ...reduceProps(props, contextTypes)})
-  : createOptimized(children, {inFullView, ...props})
+  : children({inFullView, ...props})
 
 
 const WithViewport = compose([ViewportContext, MaybeIncludeViewport])
@@ -51,13 +51,7 @@ export function withViewport (Component) {
     update = () => this.setState(this._getVw)
 
     render () {
-      return createOptimized(
-        Component,
-        {
-          ...this.state,
-          ...this.props
-        }
-      )
+      return Component({...this.state, ...this.props})
     }
   }
 

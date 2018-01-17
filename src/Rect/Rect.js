@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
 import Throttle from '../Throttle'
-import {createOptimized, compose} from '../utils'
+import compose from '../utils/compose'
 import {rect} from './utils'
 
 /**
@@ -76,16 +76,13 @@ export class Rect extends React.PureComponent {
     const {recalcRect, rectRef, getRect, state} = this
 
     /** rectRef, recalcRect, getRect, top, right, bottom, left, width, height */
-    return createOptimized(
-      children,
-      {
-        rectRef,
-        recalcRect,
-        getRect,
-        ...props,
-        ...(withPosition ? state : {})
-      }
-    )
+    return children({
+      rectRef,
+      recalcRect,
+      getRect,
+      ...props,
+      ...(withPosition ? state : {})
+    })
   }
 }
 

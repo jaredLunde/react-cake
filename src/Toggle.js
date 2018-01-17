@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import callIfExists from './utils/callIfExists'
-import createOptimized from './utils/createOptimized'
+// import createOptimized from './utils/createOptimized'
 import {exactLengthInvariant, includesInvariant} from './invariants'
 
 
@@ -126,13 +126,10 @@ export default class Toggle extends React.PureComponent {
     }
 
     /** toggle, on, off, value */
-    return createOptimized(
-      children,
-      {
-        toggle,
-        ...this.state,
-        ...props
-      }
-    )
+    return children({
+      toggle,
+      ...this.state,
+      ...props
+    })
   }
 }

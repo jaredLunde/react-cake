@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {throttle, createOptimized} from './utils'
+import {throttle} from './utils'
 
 
 /**
@@ -43,6 +43,6 @@ export default class Throttle extends React.PureComponent {
     const {children, initialState, ...props} = this.props
     const {throttleState} = this
 
-    return createOptimized(children, {throttleState, ...this.state, ...props})
+    return children({throttleState, ...this.state, ...props})
   }
 }

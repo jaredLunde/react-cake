@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {debounce, createOptimized} from './utils'
+import {debounce} from './utils'
 
 
 /**
@@ -56,13 +56,10 @@ export default class Debounce extends React.PureComponent {
     const {children, initialState, ...props} = this.props
     const {debounceState} = this
 
-    return createOptimized(
-      children,
-      {
-        debounceState,
-        ...this.state,
-        ...props
-      }
-    )
+    return children({
+      debounceState,
+      ...this.state,
+      ...props
+    })
   }
 }

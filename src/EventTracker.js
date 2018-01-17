@@ -1,5 +1,4 @@
 import React from 'react'
-import {createOptimized} from './utils'
 
 
 export default class EventTracker extends React.PureComponent {
@@ -38,6 +37,6 @@ export default class EventTracker extends React.PureComponent {
   render () {
     const {children, ...props} = this.props
     const {addEvent, removeEvent, removeAllEvents} = this
-    return createOptimized(children, {addEvent, removeEvent, removeAllEvents, ...props})
+    return children({addEvent, removeEvent, removeAllEvents, ...props})
   }
 }

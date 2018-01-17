@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
 import EventTracker from './EventTracker'
-import {callIfExists, throttle, createOptimized, compose} from './utils'
+import {callIfExists, throttle, compose} from './utils'
 
 
 /**
@@ -161,17 +161,14 @@ export class Scrollable extends React.PureComponent {
     } = this.props
     const {scrollableRef, scrollToX, scrollToY, scrollTo} = this
 
-    return createOptimized(
-      children,
-      {
-        scrollableRef,
-        scrollToX,
-        scrollToY,
-        scrollTo,
-        ...this.state,
-        ...props
-      }
-    )
+    return children({
+      scrollableRef,
+      scrollToX,
+      scrollToY,
+      scrollTo,
+      ...this.state,
+      ...props
+    })
   }
 }
 

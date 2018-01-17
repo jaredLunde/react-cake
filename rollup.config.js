@@ -90,7 +90,7 @@ const umdConfig = Object.assign({}, baseConfig, {
     {
       file: './dist/react-cake.js',
       format: 'umd',
-      name: pkg.name,
+      name: 'Cake',
       globals: {react: 'React', 'react-dom': 'ReactDOM', 'prop-types': 'PropTypes', preact: 'preact'},
     }
   ],

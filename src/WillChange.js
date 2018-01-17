@@ -7,7 +7,6 @@ import {
   reduceProps,
   callIfExists,
   toKebabCase,
-  createOptimized,
   compose
 } from './utils'
 
@@ -274,15 +273,12 @@ export class WillChange extends React.PureComponent {
     )
 
     /** willChangeRef, willChange, style */
-    return createOptimized(
-      children,
-      {
-        ...props,
-        willChangeRef,
-        willChange,
-        style
-      }
-    )
+    return children({
+      ...props,
+      willChangeRef,
+      willChange,
+      style
+    })
   }
 }
 

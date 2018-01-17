@@ -1,6 +1,6 @@
 import React from 'react'
 import Point from './Point'
-import {callIfExists, compose, createOptimized} from './utils'
+import {callIfExists, compose} from './utils'
 
 
 /**
@@ -54,15 +54,12 @@ export function Movable ({children, style, x, y, z, ...props}) {
     transform
   }
 
-  return createOptimized(
-    children,
-    {
-      style,
-      x,
-      y,
-      ...props
-    }
-  )
+  return children({
+    style,
+    x,
+    y,
+    ...props
+  })
 }
 
 

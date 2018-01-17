@@ -1,5 +1,4 @@
 import React from 'react'
-import {createOptimized} from '../utils'
 import {win} from './statics'
 import rect from '../Rect/utils/rect'
 import {getViewportSize} from './ViewportSize'
@@ -88,17 +87,14 @@ export const getAspect = () => aspect(win)
 
 
 export default function ({children, ...props}) {
-  return createOptimized(
-    children,
-    {
-      getAspect,
-      inViewportX,
-      inViewportY,
-      inViewport,
-      inFullViewX: inFullViewViewportX,
-      inFullViewY: inFullViewViewportY,
-      inFullView: inFullViewViewport,
-      ...props
-    }
-  )
+  return children({
+    getAspect,
+    inViewportX,
+    inViewportY,
+    inViewport,
+    inFullViewX: inFullViewViewportX,
+    inFullViewY: inFullViewViewportY,
+    inFullView: inFullViewViewport,
+    ...props
+  })
 }

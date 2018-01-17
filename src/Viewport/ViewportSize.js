@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
-import {createOptimized, compose, throttle} from '../utils'
+import {compose, throttle} from '../utils'
 import {getAspect} from './ViewportQueries'
 import {win, winScreen, docEl} from './statics'
 
@@ -62,15 +62,12 @@ export class ViewportSize extends React.PureComponent {
     } = this.props
     const {getViewportSize} = this
 
-    return createOptimized(
-      children,
-      {
-        getAspect,
-        getViewportSize,
-        ...this.state,
-        ...props
-      }
-    )
+    return children({
+      getAspect,
+      getViewportSize,
+      ...this.state,
+      ...props
+    })
   }
 }
 

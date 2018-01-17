@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
 import EventTracker from './EventTracker'
-import {createOptimized, compose, requestTimeout, clearRequestTimeout} from './utils'
+import {compose, requestTimeout, clearRequestTimeout} from './utils'
 import {childIsFunctionInvariant} from './invariants'
 
 
@@ -99,13 +99,7 @@ export class Hoverable extends React.PureComponent {
     } = this.props
     const {hoverableRef} = this
 
-    return createOptimized(
-      children,
-      {
-        hoverableRef,
-        ...props
-      }
-    )
+    return children({hoverableRef, ...props})
   }
 }
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import createOptimized from './utils/createOptimized'
 
 
 export default class Subscriptions extends React.PureComponent {
@@ -23,14 +22,11 @@ export default class Subscriptions extends React.PureComponent {
     const {subscriptions, subscribe, unsubscribe, notify} = this
     const {children, ...props} = this.props
 
-    return createOptimized(
-      children,
-      {
-        ...props,
-        subscribe,
-        unsubscribe,
-        notify
-      }
-    )
+    return children({
+      ...props,
+      subscribe,
+      unsubscribe,
+      notify
+    })
   }
 }
