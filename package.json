@@ -1,6 +1,6 @@
 {
   "name": "react-cake",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "main": "commonjs/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
@@ -52,6 +52,7 @@
     "build:dist": "rm -rf dist && rollup -c",
     "build:es": "rm -rf es && cross-env NODE_ENV=production cross-env BABEL_ENV=es babel src --out-dir es",
     "build:commonjs": "rm -rf commonjs && cross-env NODE_ENV=production cross-env BABEL_ENV=commonjs babel src --out-dir commonjs",
+    "watch:es": "cross-env NODE_ENV=development cross-env BABEL_ENV=es babel ./src -w --out-dir es",
     "prepublish": "npm run build"
   },
   "authors": [
