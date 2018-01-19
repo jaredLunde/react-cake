@@ -2,19 +2,19 @@ import React from 'react'
 
 
 export default class Subscriptions extends React.Component {
-  subscriptions = new Set()
+  subscriptions = []
 
   subscribe = cb => {
-    this.subscriptions.add(cb)
+    this.subscriptions.push(cb)
   }
 
   unsubscribe = cb => {
-    this.subscriptions.delete(cb)
+    this.subscriptions.splice(this.subscriptions.indexOf(cb), 1)
   }
 
   notify = (...args) => {
-    for (let cb of this.subscriptions) {
-      cb(...args)
+    for (let x = 0; x < this.subscriptions.length; x++) {
+      this.subscriptions[x](...args)
     }
   }
 
