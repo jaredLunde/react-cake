@@ -37,7 +37,7 @@ const Placeholder = element => {
 }
 
 
-export class Sticky extends React.PureComponent {
+export class Sticky extends React.Component {
   static propTypes = {
     distance: PropTypes.number,
     atTop: PropTypes.bool,

@@ -3,7 +3,7 @@ import setOrientation from './setOrientation'
 import {loadImage} from '../utils'
 
 
-export default class ImageStat extends React.PureComponent {
+export default class ImageStat extends React.Component {
   _image = null
   state = {
     orientation: 'square',

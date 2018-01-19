@@ -49,7 +49,7 @@ import {boundSetY} from './setY'
 */
 
 
-export default class Point extends React.PureComponent {
+export default class Point extends React.Component {
   static propTypes = {
     initialX: PropTypes.number.isRequired,
     initialY: PropTypes.number.isRequired,

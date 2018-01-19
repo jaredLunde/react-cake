@@ -8,7 +8,7 @@ const promiseToSetState = (this_, state) => new Promise(
 )
 
 
-export default class Value extends React.PureComponent {
+export default class Value extends React.Component {
   static propTypes = {
     propName: PropTypes.string.isRequired,
     initialValue: PropTypes.any

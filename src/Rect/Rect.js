@@ -22,7 +22,7 @@ import {rect} from './utils'
   )
 </Rect>
 */
-export class Rect extends React.PureComponent {
+export class Rect extends React.Component {
   static propTypes = {
     recalcOnWindowChange: PropTypes.bool,
     withPosition: PropTypes.bool

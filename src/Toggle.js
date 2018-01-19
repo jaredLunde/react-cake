@@ -57,7 +57,7 @@ export const toggle = (state, {controls, propName}) => {
 }
 
 
-export default class Toggle extends React.PureComponent {
+export default class Toggle extends React.Component {
   static propTypes = {
     propName: PropTypes.string.isRequired,
     controls: PropTypes.arrayOf(PropTypes.shape({

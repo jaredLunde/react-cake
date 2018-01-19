@@ -43,7 +43,7 @@ const MousePositionButton = props => (
 export const canMove = !("ontouchstart" in window)
 
 
-export class MousePosition extends React.PureComponent {
+export class MousePosition extends React.Component {
   static propTypes = {
     propName: PropTypes.string.isRequired,
     enterDelay: PropTypes.number,

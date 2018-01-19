@@ -29,7 +29,7 @@ const HoverableButton = props => (
 
 export const canHover = !("ontouchstart" in window)
 
-export class Hoverable extends React.PureComponent {
+export class Hoverable extends React.Component {
   static propTypes = {
     propName: PropTypes.string.isRequired,
     enterDelay: PropTypes.number,

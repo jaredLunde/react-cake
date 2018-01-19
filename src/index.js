@@ -64,4 +64,4 @@ export {
   throttle,
   withContextFrom
 } from './utils'
-export * from './invariants'
+// export * from './invariants'

@@ -76,7 +76,7 @@ const isClickOfType = (e, types) => {
 
 
 // For a click to fire it must satisfy all provided conditions
-export class Clickable extends React.PureComponent {
+export class Clickable extends React.Component {
   static propTypes = {
     clickTypes: PropTypes.array,
     // Click Types

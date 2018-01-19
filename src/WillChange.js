@@ -96,7 +96,7 @@ const defaultEventTypes = {
 
 
 // For a click to fire it must satisfy all provided conditions
-export class WillChange extends React.PureComponent {
+export class WillChange extends React.Component {
   static propTypes = {
     propName: PropTypes.string.isRequired,
     properties: PropTypes.array,

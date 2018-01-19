@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default class EventTracker extends React.PureComponent {
+export default class EventTracker extends React.Component {
   events = []
 
   addEvent = (el, name, fn) => {

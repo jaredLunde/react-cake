@@ -22,7 +22,7 @@ import {debounce} from './utils'
   }
 </Debounce>
 */
-export default class Debounce extends React.PureComponent {
+export default class Debounce extends React.Component {
   static propTypes = {
     initialState: PropTypes.object,
     wait: PropTypes.number.isRequired,

@@ -34,7 +34,7 @@ const ScrollableBox = props => (
 */
 
 
-export class Scrollable extends React.PureComponent {
+export class Scrollable extends React.Component {
   static propTypes = {
     onScroll: PropTypes.func,
     initialX: PropTypes.number,

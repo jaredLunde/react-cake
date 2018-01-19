@@ -19,7 +19,7 @@ import {rect} from './Rect/utils'
   )
 </SizeObserver>
 */
-export default class SizeObserver extends React.PureComponent {
+export default class SizeObserver extends React.Component {
   static propTypes = {
     useBoundingRect: PropTypes.bool,
     wait: PropTypes.number.isRequired,

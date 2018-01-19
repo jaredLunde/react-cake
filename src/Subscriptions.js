@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default class Subscriptions extends React.PureComponent {
+export default class Subscriptions extends React.Component {
   subscriptions = new Set()
 
   subscribe = cb => {

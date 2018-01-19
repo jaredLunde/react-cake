@@ -31,7 +31,7 @@ const Likes = props => (
 */
 
 
-export default class Counter extends React.PureComponent {
+export default class Counter extends React.Component {
   static propTypes = {
     initialValue: PropType.number.isRequired,
     initialStep: PropType.number.isRequired,

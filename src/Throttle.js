@@ -22,7 +22,7 @@ import {throttle} from './utils'
   }
 </Throttle>
 */
-export default class Throttle extends React.PureComponent {
+export default class Throttle extends React.Component {
   static propTypes = {
     initialState: PropTypes.object
   }

@@ -10,7 +10,7 @@ import {createOptimized, callIfExists, getUniqueID} from './utils'
   <div>Inject me</div>
 </Inject>
 */
-export default class Inject extends React.PureComponent {
+export default class Inject extends React.Component {
   static propTypes = {
     entry: PropTypes.func.isRequired
   }
