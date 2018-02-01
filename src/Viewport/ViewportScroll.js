@@ -78,18 +78,16 @@ export class ViewportScroll extends React.PureComponent {
       removeAllEvents,
       ...props
     } = this.props
-    const {getViewportScroll} = this
-    const {scrollTo} = win
 
     return children({
-      scrollTo,
+      scrollTo: win.scrollTo,
       inView: inViewport,
       inViewX: inViewportX,
       inViewY: inViewportY,
       inFullViewX: inFullViewViewportX,
       inFullViewY: inFullViewViewportY,
       inFullView: inFullViewViewport,
-      getViewportScroll,
+      getViewportScroll: this.getViewportScroll,
       ...(withCoords === true ? this.state : {}),
       ...props
     })

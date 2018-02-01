@@ -54,12 +54,6 @@ export default class Debounce extends React.Component {
 
   render () {
     const {children, initialState, ...props} = this.props
-    const {debounceState} = this
-
-    return children({
-      debounceState,
-      ...this.state,
-      ...props
-    })
+    return children({debounceState: this.debounceState, ...this.state, ...props})
   }
 }

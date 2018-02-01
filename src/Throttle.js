@@ -41,8 +41,7 @@ export default class Throttle extends React.Component {
 
   render () {
     const {children, initialState, ...props} = this.props
-    const {throttleState} = this
 
-    return children({throttleState, ...this.state, ...props})
+    return children({throttleState: this.throttleState, ...this.state, ...props})
   }
 }

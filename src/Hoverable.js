@@ -97,9 +97,8 @@ export class Hoverable extends React.Component {
       removeAllEvents,
       ...props
     } = this.props
-    const {hoverableRef} = this
 
-    return children({hoverableRef, ...props})
+    return children({hoverableRef: this.hoverableRef, ...props})
   }
 }
 

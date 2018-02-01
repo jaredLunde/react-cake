@@ -19,14 +19,13 @@ export default class Subscriptions extends React.Component {
   }
 
   render () {
-    const {subscriptions, subscribe, unsubscribe, notify} = this
     const {children, ...props} = this.props
 
     return children({
       ...props,
-      subscribe,
-      unsubscribe,
-      notify
+      subscribe: this.subscribe,
+      unsubscribe: this.unsubscribe,
+      notify: this.notify
     })
   }
 }

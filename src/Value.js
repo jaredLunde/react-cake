@@ -47,14 +47,13 @@ export default class Value extends React.Component {
   )
 
   render () {
-    const {setValue, resetValue, clearValue} = this
     const {children, propName, ...props} = this.props
 
     /** value, setValue, resetValue, clearValue */
     return children({
-      setValue,
-      resetValue,
-      clearValue,
+      setValue: this.setValue,
+      resetValue: this.resetValue,
+      clearValue: this.clearValue,
       ...props,
       ...this.state
     })

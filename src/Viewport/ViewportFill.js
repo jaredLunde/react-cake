@@ -47,11 +47,7 @@ export class ViewportFill extends React.PureComponent {
     const {children, style, ...props} = this.props
 
     return children({
-      style: Object.assign(
-        {},
-        style || {},
-        this.state
-      ),
+      style: Object.assign({}, style || {}, this.state),
       ...props
     })
   }

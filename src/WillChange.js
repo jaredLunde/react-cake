@@ -261,9 +261,7 @@ export class WillChange extends React.Component {
       removeAllEvents,
       ...props
     } = this.props
-
     props = reduceProps(props, defaultProperties, defaultEventTypes)
-    const {willChangeRef, willChange} = this
 
     style = Object.assign(
       style || {},
@@ -275,8 +273,8 @@ export class WillChange extends React.Component {
     /** willChangeRef, willChange, style */
     return children({
       ...props,
-      willChangeRef,
-      willChange,
+      willChangeRef: this.willChangeRef,
+      willChange: this.willChange,
       style
     })
   }

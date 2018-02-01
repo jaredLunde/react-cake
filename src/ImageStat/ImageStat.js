@@ -42,7 +42,6 @@ export default class ImageStat extends React.Component {
 
   render () {
     const {children, ...props} = this.props
-    const {imageRef} = this
-    return children({...this.state, imageRef, ...props})
+    return children({imageRef: this.imageRef, ...this.state, ...props})
   }
 }

@@ -40,7 +40,7 @@ export default class SizeObserver extends React.Component {
   }
 
   componentDidUpdate (prevProps, {width, height}) {
-    if (width !== this.state.width ||height !== this.state.height) {
+    if (width !== this.state.width || height !== this.state.height) {
       callIfExists(this.props.onChange, this.state)
     }
   }

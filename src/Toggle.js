@@ -119,7 +119,6 @@ export default class Toggle extends React.Component {
       onChange,
       ...props
     } = this.props
-    const {toggle} = this
 
     for (let propName of this.controlNames) {
       props[propName] = this[propName]
@@ -127,7 +126,7 @@ export default class Toggle extends React.Component {
 
     /** toggle, on, off, value */
     return children({
-      toggle,
+      toggle: this.toggle,
       ...this.state,
       ...props
     })
