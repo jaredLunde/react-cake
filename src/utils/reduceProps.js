@@ -1,3 +1,10 @@
+function nullObject (mother, keys) {
+  for (let x = 0; x < keys.length; x++) {
+    mother[keys[x]] = null
+  }
+}
+
+
 function reduce (reducer, initialProps, ...propObjects) {
   const props = {}
   // let newProps = []
@@ -15,12 +22,20 @@ function reduce (reducer, initialProps, ...propObjects) {
   let motherObject = {}
 
   if (propObjects.length === 1) {
-    motherObject = propObjects[0]
-  } else {
+    if (Array.isArray(propObjects[0])) {
+      nullObject(motherObject, propObjects[0])
+    }
+    else {
+      motherObject = propObjects[0]
+    }
+  }
+  else {
     for (let x = 0; x < propObjects.length; x++) {
-      const objKeys = Object.keys(propObjects[x])
-      for (let y = 0; y < objKeys.length; y++) {
-        motherObject[objKeys[y]] = null
+      if (Array.isArray(propObjects[x])) {
+        nullObject(motherObject, propObjects[x])
+      }
+      else {
+        nullObject(motherObject, Object.keys(propObjects[x]))
       }
     }
   }

@@ -54,7 +54,7 @@ export function ViewportOrientation ({
 export default function (props) {
   return ViewportSize({
     _viewportOrientationChildren: props.children,
-    ...props
+    ...props,
     children: ViewportOrientation,
   })
 }
