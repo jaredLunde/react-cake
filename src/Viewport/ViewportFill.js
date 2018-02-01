@@ -38,18 +38,16 @@ export class ViewportFill extends React.PureComponent {
     this.props.unsubscribe(this.setSize)
   }
 
-  setSize = ({viewportWidth, viewportHeight, ...props}) => this.setState({
+  setSize = ({viewportWidth, viewportHeight}) => this.setState({
     width: viewportWidth,
     height: viewportHeight
   })
 
   render () {
-    const {children, style, ...props} = this.props
-
-    return children({
-      style: Object.assign({}, style || {}, this.state),
-      ...props
-    })
+    const props = Object.assign({}, this.props)
+    delete props.children
+    props.style = Object.assign({}, style || {}, this.state)
+    return this.props.children(props)
   }
 }
 

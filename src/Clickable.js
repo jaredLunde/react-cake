@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from './EventTracker'
 import {childIsFunctionInvariant} from './invariants'
-import {reduceProps, callIfExists, compose} from './utils'
+import {reduceProps, callIfExists} from './utils'
 
 
 /**
@@ -223,4 +223,12 @@ export class Clickable extends React.Component {
 }
 
 
-export default compose([EventTracker, Clickable])
+export default function (props) {
+  return (
+    <EventTracker>
+      {function (eProps) {
+        return React.createElement(Clickable, Object.assign(eProps, props))
+      }}
+    </EventTracker>
+  )
+}

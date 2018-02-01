@@ -23,9 +23,11 @@ export default class EventTracker extends React.Component {
   }
 
   removeAllEvents = el => {
-    for (let event of this.events) {
-      if (!el || event[0] === el) {
-        this.removeEvent(...event)
+    for (let x = 0; x < this.events.length; x++) {
+      const [el_, name, fn] = this.events[x]
+      if (!el || el_ === el) {
+        el_.removeEventListener(name, fn)
+        this.events.splice(x, 1)
       }
     }
   }
@@ -35,13 +37,11 @@ export default class EventTracker extends React.Component {
   }
 
   render () {
-    const {children, ...props} = this.props
-    
-    return children({
-      addEvent: this.addEvent,
-      removeEvent: this.removeEvent,
-      removeAllEvents: this.removeAllEvents,
-      ...props
-    })
+    const props = Object.assign({}, this.props)
+    delete props.children
+    props.addEvent = this.addEvent
+    props.removeEvent = this.removeEvent
+    props.removeAllEvents = this.removeAllEvents
+    return this.props.children(props)
   }
 }

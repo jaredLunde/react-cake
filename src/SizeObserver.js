@@ -75,8 +75,11 @@ export default class SizeObserver extends React.Component {
 
   render () {
     const {children, useBoundingRect, wait, ...props} = this.props
-    const {sizeRef, recalcSize} = this
+    props.width = this.state.width
+    props.height = this.state.height
+    props.sizeRef = this.sizeRef
+    props.recalcSize = this.recalcSize
     /** width, height, sizeRef, recalcSize */
-    return children({sizeRef, recalcSize, ...this.state, ...props})
+    return children(props)
   }
 }

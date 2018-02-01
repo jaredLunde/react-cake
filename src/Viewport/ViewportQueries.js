@@ -86,7 +86,9 @@ export const inFullViewViewport = (el, leeway) => inFullView(el, win, leeway)
 export const getAspect = () => aspect(win)
 
 
-export default function ({children, ...props}) {
+export default function (originalProps) {
+  const props = Object.assign({}, originalProps)
+  delete props.children
   props.getAspect = getAspect
   props.inViewportX = inViewportX
   props.inViewportY = inViewportY
@@ -94,5 +96,5 @@ export default function ({children, ...props}) {
   props.inFullViewX = inFullViewViewportX
   props.inFullViewY = inFullViewViewportY
   props.inFullView = inFullViewViewport
-  return children(props)
+  return originalProps.children(props)
 }

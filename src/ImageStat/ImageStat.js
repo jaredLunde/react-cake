@@ -41,7 +41,15 @@ export default class ImageStat extends React.Component {
   }
 
   render () {
-    const {children, ...props} = this.props
-    return children({imageRef: this.imageRef, ...this.state, ...props})
+    const props = Object.assign({}, this.props)
+    delete props.children
+    props.imageRef = this.imageRef
+    props.orientation = this.state.orientation
+    props.width = this.state.width
+    props.height = this.state.height
+    props.naturalWidth = this.state.naturalWidth
+    props.naturalHeight = this.state.naturalHeight
+    props.complete = this.state.complete
+    return this.props.children(props)
   }
 }

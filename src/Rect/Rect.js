@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
 import Throttle from '../Throttle'
 import compose from '../utils/compose'
+import reduceProps from '../utils/reduceProps'
 import {rect} from './utils'
 
 /**
@@ -63,28 +64,50 @@ export class Rect extends React.Component {
   getRect = () => rect(this.element)
 
   render () {
-    const {
-      children,
-      withPosition,
-      addEvent,
-      removeEvent,
-      removeAllEvents,
-      recalcOnWindowChange,
-      throttleState,
-      ...props
-    } = this.props
-    const {recalcRect, rectRef, getRect, state} = this
+    const props = reduceProps(
+      this.props,
+      [
+        'children',
+        'withPosition',
+        'addEvent',
+        'removeEvent',
+        'removeAllEvents',
+        'recalcOnWindowChange',
+        'throttleState',
+      ]
+    )
+
+    props.rectRef = this.rectRef
+    props.recalcRect = this.recalcRect
+    props.getRect = this.getRect
+
+    if (withPosition === true) {
+      props.top = this.state.top
+      props.right = this.state.right
+      props.bottom = this.state.bottom
+      props.left = this.state.left
+      props.width = this.state.width
+      props.height = this.state.height
+    }
 
     /** rectRef, recalcRect, getRect, top, right, bottom, left, width, height */
-    return children({
-      rectRef,
-      recalcRect,
-      getRect,
-      ...props,
-      ...(withPosition ? state : {})
-    })
+    return this.props.children(props)
   }
 }
 
 
-export default compose([EventTracker, Throttle, Rect])
+export default function (props) {
+  return (
+    <EventTracker>
+      {function (eProps) {
+        return (
+          <Throttle>
+            {function (tProps) {
+              return React.createElement(Rect, Object.assign(eProps, tProps, props))
+            }}
+          </Throttle>
+        )
+      }}
+    </EventTracker>
+  )
+}

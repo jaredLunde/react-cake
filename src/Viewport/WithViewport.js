@@ -1,7 +1,7 @@
 import React from 'react'
 import Viewport, {Viewport as RawViewport} from './Viewport'
 import contextTypes from './contextTypes'
-import {withContextFrom, reduceProps, compose} from '../utils'
+import {withContextFrom, reduceProps} from '../utils'
 
 
 /**
@@ -21,14 +21,27 @@ const ViewportContext = () => (
 export const ViewportContext = withContextFrom(RawViewport)
 
 
-const MaybeIncludeViewport = ({inFullView, children, ...props}) =>
-  inFullView === void 0
-  ? Viewport({children, ...reduceProps(props, contextTypes)})
-  : children({inFullView, ...props})
+function MaybeIncludeViewport (props) {
+  if (props.inFullView === void 0) {
+    return Viewport(reduceProps(props, contextTypes))
+  }
+  else {
+    const renderProps = {...props}
+    delete renderProps.children
+    return props.children(renderProps)
+  }
+}
 
 
-const WithViewport = compose([ViewportContext, MaybeIncludeViewport])
-export default WithViewport
+export default function (props) {
+  return (
+    <ViewportContext>
+      {function (cProps) {
+        return MaybeIncludeViewport({...cProps, ...props})
+      }}
+    </ViewportContext>
+  )
+}
 
 
 export function withViewport (Component) {
@@ -48,12 +61,20 @@ export function withViewport (Component) {
       return {viewportWidth: width, viewportHeight: height}
     }
 
-    update = () => this.setState(this._getVw)
+    update = () => this.setState(this._getVw())
 
     render () {
       return Component({...this.state, ...this.props})
     }
   }
 
-  return compose([WithViewport, withViewport])
+  return function (props) {
+    return (
+      <WithViewport>
+        {function (vpProps) {
+          return React.createElement(withViewport, {...props, ...vpProps})
+        }}
+      </WithViewport>
+    )
+  }
 }
