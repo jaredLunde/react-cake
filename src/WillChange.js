@@ -2,8 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
 import EventTracker from './EventTracker'
-import {childIsFunctionInvariant} from './invariants'
-import {reduceProps, callIfExists, toKebabCase, compose} from './utils'
+import {
+  reduceProps,
+  callIfExists,
+  toKebabCase,
+  requestTimeout,
+  clearRequestTimeout
+} from './utils'
 
 
 /**
@@ -221,7 +226,7 @@ export class WillChange extends React.Component {
     }
 
     if (staleTimeout) {
-      this._staleTimeout = setTimeout(() => this.off(true), staleTimeout)
+      this._staleTimeout = requestTimeout(() => this.off(true), staleTimeout)
     }
   }
 
@@ -235,7 +240,7 @@ export class WillChange extends React.Component {
 
   clearStaleTimeout () {
     if (this._staleTimeout !== null) {
-      clearTimeout(this._staleTimeout)
+      clearRequestTimeout(this._staleTimeout)
       this._staleTimeout = null
     }
   }
@@ -276,10 +281,18 @@ export class WillChange extends React.Component {
 }
 
 
-const composedWillChange = compose([EventTracker, Toggle, WillChange])
-
-export default props => composedWillChange({
-  initialValue: false,
-  propName: 'willChangeIsOn',
-  ...props
-})
+export default function (props) {
+  return (
+    <EventTracker>
+      {function (eProps) {
+        return (
+          <Toggle propName='willChangeIsOn' initialValue={false} {...props}>
+            {function (tProps) {
+              return <WillChange {...eProps} {...tProps} children={props.children}/>
+            }}
+          </Toggle>
+        )
+      }}
+    </EventTracker>
+  )
+}
