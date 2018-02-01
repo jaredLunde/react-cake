@@ -83,27 +83,32 @@ export default class Toggle extends React.Component {
     super(props)
     const {controls, initialValue, propName} = props
 
-    exactLengthInvariant(controls, 2)
+    if (typeof process !== void 0 && process.env.NODE_ENV !== 'production') {
+      exactLengthInvariant(controls, 2)
+    }
 
     this.controlValues = controls.map(control => control.value)
     this.controlNames = controls.map(control => control.name)
 
-    includesInvariant(this.controlValues, initialValue)
+    if (typeof process !== void 0 && process.env.NODE_ENV !== 'production') {
+      includesInvariant(this.controlValues, initialValue)
+    }
 
     this.state = {[propName]: initialValue}
-    this.controlNames.forEach((name, x) => this[name] = () => {
-      const value = this.controlValues[x]
-
-      this.setState(
-        {[propName]: value},
-        () => callIfExists(this.props.onChange, value)
-      )
-    })
+    this.controlNames.forEach(
+      (name, x) => this[name] = () => {
+        this.setState({[propName]: this.controlValues[x]})
+      }
+    )
   }
 
-  componentDidUpdate ({initialValue, propName}) {
+  componentDidUpdate ({initialValue, propName}, prevState) {
     if (this.props.initialValue !== initialValue) {
       this.setState({[propName]: this.props.initialValue})
+    }
+
+    if (this.state[propName] !== prevState[propName]) {
+      callIfExists(this.props.onChange, this.state[propName])
     }
   }
 
@@ -117,16 +122,13 @@ export default class Toggle extends React.Component {
 
   render () {
     const props = reduceProps(this.props, propTypes)
-    
-    for (let propName of this.controlNames) {
-      props[propName] = this[propName]
-    }
+
+    props[this.controlNames[0]] = this[this.controlNames[0]]
+    props[this.controlNames[1]] = this[this.controlNames[1]]
+    props[this.props.propName] = this.state[this.props.propName]
+    props.toggle = this.toggle
 
     /** toggle, on, off, value */
-    return this.props.children({
-      toggle: this.toggle,
-      ...this.state,
-      ...props
-    })
+    return this.props.children(props)
   }
 }

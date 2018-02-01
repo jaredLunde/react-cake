@@ -3,12 +3,7 @@ import PropTypes from 'prop-types'
 import Toggle from './Toggle'
 import EventTracker from './EventTracker'
 import {childIsFunctionInvariant} from './invariants'
-import {
-  reduceProps,
-  callIfExists,
-  toKebabCase,
-  compose
-} from './utils'
+import {reduceProps, callIfExists, toKebabCase, compose} from './utils'
 
 
 /**
@@ -246,37 +241,37 @@ export class WillChange extends React.Component {
   }
 
   render () {
-    let {
-      children,
-      propName,
-      style,
-      properties,
-      eventTypes,
-      on,
-      off,
-      toggle,
-      staleTimeout,
-      addEvent,
-      removeEvent,
-      removeAllEvents,
-      ...props
-    } = this.props
-    props = reduceProps(props, defaultProperties, defaultEventTypes)
+    const props = reduceProps(
+      this.props,
+      defaultProperties,
+      defaultEventTypes,
+      [
+        'children',
+        'propName',
+        'style',
+        'properties',
+        'eventTypes',
+        'on',
+        'off',
+        'toggle',
+        'staleTimeout',
+        'addEvent',
+        'removeEvent',
+        'removeAllEvents'
+      ]
+    )
 
-    style = Object.assign(
-      style || {},
-      this.props[propName] === true ?
+    props.style = Object.assign(
+      props.style || {},
+      this.props[this.props.propName] === true ?
         ({willChange: this._changeHints.join(',')}) :
         {}
     )
+    props.willChangeRef = this.willChangeRef
+    props.willChange = this.willChange
 
     /** willChangeRef, willChange, style */
-    return children({
-      ...props,
-      willChangeRef: this.willChangeRef,
-      willChange: this.willChange,
-      style
-    })
+    return this.props.children(props)
   }
 }
 
