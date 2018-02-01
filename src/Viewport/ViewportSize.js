@@ -39,9 +39,8 @@ export class ViewportSize extends React.PureComponent {
 
   constructor (props) {
     super(props)
-    const {addEvent} = props
-    addEvent(win, 'resize', this.setSize)
-    addEvent(win, 'orientationchange', this.setSize)
+    props.addEvent(win, 'resize', this.setSize)
+    props.addEvent(win, 'orientationchange', this.setSize)
     this.state = getSize()
   }
 
@@ -51,16 +50,25 @@ export class ViewportSize extends React.PureComponent {
   setSize = throttle(() => this.setState(getSize()))
 
   render () {
-    const props = reduceProps(this.props, ['children', 'addEvent', 'removeEvent', 'removeAllEvents'])
-
-    return this.props.children({
-      getAspect,
-      getViewportSize,
-      ...this.state,
-      ...props
-    })
+    const props = reduceProps(
+      this.props,
+      ['children', 'addEvent', 'removeEvent', 'removeAllEvents']
+    )
+    props.getAspect = getAspect
+    props.getViewportSize = getViewportSize
+    props.viewportWidth = this.state.viewportWidth
+    props.viewportHeight = this.state.viewportHeight
+    return this.props.children(props)
   }
 }
 
 
-export default compose([EventTracker, ViewportSize])
+export default function (props) {
+  return (
+    <EventTracker>
+      {function (tProps) {
+        return <ViewportSize {...tProps} {...props}/>
+      }}
+    </EventTracker>
+  )
+}

@@ -87,14 +87,12 @@ export const getAspect = () => aspect(win)
 
 
 export default function ({children, ...props}) {
-  return children({
-    getAspect,
-    inViewportX,
-    inViewportY,
-    inViewport,
-    inFullViewX: inFullViewViewportX,
-    inFullViewY: inFullViewViewportY,
-    inFullView: inFullViewViewport,
-    ...props
-  })
+  props.getAspect = getAspect
+  props.inViewportX = inViewportX
+  props.inViewportY = inViewportY
+  props.inViewport = inViewport
+  props.inFullViewX = inFullViewViewportX
+  props.inFullViewY = inFullViewViewportY
+  props.inFullView = inFullViewViewport
+  return children(props)
 }

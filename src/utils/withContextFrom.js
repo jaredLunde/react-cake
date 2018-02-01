@@ -1,6 +1,6 @@
 import React from 'react'
 import {wrapDisplayName} from './displayName'
-import createOptimized from './createOptimized'
+// import createOptimized from './createOptimized'
 
 
 export default function (Component) {
@@ -9,6 +9,7 @@ export default function (Component) {
     static displayName = wrapDisplayName('withContextFrom', Component)
 
     render () {
+      /**
       const {children, ...props} = this.props
 
       return createOptimized(
@@ -18,6 +19,8 @@ export default function (Component) {
           ...this.context
         }
       )
+      */
+      return this.props.children(this.context)
     }
   }
 }

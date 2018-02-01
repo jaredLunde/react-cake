@@ -46,6 +46,19 @@ export function getScroll () {
   return {scrollX: getScrollX(), scrollY: getScrollY()}
 }
 
+
+const baseScrollProps = {
+  scrollTo: win.scrollTo,
+  inView: inViewport,
+  inViewX: inViewportX,
+  inViewY: inViewportY,
+  inFullViewX: inFullViewViewportX,
+  inFullViewY: inFullViewViewportY,
+  inFullView: inFullViewViewport,
+  getViewportScroll: getScroll,
+}
+
+
 export class ViewportScroll extends React.PureComponent {
   static propTypes = {
     withCoords: PropTypes.bool
@@ -67,25 +80,44 @@ export class ViewportScroll extends React.PureComponent {
   }
 
   setScroll = throttle(() => this.setState(getScroll()))
-  getViewportScroll = getScroll
 
   render () {
-    const props = reduceProps(this.props, ['children', 'withCoords', 'addEvent', 'removeEvent', 'removeAllEvents'])
+    const props = reduceProps(
+      this.props,
+      [
+        'children',
+        'withCoords',
+        'addEvent',
+        'removeEvent',
+        'removeAllEvents'
+      ]
+    )
 
-    return this.props.children({
-      scrollTo: win.scrollTo,
-      inView: inViewport,
-      inViewX: inViewportX,
-      inViewY: inViewportY,
-      inFullViewX: inFullViewViewportX,
-      inFullViewY: inFullViewViewportY,
-      inFullView: inFullViewViewport,
-      getViewportScroll: this.getViewportScroll,
-      ...(this.props.withCoords === true ? this.state : {}),
-      ...props
-    })
+    if (this.props.withCoords) {
+      props.scrollX = this.state.scrollX
+      props.scrollY = this.state.scrollY
+    }
+
+    props.scrollTo = win.scrollTo
+    props.inView = inViewport
+    props.inViewX = inViewportX
+    props.inViewY = inViewportY
+    props.inFullViewX = inFullViewViewportX
+    props.inFullViewY = inFullViewViewportY
+    props.inFullView = inFullViewViewport
+    props.getViewportScroll = getScroll
+
+    return this.props.children(props)
   }
 }
 
 
-export default compose([EventTracker, ViewportScroll])
+export default function (props) {
+  return (
+    <EventTracker>
+      {function (tProps) {
+        return <ViewportScroll {...tProps} {...props}/>
+      }}
+    </EventTracker>
+  )
+}

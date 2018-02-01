@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {selectProps, reduceProps, compose} from '../utils'
+import {selectProps, reduceProps} from '../utils'
 import viewportContextTypes from './contextTypes'
 import Subscriptions from '../Subscriptions'
 import ViewportOrientation from './ViewportOrientation'
@@ -97,24 +97,19 @@ export class Viewport extends React.PureComponent {
   static childContextTypes = viewportContextTypes
 
   getChildContext () {
-    const selectedProps = selectProps(
-      this.props,
-      [
-        'getAspect',
-        'inView',
-        'inViewX',
-        'inViewY',
-        'inFullView',
-        'inFullViewX',
-        'inFullViewY',
-        'getViewportSize',
-        'getViewportScroll',
-        'subscribe',
-        'unsubscribe',
-      ]
-    )
-
-    return selectedProps
+    return {
+      getAspect: this.props.getAspect,
+      inView: this.props.inView,
+      inViewX: this.props.inViewX,
+      inViewY: this.props.inViewY,
+      inFullView: this.props.inFullView,
+      inFullViewX: this.props.inFullViewX,
+      inFullViewY: this.props.inFullViewY,
+      getViewportSize: this.props.getViewportSize,
+      getViewportScroll: this.props.getViewportScroll,
+      subscribe: this.props.subscribe,
+      unsubscribe: this.props.unsubscribe
+    }
   }
 
   componentDidUpdate (prevProps) {
@@ -122,7 +117,7 @@ export class Viewport extends React.PureComponent {
 
     for (let propName in prevProps) {
       if (
-        _propsWithNotification.includes(propName) &&
+        _propsWithNotification.indexOf(propName) > -1 &&
         prevProps[propName] !== this.props[propName]
       ) {
         notify(selectProps(this.props, _propsWithNotification))
@@ -148,9 +143,27 @@ export class Viewport extends React.PureComponent {
 }
 
 
-export default compose([
-  Subscriptions,
-  ViewportOrientation,
-  ViewportScroll,
-  Viewport
-])
+export default function (props) {
+  return (
+    <Subscriptions>
+      {function (sProps) {
+        return (
+          <ViewportOrientation>
+            {function (oProps) {
+              return (
+                <ViewportScroll>
+                  {function (scProps) {
+                    return React.createElement(
+                      Viewport,
+                      Object.assign(sProps, oProps, scProps, props)
+                    )
+                  }}
+                </ViewportScroll>
+              )
+            }}
+          </ViewportOrientation>
+        )
+      }}
+    </Subscriptions>
+  )
+}
