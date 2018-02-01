@@ -1,33 +1,54 @@
-function nullObject (mother, keys) {
-  for (let x = 0; x < keys.length; x++) {
-    mother[keys[x]] = null
+function reduceObject (props, obj, initialKeys, initialProps, singular) {
+  for (let x = 0; x < initialKeys.length; x++) {
+    const propName = initialKeys[x]
+
+    if (singular === void 0 && props[propName] !== void 0) {
+      delete props[propName]
+    }
+
+    if (obj[propName] === void 0) {
+      props[propName] = initialProps[propName]
+    }
   }
+
+  return props
+}
+
+function reduceArray (props, keys, initialKeys, initialProps, singular) {
+  for (let x = 0; x < initialKeys.length; x++) {
+    const propName = initialKeys[x]
+
+    if (singular === void 0 && props[propName] !== void 0) {
+      delete props[propName]
+    }
+
+    if (keys.indexOf(propName) === -1) {
+      props[propName] = initialProps[propName]
+    }
+  }
+
+  return props
+}
+
+function nullObject (props, keys) {
+  for (let x = 0; x < keys.length; x++) {
+    props[keys[x]] = null
+  }
+
+  return props
 }
 
 
-function reduce (reducer, initialProps, ...propObjects) {
+export function selectProps (initialProps, ...propObjects) {
   const props = {}
-  // let newProps = []
-  /**
-  for (let x = 0; x < propObjects.length; x++) {
-    const obj = propObjects[x]
-
-    if (Array.isArray(obj)) {
-      newProps = newProps.concat(obj)
-    } else {
-      newProps = newProps.concat(Object.keys(obj))
-    }
-  }
-  */
   let motherObject = {}
 
   if (propObjects.length === 1) {
-    if (Array.isArray(propObjects[0])) {
-      nullObject(motherObject, propObjects[0])
-    }
-    else {
-      motherObject = propObjects[0]
-    }
+    motherObject = (
+      Array.isArray(propObjects[0])
+      ? nullObject(motherObject, propObjects[0])
+      : propObjects[0]
+    )
   }
   else {
     for (let x = 0; x < propObjects.length; x++) {
@@ -43,7 +64,8 @@ function reduce (reducer, initialProps, ...propObjects) {
   const initialKeys = Object.keys(initialProps)
   for (let x = 0; x < initialKeys.length; x++) {
     const propName = initialKeys[x]
-    if (reducer(motherObject[propName] === void 0) === true && initialProps[propName] !== void 0) {
+
+    if (motherObject[propName] !== void 0 && initialProps[propName] !== void 0) {
       props[propName] = initialProps[propName]
     }
   }
@@ -52,19 +74,29 @@ function reduce (reducer, initialProps, ...propObjects) {
 }
 
 
-export function selectProps (initialProps, ...propObjects) {
-  return reduce(
-    isUndefined => isUndefined === false,
-    initialProps,
-    ...propObjects
-  )
-}
-
-
 export default function (initialProps, ...propObjects) {
-  return reduce(
-    isUndefined => isUndefined,
-    initialProps,
-    ...propObjects
-  )
+  const props = {}
+  const initialKeys = Object.keys(initialProps)
+
+  if (propObjects.length === 1) {
+    (Array.isArray(propObjects[0]) ? reduceArray : reduceObject)(
+      props,
+      propObjects[0],
+      initialKeys,
+      initialProps,
+      true
+    )
+  }
+  else {
+    for (let x = 0; x < propObjects.length; x++) {
+      (Array.isArray(propObjects[x]) ? reduceArray : reduceObject)(
+        props,
+        propObjects[x],
+        initialKeys,
+        initialProps
+      )
+    }
+  }
+
+  return props
 }
