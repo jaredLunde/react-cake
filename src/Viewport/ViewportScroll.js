@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
-import {compose, throttle} from '../utils'
+import {compose, throttle, reduceProps} from '../utils'
 import {win} from './statics'
 import {
   inViewportX,
@@ -70,16 +70,9 @@ export class ViewportScroll extends React.PureComponent {
   getViewportScroll = getScroll
 
   render () {
-    const {
-      children,
-      withCoords,
-      addEvent,
-      removeEvent,
-      removeAllEvents,
-      ...props
-    } = this.props
+    const props = reduceProps(this.props, ['children', 'withCoords', 'addEvent', 'removeEvent', 'removeAllEvents'])
 
-    return children({
+    return this.props.children({
       scrollTo: win.scrollTo,
       inView: inViewport,
       inViewX: inViewportX,
@@ -88,7 +81,7 @@ export class ViewportScroll extends React.PureComponent {
       inFullViewY: inFullViewViewportY,
       inFullView: inFullViewViewport,
       getViewportScroll: this.getViewportScroll,
-      ...(withCoords === true ? this.state : {}),
+      ...(this.props.withCoords === true ? this.state : {}),
       ...props
     })
   }

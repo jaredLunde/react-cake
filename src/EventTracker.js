@@ -36,6 +36,7 @@ export default class EventTracker extends React.Component {
 
   render () {
     const {children, ...props} = this.props
+    
     return children({
       addEvent: this.addEvent,
       removeEvent: this.removeEvent,

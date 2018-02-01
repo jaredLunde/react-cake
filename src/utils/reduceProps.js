@@ -52,12 +52,12 @@ export function selectProps (initialProps, ...propObjects) {
   }
   else {
     for (let x = 0; x < propObjects.length; x++) {
-      if (Array.isArray(propObjects[x])) {
-        nullObject(motherObject, propObjects[x])
-      }
-      else {
-        nullObject(motherObject, Object.keys(propObjects[x]))
-      }
+      nullObject(
+        motherObject,
+        Array.isArray(propObjects[x])
+          ? propObjects[x]
+          : Object.keys(propObjects[x])
+      )
     }
   }
 

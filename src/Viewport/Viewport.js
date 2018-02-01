@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {selectProps, compose} from '../utils'
+import {selectProps, reduceProps, compose} from '../utils'
 import viewportContextTypes from './contextTypes'
 import Subscriptions from '../Subscriptions'
 import ViewportOrientation from './ViewportOrientation'
@@ -132,16 +132,18 @@ export class Viewport extends React.PureComponent {
   }
 
   render () {
-    const {
-      children,
-      subscriptions,
-      notify,
-      scrollX,
-      scrollY,
-      ...props
-    } = this.props
+    const props = reduceProps(
+      this.props,
+      [
+        'children',
+        'subscriptions',
+        'notify',
+        'scrollX',
+        'scrollY'
+      ]
+    )
 
-    return children(props)
+    return this.props.children(props)
   }
 }
 

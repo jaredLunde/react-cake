@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import callIfExists from './utils/callIfExists'
+import reduceProps from './utils/reduceProps'
 // import createOptimized from './utils/createOptimized'
 import {exactLengthInvariant, includesInvariant} from './invariants'
 
@@ -57,16 +58,20 @@ export const toggle = (state, {controls, propName}) => {
 }
 
 
+const propTypes = {
+  children: PropTypes.func.isRequired,
+  propName: PropTypes.string.isRequired,
+  controls: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
+  })).isRequired,
+  initialValue: PropTypes.any.isRequired,
+  onChange: PropTypes.func
+}
+
+
 export default class Toggle extends React.Component {
-  static propTypes = {
-    propName: PropTypes.string.isRequired,
-    controls: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      value: PropTypes.any.isRequired,
-    })).isRequired,
-    initialValue: PropTypes.any.isRequired,
-    onChange: PropTypes.func
-  }
+  static propTypes = propTypes
 
   static defaultProps = {
     propName: 'value',
@@ -111,21 +116,14 @@ export default class Toggle extends React.Component {
   )
 
   render () {
-    const {
-      children,
-      propName,
-      controls,
-      initialValue,
-      onChange,
-      ...props
-    } = this.props
-
+    const props = reduceProps(this.props, propTypes)
+    
     for (let propName of this.controlNames) {
       props[propName] = this[propName]
     }
 
     /** toggle, on, off, value */
-    return children({
+    return this.props.children({
       toggle: this.toggle,
       ...this.state,
       ...props
