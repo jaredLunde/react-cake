@@ -36,7 +36,10 @@ function getSize () {
 
 export class ViewportSize extends React.PureComponent {
   _listeners = {}
-
+  static propTypes = {
+    withCoords: PropTypes.bool
+  }
+  
   constructor (props) {
     super(props)
     props.addEvent(win, 'resize', this.setSize)
@@ -52,12 +55,16 @@ export class ViewportSize extends React.PureComponent {
   render () {
     const props = reduceProps(
       this.props,
-      ['children', 'addEvent', 'removeEvent', 'removeAllEvents']
+      ['children', 'addEvent', 'removeEvent', 'removeAllEvents', 'withCoords']
     )
     props.getAspect = getAspect
     props.getViewportSize = getViewportSize
-    props.viewportWidth = this.state.viewportWidth
-    props.viewportHeight = this.state.viewportHeight
+
+    if (this.props.withCoords) {
+      props.viewportWidth = this.state.viewportWidth
+      props.viewportHeight = this.state.viewportHeight
+    }
+
     return this.props.children(props)
   }
 }

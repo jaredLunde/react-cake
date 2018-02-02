@@ -65,7 +65,7 @@ export class ViewportScroll extends React.PureComponent {
   }
 
   static defaultProps = {
-    withCoords: true
+    withCoords: false
   }
 
   state = {scrollX: 0, scrollY: 0}

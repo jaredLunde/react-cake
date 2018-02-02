@@ -72,12 +72,10 @@ const _propsWithNotification = [
   'scroll',
 ]
 
-export class Viewport extends React.PureComponent {
+export class Viewport extends React.Component {
   static propTypes = {
     orientation: PropTypes.number.isRequired,
     screenOrientation: PropTypes.string,
-    viewportWidth: PropTypes.number.isRequired,
-    viewportHeight: PropTypes.number.isRequired,
     getViewportSize: PropTypes.func.isRequired,
     getViewportScroll: PropTypes.func.isRequired,
     scrollTo: PropTypes.func.isRequired,
@@ -148,10 +146,10 @@ export default function (props) {
     <Subscriptions>
       {function (sProps) {
         return (
-          <ViewportOrientation>
+          <ViewportOrientation withCoords={props.withCoords}>
             {function (oProps) {
               return (
-                <ViewportScroll>
+                <ViewportScroll withCoords={props.withCoords}>
                   {function (scProps) {
                     return React.createElement(
                       Viewport,
