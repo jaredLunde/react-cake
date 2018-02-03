@@ -41,7 +41,7 @@ export default function (originalProps) {
     sProps.orientation = setOrientation({
       width: sProps.viewportWidth,
       height: sProps.viewportHeight
-    })
+    }).orientation
     sProps.screenOrientation = getScreenOrientation()
     return originalProps.children(sProps)
   }
