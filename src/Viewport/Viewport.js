@@ -112,16 +112,7 @@ export class Viewport extends React.Component {
 
   componentDidUpdate (prevProps) {
     const {notify} = this.props
-
-    for (let propName in prevProps) {
-      if (
-        _propsWithNotification.indexOf(propName) > -1 &&
-        prevProps[propName] !== this.props[propName]
-      ) {
-        notify(selectProps(this.props, _propsWithNotification))
-        break
-      }
-    }
+    notify(selectProps(this.props, _propsWithNotification))
   }
 
   render () {
