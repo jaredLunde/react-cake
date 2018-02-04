@@ -18,12 +18,10 @@ import {win, winScreen, docEl} from './statics'
   }
 </ViewportSize>
 **/
-export const getViewportHeight = () => docEl.clientHeight
-export const getViewportWidth = () => docEl.clientWidth
 export function getViewportSize () {
   return {
-    width: getViewportWidth(),
-    height: getViewportHeight()
+    width: docEl.clientWidth,
+    height: docEl.clientHeight
   }
 }
 

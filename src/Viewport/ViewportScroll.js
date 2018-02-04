@@ -34,16 +34,6 @@ import {
   }
 </ViewportScroll>
 **/
-/**
-export function getScrollX () {
-  return win.scrollX !== void 0 ? win.scrollX : win.pageXOffset
-}
-
-export function getScrollY () {
-  return win.scrollY !== void 0 ? win.scrollY : win.pageYOffset
-}
-*/
-
 
 function getScroll () {
   return {

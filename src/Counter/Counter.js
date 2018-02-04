@@ -94,29 +94,12 @@ export default class Counter extends React.Component {
   setStep = step => this.setState({step: parseInt(step)})
 
   render () {
-    const {
-      children,
-      propName,
-      minValue,
-      maxValue,
-      onBoundMin,
-      onBoundMax,
-      initialValue,
-      initialStep,
-      onChange,
-      onIncr,
-      onDecr,
-      cast,
-      ...props
-    } = this.props
-
-    return children({
+    return this.props.children({
       incr: this.incr,
       decr: this.decr,
       setValue: this.setValue,
       setStep: this.setStep,
-      ...this.state,
-      ...props
+      ...this.state
     })
   }
 }

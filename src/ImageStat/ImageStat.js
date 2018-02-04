@@ -14,6 +14,11 @@ export default class ImageStat extends React.Component {
     complete: false
   }
 
+  constructor (props) {
+    super(props)
+    this.statContext = {imageRef: this.imageRef}
+  }
+
   imageRef = e => {
     if (e !== this._image || (e && this._image && e.src !== this._image.src)) {
       this._image = e
@@ -41,15 +46,6 @@ export default class ImageStat extends React.Component {
   }
 
   render () {
-    const props = Object.assign({}, this.props)
-    delete props.children
-    props.imageRef = this.imageRef
-    props.orientation = this.state.orientation
-    props.width = this.state.width
-    props.height = this.state.height
-    props.naturalWidth = this.state.naturalWidth
-    props.naturalHeight = this.state.naturalHeight
-    props.complete = this.state.complete
-    return this.props.children(props)
+    return this.props.children(Object.assign(this.statContext, this.state))
   }
 }

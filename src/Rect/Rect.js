@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
 import Throttle from '../Throttle'
-import compose from '../utils/compose'
-import reduceProps from '../utils/reduceProps'
 import {rect} from './utils'
 
 /**
@@ -45,11 +43,19 @@ export class Rect extends React.Component {
 
   _listeners = []
 
-  componentDidMount () {
-    if (this.props.recalcOnWindowChange) {
-      this.props.addEvent(window, 'resize', this.recalcRect)
-      this.props.addEvent(window, 'scroll', this.recalcRect)
-      this.props.addEvent(window, 'orientationchange', this.recalcRect)
+  constructor (props) {
+    super(props)
+
+    if (props.recalcOnWindowChange) {
+      props.addEvent(window, 'resize', this.recalcRect)
+      props.addEvent(window, 'scroll', this.recalcRect)
+      props.addEvent(window, 'orientationchange', this.recalcRect)
+    }
+
+    this.rectContext = {
+      rectRef: this.rectRef,
+      recalcRect: this.recalcRect,
+      getRect: this.getRect
     }
   }
 
@@ -64,22 +70,7 @@ export class Rect extends React.Component {
   getRect = () => rect(this.element)
 
   render () {
-    const props = reduceProps(
-      this.props,
-      [
-        'children',
-        'withPosition',
-        'addEvent',
-        'removeEvent',
-        'removeAllEvents',
-        'recalcOnWindowChange',
-        'throttleState',
-      ]
-    )
-
-    props.rectRef = this.rectRef
-    props.recalcRect = this.recalcRect
-    props.getRect = this.getRect
+    const props = this.rectContext
 
     if (withPosition === true) {
       props.top = this.state.top
@@ -103,7 +94,10 @@ export default function (props) {
         return (
           <Throttle>
             {function (tProps) {
-              return React.createElement(Rect, Object.assign(eProps, tProps, props))
+              return React.createElement(
+                Rect,
+                Object.assign({}, eProps, tProps, props)
+              )
             }}
           </Throttle>
         )

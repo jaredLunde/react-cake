@@ -246,34 +246,16 @@ export class WillChange extends React.Component {
   }
 
   render () {
-    const props = reduceProps(
-      this.props,
-      defaultProperties,
-      defaultEventTypes,
-      [
-        'children',
-        'propName',
-        'style',
-        'properties',
-        'eventTypes',
-        'on',
-        'off',
-        'toggle',
-        'staleTimeout',
-        'addEvent',
-        'removeEvent',
-        'removeAllEvents'
-      ]
-    )
-
-    props.style = Object.assign(
-      props.style || {},
-      this.props[this.props.propName] === true ?
-        ({willChange: this._changeHints.join(',')}) :
-        {}
-    )
-    props.willChangeRef = this.willChangeRef
-    props.willChange = this.willChange
+    const props ={
+      style: Object.assign(
+        props.style || {},
+        this.props[this.props.propName] === true ?
+          ({willChange: this._changeHints.join(',')}) :
+          {}
+      ),
+      willChangeRef: this.willChangeRef,
+      willChange: this.willChange
+    }
 
     /** willChangeRef, willChange, style */
     return this.props.children(props)
@@ -286,9 +268,17 @@ export default function (props) {
     <EventTracker>
       {function (eProps) {
         return (
-          <Toggle propName='willChangeIsOn' initialValue={false} {...props}>
+          <Toggle
+            propName={props.propName || 'willChangeIsOn'}
+            initialValue={props.initialValue || false}
+          >
             {function (tProps) {
-              return <WillChange {...eProps} {...tProps} children={props.children}/>
+              return <WillChange
+                {...props}
+                {...eProps}
+                {...tProps}
+                children={props.children}
+              />
             }}
           </Toggle>
         )

@@ -72,8 +72,15 @@ export default class Point extends React.Component {
   constructor (props) {
     super(props)
     const {initialX, initialY} = props
-
     this.state = {x: initialX, y: initialY}
+    this.pointContext = {
+      setXY: this.setXY,
+      setX: this.setX,
+      setY: this.setY,
+      moveXY: this.moveXY,
+      moveX: this.moveX,
+      moveY: this.moveY
+    }
   }
 
   handleChange = () => callIfExists(this.props.onChange, this.state)
@@ -90,40 +97,8 @@ export default class Point extends React.Component {
   moveY = y => this._set(boundMoveY(y))
 
   render () {
-    const {
-      children,
-      initialX,
-      initialY,
-      minX,
-      maxX,
-      minY,
-      maxY,
-      onBoundMinX,
-      onBoundMaxX,
-      onBoundMinY,
-      onBoundMaxY,
-      onChange,
-      ...props
-    } = this.props
-
-    const {
-      setXY,
-      setX,
-      setY,
-      moveXY,
-      moveX,
-      moveY
-    } = this
-
-    return children({
-      setXY,
-      setX,
-      setY,
-      moveXY,
-      moveX,
-      moveY,
-      ...props,
-      ...this.state
-    })
+    this.pointContext.x = this.state.x
+    this.pointContext.y = this.state.y
+    return this.pops.children(this.pointContext)
   }
 }

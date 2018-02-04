@@ -4,6 +4,15 @@ import React from 'react'
 export default class EventTracker extends React.Component {
   events = []
 
+  constructor (props) {
+    super(props)
+    this.renderProps = {
+      addEvent: this.addEvent,
+      removeEvent: this.removeEvent,
+      removeAllEvents: this.removeAllEvents
+    }
+  }
+
   addEvent = (el, name, fn) => {
     this.events.push([el, name, fn])
     el.addEventListener(name, fn)
@@ -37,11 +46,6 @@ export default class EventTracker extends React.Component {
   }
 
   render () {
-    const props = Object.assign({}, this.props)
-    delete props.children
-    props.addEvent = this.addEvent
-    props.removeEvent = this.removeEvent
-    props.removeAllEvents = this.removeAllEvents
-    return this.props.children(props)
+    return this.props.children(this.renderProps)
   }
 }

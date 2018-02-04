@@ -2,7 +2,15 @@ import React from 'react'
 
 
 export default class Subscriptions extends React.Component {
-  subscriptions = []
+  constructor (props) {
+    super(props)
+    this.subscriptions = []
+    this.subscriptionContext = {
+      subscribe: this.subscribe,
+      unsubscribe: this.unsubscribe,
+      notify: this.notify
+    }
+  }
 
   subscribe = cb => {
     this.subscriptions.push(cb)
@@ -19,12 +27,6 @@ export default class Subscriptions extends React.Component {
   }
 
   render () {
-    const props = Object.assign({}, this.props)
-    delete props.children
-    props.subscribe = this.subscribe
-    props.unsubscribe = this.unsubscribe
-    props.notify = this.notify
-
-    return this.props.children(props)
+    return this.props.children(this.subscriptionContext)
   }
 }

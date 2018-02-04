@@ -1,13 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from './EventTracker'
-import {
-  compose,
-  requestTimeout,
-  clearRequestTimeout,
-  throttle,
-  callIfExists
-} from './utils'
+import {requestTimeout, clearRequestTimeout, throttle, callIfExists} from './utils'
 import {childIsFunctionInvariant} from './invariants'
 
 
@@ -174,19 +168,17 @@ export class MousePosition extends React.Component {
   }
 
   render () {
-    const {
-      children,
-      propName,
-      addEvent,
-      removeEvent,
-      removeAllEvents,
-      ...props
-    } = this.props
-    const {mousePositionRef} = this
-
-    return children({mousePositionRef, ...this.state, ...props})
+    return this.props.children({mousePositionRef: this.mousePositionRef, ...this.state})
   }
 }
 
 
-export default compose([EventTracker, MousePosition])
+export default function(props) {
+  return (
+    <EventTracker>
+      {function (eventContext) {
+        return <MousePosition {...eventContext} {...props}/>
+      }}
+    </EventTracker>
+  )
+}

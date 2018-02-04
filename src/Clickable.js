@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from './EventTracker'
-import {childIsFunctionInvariant} from './invariants'
-import {reduceProps, callIfExists} from './utils'
+import {callIfExists} from './utils'
 
 
 /**
@@ -204,21 +203,7 @@ export class Clickable extends React.Component {
   }
 
   render () {
-    let {
-      children,
-      clickTypes,
-      onClick,
-      preventDefault,
-      addEvent,
-      removeEvent,
-      removeAllEvents,
-      ...props
-    } = this.props
-    props = reduceProps(props, Clickable.clickTypes)
-    const {clickableRef} = this
-    const {rectX, rectY, ...state} = this.state
-
-    return children({clickableRef, ...state, ...props})
+    return this.props.children({clickableRef: this.clickableRef, ...this.state})
   }
 }
 
@@ -227,7 +212,7 @@ export default function (props) {
   return (
     <EventTracker>
       {function (eProps) {
-        return React.createElement(Clickable, Object.assign(eProps, props))
+        return React.createElement(Clickable, Object.assign({}, eProps, props))
       }}
     </EventTracker>
   )

@@ -53,10 +53,8 @@ export default class Debounce extends React.Component {
   }
 
   render () {
-    const props = Object.assign({}, this.props)
-    delete props.initialState
-    delete props.children
-    props.debounceState = this.debounceState
-    return this.props.children(Object.assign(props, this.state))
+    return this.props.children(
+      Object.assign({debounceState: this.debounceState}, this.state)
+    )
   }
 }

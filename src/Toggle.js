@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import callIfExists from './utils/callIfExists'
-import reduceProps from './utils/reduceProps'
+// import reduceProps from './utils/reduceProps'
 // import createOptimized from './utils/createOptimized'
 import {exactLengthInvariant, includesInvariant} from './invariants'
 
@@ -121,14 +121,12 @@ export default class Toggle extends React.Component {
   )
 
   render () {
-    const props = reduceProps(this.props, propTypes)
-
-    props[this.controlNames[0]] = this[this.controlNames[0]]
-    props[this.controlNames[1]] = this[this.controlNames[1]]
-    props[this.props.propName] = this.state[this.props.propName]
-    props.toggle = this.toggle
-
     /** toggle, on, off, value */
-    return this.props.children(props)
+    return this.props.children({
+      [this.controlNames[0]]: this[this.controlNames[0]],
+      [this.controlNames[1]]: this[this.controlNames[1]],
+      [this.props.propName]: this.state[this.props.propName],
+      toggle: this.toggle
+    })
   }
 }

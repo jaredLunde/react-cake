@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Toggle from './Toggle'
 import EventTracker from './EventTracker'
-import {callIfExists, throttle, compose} from './utils'
+import {callIfExists, throttle} from './utils'
 
 
 /**
@@ -151,26 +150,23 @@ export class Scrollable extends React.Component {
   scrollToY = (posY, opt) => this.scrollTo(null, posY, opt)
 
   render () {
-    const {
-      children,
-      onScroll,
-      addEvent,
-      removeEvent,
-      removeAllEvents,
-      ...props
-    } = this.props
-    const {scrollableRef, scrollToX, scrollToY, scrollTo} = this
-
-    return children({
-      scrollableRef,
-      scrollToX,
-      scrollToY,
-      scrollTo,
-      ...this.state,
-      ...props
+    return this.props.children({
+      scrollableRef: this.scrollableRef,
+      scrollToX: this.scrollToX,
+      scrollToY: this.scrollToY,
+      scrollTo: this.scrollTo,
+      ...this.state
     })
   }
 }
 
 
-export default compose([EventTracker, Scrollable])
+export default function (props) {
+  return (
+    <EventTracker>
+      {function (eventContext) {
+        return <Scrollable {...eventContext} {...props}/>
+      }}
+    </EventTracker>
+  )
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
 import EventTracker from './EventTracker'
-import {compose, requestTimeout, clearRequestTimeout} from './utils'
+import {requestTimeout, clearRequestTimeout} from './utils'
 import {childIsFunctionInvariant} from './invariants'
 
 
@@ -85,23 +85,33 @@ export class Hoverable extends React.Component {
     this.control(off, leaveDelay)
   }
 
-
   render () {
-    const {
-      children,
-      propName,
-      on,
-      off,
-      addEvent,
-      removeEvent,
-      removeAllEvents,
-      ...props
-    } = this.props
-
-    return children({hoverableRef: this.hoverableRef, ...props})
+    return children({
+      hoverableRef: this.hoverableRef,
+      [this.props.propName]: this.props[this.props.propName]
+    })
   }
 }
 
 
-const composedHoverable = compose([EventTracker, Toggle, Hoverable])
-export default props => composedHoverable({initialValue: false, ...props})
+export default function (props) {
+  const propName = props.propName || 'isHovering'
+  return (
+    <EventTracker>
+      {function (eventContext) {
+        return (
+          <Toggle propName={propName} initialValue={props.initialValue || false}>
+            {function (toggleContext) {
+              return <Hoverable
+                {...eventContext}
+                {...toggleContext}
+                {...props}
+                propName={propName}
+              />
+            }}
+          </Toggle>
+        )
+      }}
+    </EventTracker>
+  )
+}

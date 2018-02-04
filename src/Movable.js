@@ -1,6 +1,6 @@
 import React from 'react'
 import Point from './Point'
-import {callIfExists, compose} from './utils'
+import {callIfExists} from './utils'
 
 
 /**
@@ -41,7 +41,7 @@ import {callIfExists, compose} from './utils'
 </Movable>
 */
 
-export function Movable ({children, style, x, y, z, ...props}) {
+export function Movable ({children, style, x, y, z}) {
   let transform = style && style.transform ? style.transform.split(' ') : []
   transform.push(`translate3d(${x}px, ${y}px, ${z || 0})`)
   transform = transform.join(' ')
@@ -54,18 +54,17 @@ export function Movable ({children, style, x, y, z, ...props}) {
     transform
   }
 
-  return children({
-    style,
-    x,
-    y,
-    ...props
-  })
+  return children({style, x, y})
 }
 
 
-const ComposedMovable = compose([Point, Movable])
-
-
 export default function ({onMove, ...props}) {
-  return ComposedMovable({onChange: onMove, ...props})
+  props.onChange = onMove
+  return (
+    <Point {...props}>
+      {function (pointContext) {
+        return Movable({...pointContext, ...props})
+      }}
+    </Point>
+  )
 }
