@@ -57,12 +57,16 @@ export class ViewportSize extends React.PureComponent {
       this.props,
       ['children', 'addEvent', 'removeEvent', 'removeAllEvents', 'withCoords']
     )
-    props.getAspect = getAspect
-    props.getViewportSize = getViewportSize
 
     if (this.props.withCoords) {
-      props.width = this.state.width
-      props.height = this.state.height
+      props.aspect = getAspect()
+      const size = getViewportSize()
+      props.width = size.width
+      props.height = size.height
+    }
+    else {
+      props.getAspect = getAspect
+      props.getViewportSize = getViewportSize
     }
 
     return this.props.children(props)

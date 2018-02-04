@@ -35,15 +35,22 @@ export const getScreenOrientation = () => supportsScreenOrientation
   ? winScreen.orientation.type
   : null
 
-export default function (originalProps) {
-  const props = Object.assign({}, originalProps)
-  props.children = function ViewportOrientation (sProps) {
-    sProps.orientation = setOrientation({
-      width: sProps.viewportWidth,
-      height: sProps.viewportHeight
-    }).orientation
-    sProps.screenOrientation = getScreenOrientation()
-    return originalProps.children(sProps)
-  }
-  return ViewportSize(props)
+export default function (props) {
+  const renderProps = Object.assign(
+    {},
+    props,
+    {
+      children: function ViewportOrientation (sProps) {
+        sProps.orientation = setOrientation({
+          width: sProps.width,
+          height: sProps.height
+        }).orientation
+        sProps.screenOrientation = getScreenOrientation()
+
+        return props.children(sProps)
+      }
+    }
+  )
+
+  return ViewportSize(renderProps)
 }

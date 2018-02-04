@@ -85,6 +85,9 @@ export class ViewportScroll extends React.PureComponent {
       props.scrollX = this.state.scrollX
       props.scrollY = this.state.scrollY
     }
+    else {
+      props.getViewportScroll = this.getScroll
+    }
 
     props.scrollTo = win.scrollTo
     props.inView = inViewport
@@ -93,7 +96,6 @@ export class ViewportScroll extends React.PureComponent {
     props.inFullViewX = inFullViewViewportX
     props.inFullViewY = inFullViewViewportY
     props.inFullView = inFullViewViewport
-    props.getViewportScroll = this.getScroll
 
     return this.props.children(props)
   }
