@@ -62,9 +62,8 @@ export class ViewportScroll extends React.PureComponent {
     withCoords: false
   }
 
-  constructor (props) {
-    super(props)
-    props.addEvent(win, 'scroll', this.setScroll)
+  componentDidMount () {
+    this.props.addEvent(win, 'scroll', this.setScroll)
   }
 
   componentWillUnmount () {

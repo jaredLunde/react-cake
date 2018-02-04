@@ -20,16 +20,10 @@ import {win, winScreen, docEl} from './statics'
 **/
 export const getViewportHeight = () => docEl.clientHeight
 export const getViewportWidth = () => docEl.clientWidth
-export const getViewportSize = () => ({
-  width: getViewportWidth(),
-  height: getViewportHeight()
-})
-
-
-function getSize () {
+export function getViewportSize () {
   return {
     width: getViewportWidth(),
-    height: getViewportHeight(),
+    height: getViewportHeight()
   }
 }
 
@@ -40,30 +34,25 @@ export class ViewportSize extends React.PureComponent {
     withCoords: PropTypes.bool
   }
 
-  constructor (props) {
-    super(props)
-    props.addEvent(win, 'resize', this.setSize)
-    props.addEvent(win, 'orientationchange', this.setSize)
-    this.state = getSize()
+  componentDidMount () {
+    this.props.addEvent(win, 'resize', this.setSize)
+    this.props.addEvent(win, 'orientationchange', this.setSize)
   }
 
   componentWillUnmount () {
     this.setSize.cancel()
   }
-  setSize = throttle(() => this.setState(getSize()))
+  setSize = throttle(() => this.forceUpdate())
 
   render () {
-    const props = {}
+    let props
 
     if (this.props.withCoords) {
+      props = getViewportSize()
       props.aspect = getAspect()
-      const size = getViewportSize()
-      props.width = size.width
-      props.height = size.height
     }
     else {
-      props.getAspect = getAspect
-      props.getViewportSize = getViewportSize
+      props = {getAspect, getViewportSize}
     }
 
     return this.props.children(props)
