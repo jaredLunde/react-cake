@@ -16,7 +16,6 @@ export Counter from './Counter'
 export Point from './Point'
 
 export Viewport, {
-  ViewportFill,
   ViewportOrientation,
   ViewportSize,
   ViewportScroll,

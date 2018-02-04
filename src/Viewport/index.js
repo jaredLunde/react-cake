@@ -1,4 +1,3 @@
-export ViewportFill from './ViewportFill'
 export ViewportOrientation from './ViewportOrientation'
 export ViewportSize from './ViewportSize'
 export ViewportScroll from './ViewportScroll'
