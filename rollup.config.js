@@ -28,20 +28,15 @@ const basePlugins = [
           modules: false
         }
       ],
-      '@babel/stage-2',
+      '@babel/stage-0',
       '@babel/react'
     ],
     plugins: [
-      'transform-react-pure-components',
-      '@babel/transform-react-constant-elements',
-      '@babel/transform-react-inline-elements',
-      '@babel/proposal-do-expressions',
-      '@babel/proposal-export-default-from',
-      '@babel/proposal-nullish-coalescing-operator',
-      '@babel/proposal-optional-chaining',
-      '@babel/proposal-pipeline-operator',
-      'transform-react-remove-prop-types',
-      'closure-elimination'
+      "transform-react-pure-components",
+      "transform-react-remove-prop-types",
+      "@babel/transform-react-constant-elements",
+      "@babel/transform-react-inline-elements",
+      "closure-elimination"
     ],
     babelrc: false
   }),
@@ -76,7 +71,6 @@ const umdConfig = Object.assign({}, baseConfig, {
           pure_getters: true,
           unsafe: true,
           unsafe_comps: true,
-          unsafe_Func: true,
           unsafe_math: true,
           unsafe_regexp: true,
           warnings: false,
