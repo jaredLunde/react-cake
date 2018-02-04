@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {selectProps, reduceProps} from '../utils'
 import ViewportOrientation from './ViewportOrientation'
 import ViewportSize from './ViewportSize'
 import ViewportScroll from './ViewportScroll'
 import ViewportQueries from './ViewportQueries'
-import ViewportProvider from './ViewportProvider'
+import ViewportContext from './ViewportContext'
 
 
 /**
@@ -61,22 +60,15 @@ import ViewportProvider from './ViewportProvider'
 </Viewport>
 **/
 
-const _propsWithNotification = [
-  // 'orientation',
-  // 'screenOrientation',
-  'viewportWidth',
-  'viewportHeight',
-  'scrollX',
-  'scrollY',
-  'scroll',
-]
 
 export class Viewport extends React.Component {
   static propTypes = {
     orientation: PropTypes.number.isRequired,
     screenOrientation: PropTypes.string,
-    getViewportSize: PropTypes.func.isRequired,
-    getViewportScroll: PropTypes.func.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    scrollX: PropTypes.number.isRequired,
+    scrollY: PropTypes.number.isRequired,
     scrollTo: PropTypes.func.isRequired,
     inViewX: PropTypes.func.isRequired,
     inViewY: PropTypes.func.isRequired,
@@ -89,43 +81,41 @@ export class Viewport extends React.Component {
 
   constructor (props) {
     super(props)
-    this.viewportContext = {
-      getOrientation: () => ({
-        orientation: props.orientation,
-        screenOrientation: props.screenOrientation
-      }),
-      scrollTo: props.scrollTo,
-      getAspect: props.getAspect,
-      inView: props.inView,
-      inViewX: props.inViewX,
-      inViewY: props.inViewY,
-      inFullView: props.inFullView,
-      inFullViewX: props.inFullViewX,
-      inFullViewY: props.inFullViewY,
-      getViewportSize: props.getViewportSize,
-      getViewportScroll: props.getViewportScroll
+    this.viewportContext = this.getViewportState()
+    this.viewportContext.scrollTo = props.scrollTo
+    this.viewportContext.inView = props.inView
+    this.viewportContext.inViewX = props.inViewX
+    this.viewportContext.inViewY = props.inViewY
+    this.viewportContext.inFullView = props.inFullView
+    this.viewportContext.inFullViewX = props.inFullViewX
+    this.viewportContext.inFullViewY = props.inFullView
+  }
+
+  getViewportState () {
+    return {
+      width: this.props.width,
+      height: this.props.height,
+      scrollX: this.props.scrollX,
+      scrollY: this.props.scrollY,
+      orientation: this.props.orientation,
+      screenOrientation: this.props.screenOrientation,
+      aspect: this.props.getAspect(),
     }
   }
 
   render () {
-    const props = {...this.props}
-    delete props.children
-
-    return (
-      <ViewportProvider value={this.viewportContext}>
-        {this.props.children(this.viewportContext)}
-      </ViewportProvider>
-    )
+    const nextContext = Object.assign({}, this.viewportContext, this.getViewportState())
+    return this.props.children(nextContext)
   }
 }
 
 
 export default function (props) {
   return (
-    <ViewportOrientation withCoords={props.withCoords}>
+    <ViewportOrientation withCoords>
       {function (oProps) {
         return (
-          <ViewportScroll withCoords={props.withCoords}>
+          <ViewportScroll withCoords>
             {function (scProps) {
               return React.createElement(
                 Viewport,

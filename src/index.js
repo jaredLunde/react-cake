@@ -20,8 +20,9 @@ export Viewport, {
   ViewportSize,
   ViewportScroll,
   ViewportQueries,
-  WithViewport,
   ViewportContext,
+  ViewportProvider,
+  ViewportConsumer
 } from './Viewport'
 
 export ImageStat from './ImageStat'

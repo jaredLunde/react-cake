@@ -9,10 +9,10 @@ import {win, winScreen, docEl} from './statics'
 /**
 <ViewportSize>
   {
-    ({viewportWidth, viewportHeight}) => (
+    ({width, height}) => (
       <Row>
-        <Col x={8}>viewport width: {viewportWidth}</Col>
-        <Col x={8}>viewport height: {viewportHeight}</Col>
+        <Col x={8}>viewport width: {width}</Col>
+        <Col x={8}>viewport height: {height}</Col>
       </Row>
     )
   }
@@ -28,8 +28,8 @@ export const getViewportSize = () => ({
 
 function getSize () {
   return {
-    viewportWidth: getViewportWidth(),
-    viewportHeight: getViewportHeight(),
+    width: getViewportWidth(),
+    height: getViewportHeight(),
   }
 }
 
@@ -39,7 +39,7 @@ export class ViewportSize extends React.PureComponent {
   static propTypes = {
     withCoords: PropTypes.bool
   }
-  
+
   constructor (props) {
     super(props)
     props.addEvent(win, 'resize', this.setSize)
@@ -61,8 +61,8 @@ export class ViewportSize extends React.PureComponent {
     props.getViewportSize = getViewportSize
 
     if (this.props.withCoords) {
-      props.viewportWidth = this.state.viewportWidth
-      props.viewportHeight = this.state.viewportHeight
+      props.width = this.state.width
+      props.height = this.state.height
     }
 
     return this.props.children(props)
