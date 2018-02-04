@@ -60,6 +60,27 @@ import ViewportContext from './ViewportContext'
 </Viewport>
 **/
 
+
+/**
+Viewport.propTypes = {
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  aspect: PropTypes.number.isRequired,
+  orientation: PropTypes.number.isRequired,
+  screenOrientation: PropTypes.string,
+  scrollX: PropTypes.number.isRequired,
+  scrollY: PropTypes.number.isRequired,
+  scrollTo: PropTypes.func.isRequired,
+  inViewX: PropTypes.func.isRequired,
+  inViewY: PropTypes.func.isRequired,
+  inView: PropTypes.func.isRequired,
+  inFullViewX: PropTypes.func.isRequired,
+  inFullViewY: PropTypes.func.isRequired,
+  inFullView: PropTypes.func.isRequired,
+}
+*/
+
+
 export default function Viewport (props) {
   return (
     <ViewportOrientation withCoords>
@@ -77,22 +98,4 @@ export default function Viewport (props) {
       }}
     </ViewportOrientation>
   )
-}
-
-
-Viewport.propTypes = {
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  aspect: PropTypes.number.isRequired,
-  orientation: PropTypes.number.isRequired,
-  screenOrientation: PropTypes.string,
-  scrollX: PropTypes.number.isRequired,
-  scrollY: PropTypes.number.isRequired,
-  scrollTo: PropTypes.func.isRequired,
-  inViewX: PropTypes.func.isRequired,
-  inViewY: PropTypes.func.isRequired,
-  inView: PropTypes.func.isRequired,
-  inFullViewX: PropTypes.func.isRequired,
-  inFullViewY: PropTypes.func.isRequired,
-  inFullView: PropTypes.func.isRequired,
 }
