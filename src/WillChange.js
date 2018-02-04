@@ -2,13 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Toggle from './Toggle'
 import EventTracker from './EventTracker'
-import {
-  reduceProps,
-  callIfExists,
-  toKebabCase,
-  requestTimeout,
-  clearRequestTimeout
-} from './utils'
+import {callIfExists, toKebabCase, requestTimeout, clearRequestTimeout} from './utils'
 
 
 /**

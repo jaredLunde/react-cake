@@ -1,7 +1,6 @@
 import React from 'react'
 import Viewport from './Viewport'
 import ViewportContext from './ViewportContext'
-import {reduceProps} from '../utils'
 
 
 /**
