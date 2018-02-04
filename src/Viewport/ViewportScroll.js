@@ -46,19 +46,6 @@ export function getScroll () {
   return {scrollX: getScrollX(), scrollY: getScrollY()}
 }
 
-
-const baseScrollProps = {
-  scrollTo: win.scrollTo,
-  inView: inViewport,
-  inViewX: inViewportX,
-  inViewY: inViewportY,
-  inFullViewX: inFullViewViewportX,
-  inFullViewY: inFullViewViewportY,
-  inFullView: inFullViewViewport,
-  getViewportScroll: getScroll,
-}
-
-
 export class ViewportScroll extends React.PureComponent {
   static propTypes = {
     withCoords: PropTypes.bool
@@ -80,6 +67,7 @@ export class ViewportScroll extends React.PureComponent {
   }
 
   setScroll = throttle(() => this.setState(getScroll()))
+  getScroll = () => this.state
 
   render () {
     const props = reduceProps(
@@ -105,7 +93,7 @@ export class ViewportScroll extends React.PureComponent {
     props.inFullViewX = inFullViewViewportX
     props.inFullViewY = inFullViewViewportY
     props.inFullView = inFullViewViewport
-    props.getViewportScroll = getScroll
+    props.getViewportScroll = this.getScroll
 
     return this.props.children(props)
   }

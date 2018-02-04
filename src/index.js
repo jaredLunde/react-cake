@@ -22,7 +22,6 @@ export Viewport, {
   ViewportScroll,
   ViewportQueries,
   WithViewport,
-  withViewport,
   ViewportContext,
 } from './Viewport'
 

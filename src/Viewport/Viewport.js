@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {selectProps, reduceProps} from '../utils'
-import viewportContextTypes from './contextTypes'
-import Subscriptions from '../Subscriptions'
 import ViewportOrientation from './ViewportOrientation'
 import ViewportSize from './ViewportSize'
 import ViewportScroll from './ViewportScroll'
 import ViewportQueries from './ViewportQueries'
+import ViewportProvider from './ViewportProvider'
 
 
 /**
@@ -85,74 +84,57 @@ export class Viewport extends React.Component {
     inFullViewX: PropTypes.func.isRequired,
     inFullViewY: PropTypes.func.isRequired,
     inFullView: PropTypes.func.isRequired,
-    getAspect: PropTypes.func.isRequired,
-    subscribe: PropTypes.func.isRequired,
-    unsubscribe: PropTypes.func.isRequired,
-    notify: PropTypes.func.isRequired,
-    subscriptions: PropTypes.instanceOf(Set).isRequired,
+    getAspect: PropTypes.func.isRequired
   }
 
-  static childContextTypes = viewportContextTypes
-
-  getChildContext () {
-    return {
-      getAspect: this.props.getAspect,
-      inView: this.props.inView,
-      inViewX: this.props.inViewX,
-      inViewY: this.props.inViewY,
-      inFullView: this.props.inFullView,
-      inFullViewX: this.props.inFullViewX,
-      inFullViewY: this.props.inFullViewY,
-      getViewportSize: this.props.getViewportSize,
-      getViewportScroll: this.props.getViewportScroll,
-      subscribe: this.props.subscribe,
-      unsubscribe: this.props.unsubscribe
+  constructor (props) {
+    super(props)
+    this.viewportContext = {
+      getOrientation: () => ({
+        orientation: props.orientation,
+        screenOrientation: props.screenOrientation
+      }),
+      scrollTo: props.scrollTo,
+      getAspect: props.getAspect,
+      inView: props.inView,
+      inViewX: props.inViewX,
+      inViewY: props.inViewY,
+      inFullView: props.inFullView,
+      inFullViewX: props.inFullViewX,
+      inFullViewY: props.inFullViewY,
+      getViewportSize: props.getViewportSize,
+      getViewportScroll: props.getViewportScroll
     }
   }
 
-  componentDidUpdate (prevProps) {
-    const {notify} = this.props
-    notify(selectProps(this.props, _propsWithNotification))
-  }
-
   render () {
-    const props = reduceProps(
-      this.props,
-      [
-        'children',
-        'subscriptions',
-        'notify',
-        'scrollX',
-        'scrollY'
-      ]
-    )
+    const props = {...this.props}
+    delete props.children
 
-    return this.props.children(props)
+    return (
+      <ViewportProvider value={this.viewportContext}>
+        {this.props.children(this.viewportContext)}
+      </ViewportProvider>
+    )
   }
 }
 
 
 export default function (props) {
   return (
-    <Subscriptions>
-      {function (sProps) {
+    <ViewportOrientation withCoords={props.withCoords}>
+      {function (oProps) {
         return (
-          <ViewportOrientation withCoords={props.withCoords}>
-            {function (oProps) {
-              return (
-                <ViewportScroll withCoords={props.withCoords}>
-                  {function (scProps) {
-                    return React.createElement(
-                      Viewport,
-                      Object.assign(sProps, oProps, scProps, props)
-                    )
-                  }}
-                </ViewportScroll>
+          <ViewportScroll withCoords={props.withCoords}>
+            {function (scProps) {
+              return React.createElement(
+                Viewport,
+                Object.assign(oProps, scProps, props)
               )
             }}
-          </ViewportOrientation>
+          </ViewportScroll>
         )
       }}
-    </Subscriptions>
+    </ViewportOrientation>
   )
 }
