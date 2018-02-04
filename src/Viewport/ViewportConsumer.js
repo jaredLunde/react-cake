@@ -19,21 +19,16 @@ const ViewportContext = () => (
 )
 **/
 
-function MaybeIncludeViewport (children, context) {
-  if (context.inFullView === null) {
-    return Viewport({children})
-  }
-  else {
-    return children(context)
-  }
-}
-
-
 export default function ViewportConsumer (props) {
   return (
     <ViewportContext.Consumer>
       {function (context) {
-        return MaybeIncludeViewport(props.children, context)
+        if (context.inFullView === null) {
+          return Viewport(props)
+        }
+        else {
+          return props.children(context)
+        }
       }}
     </ViewportContext.Consumer>
   )
