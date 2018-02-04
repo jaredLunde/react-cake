@@ -21,7 +21,7 @@ const ViewportContext = () => (
 
 function MaybeIncludeViewport (children, context) {
   if (context.inFullView === null) {
-    return Viewport({})
+    return Viewport({children})
   }
   else {
     return children(context)
