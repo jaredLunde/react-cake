@@ -59,7 +59,6 @@ export {
   clearRequestInterval,
   requestTimeout,
   clearRequestTimeout,
-  throttle,
-  withContextFrom
+  throttle
 } from './utils'
 // export * from './invariants'
