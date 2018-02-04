@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from './EventTracker'
 import {requestTimeout, clearRequestTimeout, throttle, callIfExists} from './utils'
-import {childIsFunctionInvariant} from './invariants'
 
 
 /**

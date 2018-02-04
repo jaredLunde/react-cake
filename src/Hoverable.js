@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Toggle from './Toggle'
 import EventTracker from './EventTracker'
 import {requestTimeout, clearRequestTimeout} from './utils'
-import {childIsFunctionInvariant} from './invariants'
 
 
 /**

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import decr, {boundDecr} from './decr'
 import incr, {boundIncr} from './incr'
 import {callIfExists} from '../utils'
-import {childIsFunctionInvariant} from '../invariants'
 
 
 /**

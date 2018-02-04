@@ -240,7 +240,8 @@ export class WillChange extends React.Component {
   }
 
   render () {
-    const props ={
+    /** willChangeRef, willChange, style */
+    return this.props.children({
       style: Object.assign(
         props.style || {},
         this.props[this.props.propName] === true ?
@@ -249,10 +250,7 @@ export class WillChange extends React.Component {
       ),
       willChangeRef: this.willChangeRef,
       willChange: this.willChange
-    }
-
-    /** willChangeRef, willChange, style */
-    return this.props.children(props)
+    })
   }
 }
 

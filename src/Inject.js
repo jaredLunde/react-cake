@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import invariant from 'invariant'
-import {createOptimized, callIfExists, getUniqueID} from './utils'
 
 
 /**

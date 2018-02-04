@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import callIfExists from './utils/callIfExists'
-// import reduceProps from './utils/reduceProps'
-// import createOptimized from './utils/createOptimized'
 import {exactLengthInvariant, includesInvariant} from './invariants'
 
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {createOptimized} from './utils'
 
 
 export default class Value extends React.Component {
@@ -17,11 +16,6 @@ export default class Value extends React.Component {
     super(props)
     const {initialValue, propName} = props
     this.state = {[propName]: initialValue}
-    this.valueContext = {
-      setValue: this.setValue,
-      resetValue: this.resetValue,
-      clearValue: this.clearValue,
-    }
   }
 
   setValue = value => this.setState({[this.props.propName]: value})
@@ -38,6 +32,11 @@ export default class Value extends React.Component {
 
   render () {
     /** value, setValue, resetValue, clearValue */
-    return this.props.children(Object.assign(this.valueContext, this.state))
+    return this.props.children({
+      setValue: this.setValue,
+      resetValue: this.resetValue,
+      clearValue: this.clearValue,
+      ...this.state
+    })
   }
 }
