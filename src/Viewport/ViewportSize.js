@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
-import {compose, throttle, reduceProps} from '../utils'
+import {throttle} from '../utils'
 import {getAspect} from './ViewportQueries'
 import {win, winScreen, docEl} from './statics'
 
@@ -53,10 +53,7 @@ export class ViewportSize extends React.PureComponent {
   setSize = throttle(() => this.setState(getSize()))
 
   render () {
-    const props = reduceProps(
-      this.props,
-      ['children', 'addEvent', 'removeEvent', 'removeAllEvents', 'withCoords']
-    )
+    const props = {}
 
     if (this.props.withCoords) {
       props.aspect = getAspect()

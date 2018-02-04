@@ -5,15 +5,13 @@ import ViewportContext from './ViewportContext'
 
 
 export default function (props) {
-  return (
-    <Viewport>
-      {function (context) {
-        return (
-          <ViewportContext.Provider value={context}>
-            {props.children}
-          </ViewportContext.Provider>
-        )
-      }}
-    </Viewport>
-  )
+  return Viewport({
+    children: function (context) {
+      return (
+        <ViewportContext.Provider value={context}>
+          {props.children}
+        </ViewportContext.Provider>
+      )
+    }
+  })
 }

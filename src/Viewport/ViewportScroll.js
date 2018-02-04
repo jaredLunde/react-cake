@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EventTracker from '../EventTracker'
-import {compose, throttle, reduceProps} from '../utils'
+import {throttle} from '../utils'
 import {win} from './statics'
 import {
   inViewportX,
@@ -34,6 +34,7 @@ import {
   }
 </ViewportScroll>
 **/
+/**
 export function getScrollX () {
   return win.scrollX !== void 0 ? win.scrollX : win.pageXOffset
 }
@@ -41,10 +42,16 @@ export function getScrollX () {
 export function getScrollY () {
   return win.scrollY !== void 0 ? win.scrollY : win.pageYOffset
 }
+*/
 
-export function getScroll () {
-  return {scrollX: getScrollX(), scrollY: getScrollY()}
+
+function getScroll () {
+  return {
+    scrollX: win.scrollX !== void 0 ? win.scrollX : win.pageXOffset,
+    scrollY: win.scrollY !== void 0 ? win.scrollY : win.pageYOffset
+  }
 }
+
 
 export class ViewportScroll extends React.PureComponent {
   static propTypes = {
@@ -55,8 +62,6 @@ export class ViewportScroll extends React.PureComponent {
     withCoords: false
   }
 
-  state = {scrollX: 0, scrollY: 0}
-
   constructor (props) {
     super(props)
     props.addEvent(win, 'scroll', this.setScroll)
@@ -66,27 +71,17 @@ export class ViewportScroll extends React.PureComponent {
     this.setScroll.cancel()
   }
 
-  setScroll = throttle(() => this.setState(getScroll()))
-  getScroll = () => this.state
+  setScroll = throttle(() => this.forceUpdate())
 
   render () {
-    const props = reduceProps(
-      this.props,
-      [
-        'children',
-        'withCoords',
-        'addEvent',
-        'removeEvent',
-        'removeAllEvents'
-      ]
-    )
+    let props
 
     if (this.props.withCoords) {
-      props.scrollX = this.state.scrollX
-      props.scrollY = this.state.scrollY
+      props = getScroll()
     }
     else {
-      props.getViewportScroll = this.getScroll
+      props = {}
+      props.getViewportScroll = getScroll
     }
 
     props.scrollTo = win.scrollTo

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import ViewportOrientation from './ViewportOrientation'
 import ViewportSize from './ViewportSize'
 import ViewportScroll from './ViewportScroll'
@@ -82,20 +81,21 @@ Viewport.propTypes = {
 
 
 export default function Viewport (props) {
-  return (
-    <ViewportOrientation withCoords>
-      {function (oProps) {
-        return (
-          <ViewportScroll withCoords>
-            {function (scProps) {
-              const renderProps = Object.assign({}, oProps, scProps, props)
-              delete renderProps.children
+  return ViewportOrientation({
+    // orientation, size
+    withCoords: true,
+    children: function (oProps) {
+      return ViewportScroll({
+        // scroll position, viewport queries
+        withCoords: true,
+        children: function (scProps) {
+          // glue
+          const renderProps = Object.assign({}, oProps, scProps, props)
+          delete renderProps.children
 
-              return props.children(renderProps)
-            }}
-          </ViewportScroll>
-        )
-      }}
-    </ViewportOrientation>
-  )
+          return props.children(renderProps)
+        }
+      })
+    }
+  })
 }
