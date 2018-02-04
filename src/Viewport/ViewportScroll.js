@@ -53,7 +53,7 @@ function getScroll () {
 }
 
 
-export class ViewportScroll extends React.PureComponent {
+export class ViewportScroll extends React.Component {
   static propTypes = {
     withCoords: PropTypes.bool
   }

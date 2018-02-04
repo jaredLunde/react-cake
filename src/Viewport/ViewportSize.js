@@ -28,7 +28,7 @@ export function getViewportSize () {
 }
 
 
-export class ViewportSize extends React.PureComponent {
+export class ViewportSize extends React.Component {
   _listeners = {}
   static propTypes = {
     withCoords: PropTypes.bool
