@@ -1,3 +1,3 @@
-**alpha software**
+# This package has moved to [@render-props](https://github.com/jaredLunde/render-props)
 
-Use at your own risk
+https://www.npmjs.com/org/render-props
