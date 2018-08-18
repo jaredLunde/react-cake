@@ -7,9 +7,9 @@ import {requestTimeout, clearRequestTimeout} from './utils'
 
 /**
 const HoverableButton = props => (
-  <Hoverable propName='iAmHovering' enterDelay={500} leaveDelay={200}>
+  <Hoverable enterDelay={500} leaveDelay={200}>
     {
-      ({iAmHovering, hoverableRef}) => (
+      ({isHovering, canHover, hoverableRef}) => (
         <button
           ref={hoverableRef}
           className={`

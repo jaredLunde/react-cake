@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {throttle} from './utils'
+import throttle from './utils/throttle'
 
 
 /**
@@ -22,6 +22,8 @@ import {throttle} from './utils'
   }
 </Throttle>
 */
+const emptyObj = {}
+
 export default class Throttle extends React.Component {
   static propTypes = {
     initialState: PropTypes.object
@@ -29,7 +31,7 @@ export default class Throttle extends React.Component {
 
   constructor (props) {
     super(props)
-    this.state = props.initialState || {}
+    this.state = props.initialState || emptyObj
     this.throttleState = throttle(this._setState)
   }
 
